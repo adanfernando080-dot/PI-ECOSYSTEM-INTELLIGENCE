@@ -74,6 +74,36 @@ describe('public endpoints', () => {
   });
 });
 
+describe('CORS (Lovable frontend contract)', () => {
+  const origin = env.CORS_ORIGINS[0]!;
+
+  it('answers preflight for an allowed origin with the methods and headers the frontend needs', async () => {
+    const res = await request(app)
+      .options('/api/apps/pimarket/reviews')
+      .set('Origin', origin)
+      .set('Access-Control-Request-Method', 'POST')
+      .set('Access-Control-Request-Headers', 'authorization,content-type');
+    expect(res.status).toBe(204);
+    expect(res.headers['access-control-allow-origin']).toBe(origin);
+    expect(res.headers['access-control-allow-methods']).toContain('POST');
+    expect(res.headers['access-control-allow-headers']).toMatch(/authorization/i);
+  });
+
+  it('does not grant CORS to unknown origins and never uses a wildcard', async () => {
+    const res = await request(app).get('/api/apps').set('Origin', 'https://not-allowed.example');
+    expect(res.headers['access-control-allow-origin']).toBeUndefined();
+    const ok = await request(app).get('/api/apps').set('Origin', origin);
+    expect(ok.headers['access-control-allow-origin']).not.toBe('*');
+  });
+
+  it('also serves /api/openapi.json to the frontend origin and exposes rate-limit headers', async () => {
+    const spec = await request(app).get('/api/openapi.json').set('Origin', origin);
+    expect(spec.headers['access-control-allow-origin']).toBe(origin);
+    const res = await request(app).get('/api/apps').set('Origin', origin);
+    expect(res.headers['access-control-expose-headers']).toMatch(/RateLimit/i);
+  });
+});
+
 describe('authentication and permissions', () => {
   it('rejects posting a review without a token, accepts it with one', async () => {
     const body = { rating: 4, review: 'Solid app, quick payments.' };

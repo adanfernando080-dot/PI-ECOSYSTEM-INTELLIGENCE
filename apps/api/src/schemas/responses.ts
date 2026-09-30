@@ -7,6 +7,25 @@ import { CONFIDENCE_LEVELS, PERIODS } from '@pi/shared';
  * tests/openapi.test.ts checks that presenter output validates against them.
  */
 
+export const ProvenanceSummarySchema = z
+  .object({
+    counts: z.object({
+      OBSERVABLE: z.number().int().min(0),
+      DEVELOPER_REPORTED: z.number().int().min(0),
+      ESTIMATED: z.number().int().min(0),
+      UNAVAILABLE: z.number().int().min(0),
+    }),
+    extrapolated: z.object({
+      transactionCount: z.boolean().nullable(),
+      observableVolume: z.boolean().nullable(),
+    }),
+  })
+  .meta({
+    id: 'ProvenanceSummary',
+    description:
+      'Number of scored inputs per provenance. OBSERVABLE = observed on-chain/verified; DEVELOPER_REPORTED = declared by the developer; ESTIMATED = inferred; UNAVAILABLE = missing. `extrapolated` flags values scaled up from partial coverage (null = not assessed).',
+  });
+
 const nullableScore = z.number().min(0).max(100).nullable();
 
 export const MetricSnapshotSchema = z
@@ -24,6 +43,7 @@ export const MetricSnapshotSchema = z
     piEcosystemScore: nullableScore.meta({ description: 'Composite analytical indicator; not a verdict' }),
     confidence: z.object({ score: z.number().min(0).max(100), level: z.enum(CONFIDENCE_LEVELS) }),
     staking: z.object({ stakedPi: z.number().nullable(), includedInScores: z.literal(false) }),
+    provenance: ProvenanceSummarySchema.nullable(),
     scoringVersion: z.string(),
     computedAt: z.string(),
   })

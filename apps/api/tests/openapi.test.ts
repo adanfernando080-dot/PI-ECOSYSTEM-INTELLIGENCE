@@ -45,8 +45,37 @@ describe('OpenAPI document', () => {
     expect(JSON.stringify(op.security)).toContain('bearerAuth');
   });
 
+  it('documents the error statuses used by the API (400/401/403/404/409/413/429/500; 422 is not used)', () => {
+    const review = doc.paths['/api/apps/{id}/reviews']!.post as { responses: Record<string, unknown> };
+    for (const code of ['201', '400', '401', '403', '404', '409', '413', '429', '500']) {
+      expect(review.responses[code], code).toBeDefined();
+    }
+    expect(JSON.stringify(doc)).not.toContain('"422"');
+  });
+
   it('contains no merit vocabulary', () => {
     expect(JSON.stringify(doc)).not.toMatch(/best_app|winner/);
+  });
+});
+
+describe('provenance, unknown values and separation in responses', () => {
+  it('exposes a typed provenance summary and never zero-fills unknown scores', async () => {
+    const tools = await getAppDetail(repos, 'pitools', '30d', null);
+    const m = tools.data.metrics!;
+    expect(m.provenance).not.toBeNull();
+    expect(Object.keys(m.provenance!.counts).sort()).toEqual(['DEVELOPER_REPORTED', 'ESTIMATED', 'OBSERVABLE', 'UNAVAILABLE']);
+    // PiTools has no published review: community is unavailable (null), not 0.
+    expect(m.scores.community).toBeNull();
+    // Confidence and staking are separate from the scores.
+    expect(m.confidence).toEqual({ score: expect.any(Number), level: expect.any(String) });
+    expect(m.staking.includedInScores).toBe(false);
+    expect(Object.keys(m.scores)).not.toContain('confidence');
+    expect(Object.keys(m.scores)).not.toContain('staking');
+  });
+
+  it('shows developer-reported provenance for developer-declared data', async () => {
+    const social = await getAppDetail(repos, 'pisocial', '30d', null);
+    expect(social.data.metrics!.provenance!.counts.DEVELOPER_REPORTED).toBeGreaterThan(0);
   });
 });
 

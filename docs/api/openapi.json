@@ -81,7 +81,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -137,7 +147,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -198,7 +218,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -365,7 +395,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -465,7 +505,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -554,7 +604,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -635,7 +695,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -743,7 +813,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -897,7 +977,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -994,7 +1084,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -1095,8 +1195,38 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict (CONFLICT): You have already reviewed this application",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body larger than 100 kB (PAYLOAD_TOO_LARGE)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -1178,7 +1308,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -1265,7 +1405,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -1368,7 +1518,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -1469,7 +1629,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -1556,7 +1726,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -1647,8 +1827,38 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict (CONFLICT): The slug is already used",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body larger than 100 kB (PAYLOAD_TOO_LARGE)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -1751,8 +1961,28 @@
               }
             }
           },
+          "413": {
+            "description": "Body larger than 100 kB (PAYLOAD_TOO_LARGE)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -1853,8 +2083,38 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict (CONFLICT): The application is already linked to your profile, or you already submitted a claim for it",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body larger than 100 kB (PAYLOAD_TOO_LARGE)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -1955,8 +2215,28 @@
               }
             }
           },
+          "413": {
+            "description": "Body larger than 100 kB (PAYLOAD_TOO_LARGE)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -2057,8 +2337,28 @@
               }
             }
           },
+          "413": {
+            "description": "Body larger than 100 kB (PAYLOAD_TOO_LARGE)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -2149,8 +2449,38 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict (CONFLICT): The category slug already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body larger than 100 kB (PAYLOAD_TOO_LARGE)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -2251,8 +2581,38 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict (CONFLICT): The category slug already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body larger than 100 kB (PAYLOAD_TOO_LARGE)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -2377,7 +2737,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -2478,8 +2848,28 @@
               }
             }
           },
+          "413": {
+            "description": "Body larger than 100 kB (PAYLOAD_TOO_LARGE)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -2614,7 +3004,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -2715,8 +3115,28 @@
               }
             }
           },
+          "413": {
+            "description": "Body larger than 100 kB (PAYLOAD_TOO_LARGE)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -2840,7 +3260,17 @@
             }
           },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -2941,8 +3371,38 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict (CONFLICT): This claim has already been decided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body larger than 100 kB (PAYLOAD_TOO_LARGE)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -3033,8 +3493,28 @@
               }
             }
           },
+          "413": {
+            "description": "Body larger than 100 kB (PAYLOAD_TOO_LARGE)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "429": {
-            "description": "Rate limited",
+            "description": "Rate limited (RATE_LIMITED)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error (INTERNAL_ERROR, no internal detail exposed)",
             "content": {
               "application/json": {
                 "schema": {
@@ -3291,6 +3771,16 @@
             ],
             "additionalProperties": false
           },
+          "provenance": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProvenanceSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "scoringVersion": {
             "type": "string"
           },
@@ -3306,8 +3796,82 @@
           "piEcosystemScore",
           "confidence",
           "staking",
+          "provenance",
           "scoringVersion",
           "computedAt"
+        ],
+        "additionalProperties": false
+      },
+      "ProvenanceSummary": {
+        "description": "Number of scored inputs per provenance. OBSERVABLE = observed on-chain/verified; DEVELOPER_REPORTED = declared by the developer; ESTIMATED = inferred; UNAVAILABLE = missing. `extrapolated` flags values scaled up from partial coverage (null = not assessed).",
+        "type": "object",
+        "properties": {
+          "counts": {
+            "type": "object",
+            "properties": {
+              "OBSERVABLE": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "DEVELOPER_REPORTED": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "ESTIMATED": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "UNAVAILABLE": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "OBSERVABLE",
+              "DEVELOPER_REPORTED",
+              "ESTIMATED",
+              "UNAVAILABLE"
+            ],
+            "additionalProperties": false
+          },
+          "extrapolated": {
+            "type": "object",
+            "properties": {
+              "transactionCount": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "observableVolume": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "transactionCount",
+              "observableVolume"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "counts",
+          "extrapolated"
         ],
         "additionalProperties": false
       },

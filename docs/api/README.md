@@ -2,6 +2,8 @@
 
 Base : `/api` · Format : JSON · Spec : **OpenAPI 3.1** sur `GET /api/openapi.json` (copie statique : [`openapi.json`](openapi.json)) · UI : `GET /api/docs`.
 
+> **Connexion du frontend Lovable** : voir [`FRONTEND_CONTRACT.md`](FRONTEND_CONTRACT.md) (variables `VITE_API_BASE_URL` / `CORS_ORIGINS`, erreurs, provenance) et la référence générée [`ENDPOINTS.md`](ENDPOINTS.md).
+
 ## Conventions
 
 Succès :

@@ -6,6 +6,28 @@ import type { AppRecord, MetricRecord, ReviewRecord } from './types';
  * shapes, internal ids of moderators, raw signals or secrets.
  */
 
+const PROVENANCES = ['OBSERVABLE', 'DEVELOPER_REPORTED', 'ESTIMATED', 'UNAVAILABLE'] as const;
+
+/**
+ * Typed provenance summary lifted from the engine breakdown so the frontend does
+ * not have to dig into `breakdown`. Counts are real counts of scored inputs
+ * (0 = none of that provenance); `null` = the snapshot carries no provenance
+ * information at all (never a fabricated zero-filled object).
+ */
+export function presentProvenance(details: Record<string, unknown> | null | undefined) {
+  const inputs = (details?.confidence as { inputs?: { provenanceCounts?: Record<string, number> } } | undefined)?.inputs;
+  const counts = inputs?.provenanceCounts;
+  if (!counts) return null;
+  const measures = (details?.measures ?? {}) as Record<string, unknown>;
+  return {
+    counts: Object.fromEntries(PROVENANCES.map((p) => [p, Number(counts[p] ?? 0)])) as Record<(typeof PROVENANCES)[number], number>,
+    extrapolated: {
+      transactionCount: typeof measures.transactionCountExtrapolated === 'boolean' ? measures.transactionCountExtrapolated : null,
+      observableVolume: typeof measures.observableVolumeExtrapolated === 'boolean' ? measures.observableVolumeExtrapolated : null,
+    },
+  };
+}
+
 export function presentMetric(m: MetricRecord | null | undefined) {
   if (!m) return null;
   return {
@@ -24,6 +46,8 @@ export function presentMetric(m: MetricRecord | null | undefined) {
     confidence: { score: m.confidenceScore, level: m.confidenceLevel },
     /** Distinct metric, excluded from every V1 score. */
     staking: { stakedPi: m.stakedPi, includedInScores: false as const },
+    /** Where the underlying data comes from (Observable / Developer-reported / Estimated / Unavailable). */
+    provenance: presentProvenance(m.details),
     scoringVersion: m.scoringVersion,
     computedAt: m.createdAt.toISOString(),
   };

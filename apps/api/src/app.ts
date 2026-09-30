@@ -47,6 +47,19 @@ export function createApp(deps: AppDependencies): { app: Express; close: () => P
 
   if (env.NODE_ENV !== 'test') app.use(pinoHttp({ logger }));
 
+  // CORS comes first so /api/openapi.json is also readable from the frontend
+  // origin (client generators, docs). Whitelist only: see CORS_ORIGINS.
+  app.use(
+    cors({
+      origin: env.CORS_ORIGINS,
+      methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      // Lets the browser read rate-limit headers (e.g. to back off on 429).
+      exposedHeaders: ['RateLimit', 'RateLimit-Policy', 'Retry-After'],
+      maxAge: 600,
+    }),
+  );
+
   // The docs page loads Swagger UI from a CDN, so it gets its own CSP.
   const openApiDocument = buildOpenApiDocument();
   app.get('/api/openapi.json', (_req, res) => res.json(openApiDocument));
@@ -65,14 +78,6 @@ export function createApp(deps: AppDependencies): { app: Express; close: () => P
   );
 
   app.use(helmet());
-  app.use(
-    cors({
-      origin: env.CORS_ORIGINS,
-      methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
-      maxAge: 600,
-    }),
-  );
   app.use(express.json({ limit: '100kb' }));
   app.use('/api', limiters.global, limiters.writes);
   app.use('/api', authenticate(repos.users, env.JWT_SECRET, env.JWT_ISSUER));

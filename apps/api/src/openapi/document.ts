@@ -88,6 +88,8 @@ interface Operation {
   response?: z.ZodType;
   paginated?: boolean;
   status?: number;
+  /** Documents a 409 response and why it can happen. */
+  conflict?: string;
 }
 
 export function buildOpenApiDocument(options: { serverUrl?: string } = {}) {
@@ -130,8 +132,15 @@ export function buildOpenApiDocument(options: { serverUrl?: string } = {}) {
         },
       },
       '400': { description: 'Validation error', content: { 'application/json': { schema: errorRef } } },
-      '429': { description: 'Rate limited', content: { 'application/json': { schema: errorRef } } },
+      '429': { description: 'Rate limited (RATE_LIMITED)', content: { 'application/json': { schema: errorRef } } },
+      '500': { description: 'Unexpected error (INTERNAL_ERROR, no internal detail exposed)', content: { 'application/json': { schema: errorRef } } },
     };
+    if (op.body) {
+      responses['413'] = { description: 'Body larger than 100 kB (PAYLOAD_TOO_LARGE)', content: { 'application/json': { schema: errorRef } } };
+    }
+    if (op.conflict) {
+      responses['409'] = { description: `Conflict (CONFLICT): ${op.conflict}`, content: { 'application/json': { schema: errorRef } } };
+    }
     if (op.auth) {
       responses['401'] = { description: 'Authentication required', content: { 'application/json': { schema: errorRef } } };
       responses['403'] = { description: `Requires ${op.auth} role or ownership`, content: { 'application/json': { schema: errorRef } } };
@@ -214,6 +223,7 @@ export function buildOpenApiDocument(options: { serverUrl?: string } = {}) {
   });
   add('post', '/api/apps/:id/reviews', {
     summary: 'Submit a review (moderated before publication)',
+    conflict: 'You have already reviewed this application',
     tags: ['Reviews'],
     auth: 'USER',
     params: AppIdParams,
@@ -243,6 +253,7 @@ export function buildOpenApiDocument(options: { serverUrl?: string } = {}) {
   add('get', '/api/developers/apps', { summary: 'My applications', tags: ['Developers'], auth: 'DEVELOPER', response: z.array(AppSummarySchema) });
   add('post', '/api/developers/apps', {
     summary: 'Register an application (PENDING until validated)',
+    conflict: 'The slug is already used',
     tags: ['Developers'],
     auth: 'DEVELOPER',
     body: CreateAppBody,
@@ -259,6 +270,7 @@ export function buildOpenApiDocument(options: { serverUrl?: string } = {}) {
   });
   add('post', '/api/developers/apps/:id/claim', {
     summary: 'Claim an existing application',
+    conflict: 'The application is already linked to your profile, or you already submitted a claim for it',
     tags: ['Developers'],
     auth: 'DEVELOPER',
     params: AppIdParams,
@@ -276,14 +288,17 @@ export function buildOpenApiDocument(options: { serverUrl?: string } = {}) {
 
   // --- admin --------------------------------------------------------------
   add('patch', '/api/admin/apps/:id/status', { summary: 'Validate / change app status', tags: ['Admin'], auth: 'ADMIN', params: UuidIdParams, body: AppStatusBody });
-  add('post', '/api/admin/categories', { summary: 'Create category', tags: ['Admin'], auth: 'ADMIN', body: CategoryBody, status: 201 });
-  add('patch', '/api/admin/categories/:id', { summary: 'Update category', tags: ['Admin'], auth: 'ADMIN', params: UuidIdParams, body: UpdateCategoryBody });
+  add('post', '/api/admin/categories', { summary: 'Create category',
+    conflict: 'The category slug already exists', tags: ['Admin'], auth: 'ADMIN', body: CategoryBody, status: 201 });
+  add('patch', '/api/admin/categories/:id', { summary: 'Update category',
+    conflict: 'The category slug already exists', tags: ['Admin'], auth: 'ADMIN', params: UuidIdParams, body: UpdateCategoryBody });
   add('get', '/api/admin/reviews', { summary: 'Reviews to moderate', tags: ['Admin'], auth: 'ADMIN', query: AdminReviewsQuery, paginated: true });
   add('patch', '/api/admin/reviews/:id', { summary: 'Moderate a review', tags: ['Admin'], auth: 'ADMIN', params: UuidIdParams, body: ModerateReviewBody });
   add('get', '/api/admin/anomalies', { summary: 'Statistical anomaly signals', tags: ['Admin'], auth: 'ADMIN', query: AnomalyQuery, paginated: true });
   add('patch', '/api/admin/anomalies/:id', { summary: 'Update anomaly status', tags: ['Admin'], auth: 'ADMIN', params: UuidIdParams, body: AnomalyStatusBody });
   add('get', '/api/admin/claims', { summary: 'App ownership claims', tags: ['Admin'], auth: 'ADMIN', query: ClaimsQuery, paginated: true });
-  add('patch', '/api/admin/claims/:id', { summary: 'Approve / reject a claim', tags: ['Admin'], auth: 'ADMIN', params: UuidIdParams, body: ClaimDecisionBody });
+  add('patch', '/api/admin/claims/:id', { summary: 'Approve / reject a claim',
+    conflict: 'This claim has already been decided', tags: ['Admin'], auth: 'ADMIN', params: UuidIdParams, body: ClaimDecisionBody });
   add('post', '/api/admin/recalculate', { summary: 'Recompute metrics, rankings and anomalies (append-only)', tags: ['Admin'], auth: 'ADMIN', body: RecalculateBody });
 
   return {
