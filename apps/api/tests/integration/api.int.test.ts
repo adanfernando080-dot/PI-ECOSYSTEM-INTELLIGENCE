@@ -74,6 +74,31 @@ describe('database-backed API', () => {
     expect(community.body.data.entries.map((e: { app: { slug: string } }) => e.app.slug)).not.toContain('pitools');
   });
 
+  it('exposes typed provenance, keeps unknown scores null and confidence/staking separate', async () => {
+    const list = await request(app).get('/api/apps?limit=50');
+    for (const a of list.body.data as { metrics: { provenance: { counts: Record<string, number> } | null } | null }[]) {
+      expect(a.metrics?.provenance).not.toBeNull();
+      expect(Object.keys(a.metrics!.provenance!.counts).sort()).toEqual(['DEVELOPER_REPORTED', 'ESTIMATED', 'OBSERVABLE', 'UNAVAILABLE']);
+    }
+    const tools = (await request(app).get('/api/apps/pitools')).body.data.metrics;
+    expect(tools.scores.community).toBeNull(); // no published review: unavailable, not 0
+    expect(tools.provenance.counts.UNAVAILABLE).toBeGreaterThan(0);
+    expect(tools.confidence).toEqual({ score: expect.any(Number), level: expect.any(String) });
+    expect(tools.staking.includedInScores).toBe(false);
+    const social = (await request(app).get('/api/apps/pisocial')).body.data.metrics;
+    expect(social.provenance.counts.DEVELOPER_REPORTED).toBeGreaterThan(0);
+  });
+
+  it('serves CORS to the allowed origin only and documents the contract', async () => {
+    const ok = await request(app).get('/api/apps?limit=1').set('Origin', 'http://localhost:5173');
+    expect(ok.headers['access-control-allow-origin']).toBe('http://localhost:5173');
+    const no = await request(app).get('/api/apps?limit=1').set('Origin', 'https://not-allowed.example');
+    expect(no.headers['access-control-allow-origin']).toBeUndefined();
+    const spec = await request(app).get('/api/openapi.json').set('Origin', 'http://localhost:5173');
+    expect(spec.headers['access-control-allow-origin']).toBe('http://localhost:5173');
+    expect(spec.body.components.schemas.ProvenanceSummary).toBeDefined();
+  });
+
   it('GET /api/discover filters by intent', async () => {
     const res = await request(app).get('/api/discover?intent=buy');
     expect(res.body.data.map((a: { slug: string }) => a.slug).sort()).toEqual(['pimarket', 'pistore']);
