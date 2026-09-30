@@ -1,0 +1,405 @@
+// Pi Ecosystem Intelligence — database schema (V1)
+//
+// Principles enforced at the data layer:
+//  * every raw data point carries a `provenance`; a missing value is stored as
+//    NULL + UNAVAILABLE, never as 0;
+//  * app_metrics and ranking_snapshots are append-only (DB trigger, see the
+//    init migration): history is never overwritten;
+//  * transactions carry an attribution confidence — a transaction is not
+//    assumed to belong economically to an app;
+//  * every seeded row carries `isDemo = true`.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------- enums ----
+
+enum Provenance {
+  OBSERVABLE
+  DEVELOPER_REPORTED
+  ESTIMATED
+  UNAVAILABLE
+}
+
+enum DataSourceType {
+  BLOCKCHAIN
+  PI_API
+  DEVELOPER
+  COMMUNITY
+  SYSTEM
+}
+
+enum MetricType {
+  TRANSACTION_COUNT
+  TRANSACTION_VOLUME_PI
+  ACTIVE_ADDRESSES
+  ACTIVE_USERS
+  STAKED_PI
+}
+
+enum AppStatus {
+  PENDING
+  ACTIVE
+  INACTIVE
+  REJECTED
+}
+
+enum DeveloperVerificationStatus {
+  UNVERIFIED
+  PENDING
+  VERIFIED
+}
+
+enum ReviewStatus {
+  PENDING
+  PUBLISHED
+  HIDDEN
+}
+
+enum AnomalyStatus {
+  NEW
+  INVESTIGATING
+  RESOLVED
+  DISMISSED
+}
+
+enum AnomalyType {
+  ACTIVITY_SPIKE
+  VOLUME_SPIKE
+  CONCENTRATION_SIGNAL
+  REPEATED_TRANSACTION_PATTERN
+  UNUSUAL_REVIEW_ACTIVITY
+}
+
+enum AnomalySeverity {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum TransactionStatus {
+  CONFIRMED
+  PENDING
+  FAILED
+}
+
+enum Role {
+  USER
+  DEVELOPER
+  ADMIN
+}
+
+enum ClaimStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+/// Analysis windows. Stored as 24h / 7d / 30d / 90d.
+enum MetricPeriod {
+  P24H @map("24h")
+  P7D  @map("7d")
+  P30D @map("30d")
+  P90D @map("90d")
+}
+
+/// Analytical ranking types. There is intentionally no overall / "best" ranking.
+enum RankingType {
+  ACTIVITY
+  GROWTH
+  ECONOMIC
+  COMMUNITY
+  TRANSPARENCY
+  TRENDING
+  RISING
+  NEW
+}
+
+enum ConfidenceLevel {
+  HIGH
+  GOOD
+  PARTIAL
+  LIMITED
+  VERY_LOW
+}
+
+// --------------------------------------------------------------- models ----
+
+model User {
+  id          String   @id @default(uuid()) @db.Uuid
+  piUsername  String   @unique
+  displayName String?
+  role        Role     @default(USER)
+  isDemo      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  developer Developer?
+  reviews   Review[]
+  favorites Favorite[]
+
+  @@map("users")
+}
+
+model Category {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  apps App[]
+
+  @@map("categories")
+}
+
+model Developer {
+  id                 String                      @id @default(uuid()) @db.Uuid
+  piUsername         String                      @unique
+  displayName        String?
+  verificationStatus DeveloperVerificationStatus @default(UNVERIFIED)
+  userId             String?                     @unique @db.Uuid
+  isDemo             Boolean                     @default(false)
+  createdAt          DateTime                    @default(now())
+  updatedAt          DateTime                    @updatedAt
+
+  user   User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  apps   App[]
+  claims AppClaim[]
+
+  @@map("developers")
+}
+
+model App {
+  id              String    @id @default(uuid()) @db.Uuid
+  name            String
+  slug            String    @unique
+  description     String?
+  categoryId      String?   @db.Uuid
+  url             String?
+  logoUrl         String?
+  status          AppStatus @default(PENDING)
+  developerId     String?   @db.Uuid
+  /// Public note describing how the app measures / reports its own figures.
+  methodologyNote String?
+  tags            String[]  @default([])
+  isDemo          Boolean   @default(false)
+  firstSeenAt     DateTime  @default(now())
+  lastSeenAt      DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  category         Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  developer        Developer?        @relation(fields: [developerId], references: [id], onDelete: SetNull)
+  rawMetrics       RawMetric[]
+  metrics          AppMetric[]
+  transactions     Transaction[]
+  reviews          Review[]
+  rankingSnapshots RankingSnapshot[]
+  anomalies        Anomaly[]
+  favorites        Favorite[]
+  claims           AppClaim[]
+
+  @@index([status])
+  @@index([categoryId])
+  @@index([developerId])
+  @@map("apps")
+}
+
+model DataSource {
+  id          String         @id @default(uuid()) @db.Uuid
+  name        String         @unique
+  type        DataSourceType
+  /// 0..100 — how much the platform trusts this source by default.
+  trustLevel  Int
+  description String?
+  isDemo      Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+
+  rawMetrics   RawMetric[]
+  transactions Transaction[]
+
+  @@map("data_sources")
+}
+
+model RawMetric {
+  id          String     @id @default(uuid()) @db.Uuid
+  appId       String     @db.Uuid
+  sourceId    String     @db.Uuid
+  metricType  MetricType
+  /// NULL when provenance = UNAVAILABLE. Never replaced by 0.
+  value       Decimal?   @db.Decimal(24, 6)
+  periodStart DateTime
+  periodEnd   DateTime
+  provenance  Provenance
+  metadata    Json       @default("{}")
+  isDemo      Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+
+  app    App        @relation(fields: [appId], references: [id], onDelete: Cascade)
+  source DataSource @relation(fields: [sourceId], references: [id], onDelete: Restrict)
+
+  @@index([appId, metricType, periodStart])
+  @@index([sourceId])
+  @@map("raw_metrics")
+}
+
+/// Append-only history of computed scores (UPDATE is rejected by a trigger).
+model AppMetric {
+  id                String          @id @default(uuid()) @db.Uuid
+  appId             String          @db.Uuid
+  period            MetricPeriod
+  periodStart       DateTime
+  periodEnd         DateTime
+  activityScore     Float?
+  growthScore       Float?
+  economicScore     Float?
+  communityScore    Float?
+  transparencyScore Float?
+  confidenceScore   Float
+  confidenceLevel   ConfidenceLevel
+  overallScore      Float?
+  /// Distinct metric, displayed separately, excluded from every V1 score.
+  stakedPi          Decimal?        @db.Decimal(24, 6)
+  /// Component breakdown, coverage and missing inputs, per engine.
+  details           Json            @default("{}")
+  scoringVersion    String
+  isDemo            Boolean         @default(false)
+  createdAt         DateTime        @default(now())
+
+  app App @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  @@index([appId, period, periodEnd])
+  @@index([period, periodEnd])
+  @@map("app_metrics")
+}
+
+model Transaction {
+  id                    String            @id @default(uuid()) @db.Uuid
+  txHash                String            @unique
+  /// Candidate app. NULL when the transaction cannot be attributed.
+  appId                 String?           @db.Uuid
+  sender                String
+  receiver              String
+  amount                Decimal           @db.Decimal(24, 7)
+  timestamp             DateTime
+  sourceId              String            @db.Uuid
+  status                TransactionStatus @default(CONFIRMED)
+  /// 0..1 — how confident the platform is that this tx relates to `appId`.
+  attributionConfidence Float             @default(0)
+  attributionMethod     String?
+  metadata              Json              @default("{}")
+  isDemo                Boolean           @default(false)
+  createdAt             DateTime          @default(now())
+
+  app    App?       @relation(fields: [appId], references: [id], onDelete: SetNull)
+  source DataSource @relation(fields: [sourceId], references: [id], onDelete: Restrict)
+
+  @@index([appId, timestamp])
+  @@index([sender])
+  @@index([receiver])
+  @@map("transactions")
+}
+
+model Review {
+  id             String       @id @default(uuid()) @db.Uuid
+  appId          String       @db.Uuid
+  userId         String       @db.Uuid
+  /// 1..5 (CHECK constraint in migration).
+  rating         Int
+  review         String
+  status         ReviewStatus @default(PENDING)
+  /// Neutral behavioural signals prepared for future analysis. Never a verdict.
+  signals        Json         @default("{}")
+  moderationNote String?
+  moderatedById  String?      @db.Uuid
+  isDemo         Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  app  App  @relation(fields: [appId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([appId, userId])
+  @@index([appId, status, createdAt])
+  @@map("reviews")
+}
+
+/// Append-only ranking snapshots (UPDATE is rejected by a trigger).
+model RankingSnapshot {
+  id          String       @id @default(uuid()) @db.Uuid
+  rankingType RankingType
+  appId       String       @db.Uuid
+  score       Float
+  rank        Int
+  period      MetricPeriod
+  confidence  Float
+  /// Identifies one ranking run: all rows of a run share this timestamp.
+  computedAt  DateTime
+  isDemo      Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+
+  app App @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  @@index([rankingType, period, computedAt])
+  @@index([appId])
+  @@map("ranking_snapshots")
+}
+
+model Anomaly {
+  id          String          @id @default(uuid()) @db.Uuid
+  appId       String          @db.Uuid
+  type        AnomalyType
+  severity    AnomalySeverity
+  /// 0..100 statistical strength of the signal.
+  score       Float
+  description String
+  detectedAt  DateTime        @default(now())
+  status      AnomalyStatus   @default(NEW)
+  metadata    Json            @default("{}")
+  /// Stable key used to avoid recording the same signal twice.
+  fingerprint String          @unique
+  isDemo      Boolean         @default(false)
+  updatedAt   DateTime        @updatedAt
+
+  app App @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  @@index([appId, status])
+  @@map("anomalies")
+}
+
+model Favorite {
+  userId    String   @db.Uuid
+  appId     String   @db.Uuid
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  app  App  @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  @@id([userId, appId])
+  @@map("favorites")
+}
+
+model AppClaim {
+  id           String      @id @default(uuid()) @db.Uuid
+  appId        String      @db.Uuid
+  developerId  String      @db.Uuid
+  status       ClaimStatus @default(PENDING)
+  evidence     String?
+  reviewedById String?     @db.Uuid
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  app       App       @relation(fields: [appId], references: [id], onDelete: Cascade)
+  developer Developer @relation(fields: [developerId], references: [id], onDelete: Cascade)
+
+  @@unique([appId, developerId])
+  @@map("app_claims")
+}

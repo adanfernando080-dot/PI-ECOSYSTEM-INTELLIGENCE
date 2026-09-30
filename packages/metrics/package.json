@@ -1,0 +1,20 @@
+{
+  "name": "@pi/metrics",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "dependencies": {
+    "@pi/shared": "*",
+    "@pi/scoring": "*",
+    "@pi/confidence": "*",
+    "@pi/ranking": "*",
+    "@pi/validation": "*",
+    "@prisma/client": "^6.16.0"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./persistence": "./src/persistence-entry.ts"
+  }
+}

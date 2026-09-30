@@ -1,0 +1,83 @@
+# Pi Ecosystem Intelligence — local stack.
+#
+#   docker compose -f infrastructure/docker/docker-compose.yml up -d postgres redis
+#   docker compose -f infrastructure/docker/docker-compose.yml run --rm migrate
+#   docker compose -f infrastructure/docker/docker-compose.yml run --rm seed
+#   docker compose -f infrastructure/docker/docker-compose.yml up -d api
+#
+# See docs/development/README.md.
+
+name: pi-ecosystem-intelligence
+
+x-app: &app
+  build:
+    context: ../..
+    dockerfile: infrastructure/docker/Dockerfile
+  environment:
+    NODE_ENV: ${NODE_ENV:-development}
+    DATABASE_URL: postgresql://pi:pi@postgres:5432/pi_ecosystem?schema=public
+    REDIS_URL: redis://redis:6379
+    JWT_SECRET: ${JWT_SECRET:-dev-only-secret-change-me-dev-only-secret}
+    JWT_ISSUER: pi-ecosystem-intelligence
+    CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
+    LOG_LEVEL: ${LOG_LEVEL:-info}
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: pi
+      POSTGRES_PASSWORD: pi
+      POSTGRES_DB: pi_ecosystem
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-test-db.sql:/docker-entrypoint-initdb.d/init-test-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pi -d pi_ecosystem"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  migrate:
+    <<: *app
+    profiles: ["tools"]
+    command: ["npx", "prisma", "migrate", "deploy", "--schema", "packages/database/prisma/schema.prisma"]
+
+  seed:
+    <<: *app
+    profiles: ["tools"]
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://pi:pi@postgres:5432/pi_ecosystem?schema=public
+    command: ["npx", "tsx", "packages/database/src/seed/index.ts"]
+
+  api:
+    <<: *app
+    ports:
+      - "3000:3000"
+
+  # Daily pipeline (metrics → rankings → anomalies). Replace with your scheduler of choice.
+  worker-metrics:
+    <<: *app
+    profiles: ["workers"]
+    command: ["sh", "-c", "npx tsx workers/metrics/src/index.ts && npx tsx workers/rankings/src/index.ts && npx tsx workers/anomalies/src/index.ts"]
+
+volumes:
+  pgdata:
