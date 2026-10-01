@@ -15,10 +15,11 @@ Fichiers de référence : [`render.yaml`](../../render.yaml) (Blueprint), [`.env
 | Élément | Valeur |
 |---|---|
 | Node | ≥ 20 (testé en 22) — `NODE_VERSION=22` dans le Blueprint |
-| Build command | `npm ci --include=dev && npm run db:generate` |
-| Migration | `npm run db:migrate` (= `prisma migrate deploy`, **sans reset**) |
+| Build command (migration incluse, offre Free) | `npm ci --include=dev && npm run db:generate && npm run db:migrate` |
+| Migration | `npm run db:migrate` (= `prisma migrate deploy`, **sans reset**), exécutée à la fin du build avec `DATABASE_URL` de l'environnement Render |
 | Start command | `npm run start` (= `tsx apps/api/src/server.ts`) |
 | Health check | `/api/health` (alias `/health`) |
+| Région | Render **Oregon** ; Neon : AWS US West 2 (Oregon) si proposée |
 | Port | fourni par l'hébergeur via `PORT` (lu par le code, ne pas le définir) |
 
 `--include=dev` est indispensable : `tsx` (exécution du TypeScript) et `prisma` sont des devDependencies, et `NODE_ENV=production` les omettrait sinon. Il n'y a **pas de script `build`** (aucune compilation).
@@ -59,27 +60,25 @@ L'API **refuse de démarrer** en production si : `CORS_ORIGINS` est absent, cont
 
 ## 4. Configurer CORS
 
-1. Il faut l'**URL publique HTTPS exacte du frontend Lovable** (publiez d'abord le frontend, même avec ses données fictives, pour la connaître). Aucune URL fictive n'est fournie dans ce dépôt.
+1. Il faut à terme l'**URL publique HTTPS exacte du frontend Lovable**. Comme l'API est déployée **avant** la publication du frontend (ordre retenu), elle a besoin d'une valeur valide dès le premier démarrage. **Valeur temporaire** (saisie uniquement dans le tableau de bord Render, jamais dans le dépôt) : `https://example.com` — domaine réservé par l'IANA, que personne ne peut utiliser comme site. Effet : l'API démarre, les appels `curl` fonctionnent, mais **aucun navigateur n'est autorisé** (comportement voulu jusqu'à l'étape de configuration définitive). Aucune URL fictive n'est fournie dans ce dépôt.
 2. `CORS_ORIGINS=https://<domaine-du-frontend>` — scheme + hôte (+ port), sans chemin, sans `/` final, sans `*`. Plusieurs origines : séparées par des virgules (ex. aperçu et domaine publié).
 3. Pour ajouter plus tard le domaine utilisé dans Pi Browser : ajoutez-le à la liste, puis redéployez manuellement (la variable est lue au démarrage).
 
-## 5. Appliquer les migrations (jamais de seed, jamais de reset)
+## 5. Migrations (décision : option B, dans le build Render)
 
-La base reçoit **uniquement** `npm run db:migrate`. L'option « pre-deploy command » de Render est réservée aux offres payantes ([source](https://render.com/docs/blueprint-spec)), donc elle n'est pas utilisée. **Choisissez une des options (point à décider, voir §10) :**
+La base reçoit **uniquement** `npm run db:migrate`. La commande de pré-déploiement de Render est réservée aux offres payantes ([source](https://render.com/docs/blueprint-spec)) : sur l'offre Free, la migration est donc la dernière étape de la **build command** (déjà dans `render.yaml`) :
 
-- **Option A — depuis votre poste** (recommandée si vous avez un terminal) :
-  ```bash
-  git clone <repo> && cd <repo> && git checkout <branche>
-  npm ci --include=dev
-  DATABASE_URL='<chaîne directe Neon>' npm run db:migrate
-  ```
-  Résultat attendu : `All migrations have been successfully applied.`
-- **Option B — dans le build Render** : remplacer la build command par
-  `npm ci --include=dev && npm run db:generate && npm run db:migrate`.
-  Idempotent (`migrate deploy` n'applique que les migrations en attente) et sans reset ; en contrepartie, chaque déploiement touche la base, et un échec de migration fait échouer le build (l'ancienne version reste en ligne). Cela s'écarte de la build command demandée : à valider.
-- **Option C — depuis une session Claude Code** : possible, mais il faudrait me transmettre `DATABASE_URL` (un secret). À éviter ; si vous le faites, changez le mot de passe Neon ensuite.
+```
+npm ci --include=dev && npm run db:generate && npm run db:migrate
+```
 
-Jamais, sur cette base : `npm run db:seed`, `npm run db:reset`, `prisma migrate reset`.
+- Elle lit `DATABASE_URL` dans l'environnement du service Render (la même variable que l'API).
+- `migrate deploy` n'applique que les migrations en attente : idempotent, aucun reset, aucune suppression.
+- Si la migration échoue, le **build échoue** et la version précédente (s'il y en a une) continue de servir ; les logs de build donnent l'erreur Prisma.
+- À chaque déploiement manuel, la base est donc contactée (Neon se réveille ; `connect_timeout=15` lui laisse le temps).
+- Premier déploiement : le build crée le schéma dans la base **vide** (une migration `20260929000000_init`).
+
+Jamais, sur cette base : `npm run db:seed`, `npm run db:reset`, `prisma migrate reset`. Aucune donnée `[DEMO]` n'est chargée : l'API répondra avec des listes vides (décision 1A : valider d'abord la plomberie).
 
 ## 6. Créer le Web Service (Blueprint Render)
 
@@ -122,16 +121,15 @@ Dans Lovable : `VITE_API_BASE_URL=https://<service>/api` (voir [FRONTEND_CONTRAC
 
 Interdits permanents sur la base bêta/production : `db:seed`, `db:reset`, `prisma migrate reset`.
 
-## 10. Points à décider avant le feu vert
+## 10. Décisions prises et points restants
 
-1. **Base vide.** Avec uniquement `db:migrate`, l'API répond mais sans données : catégories, apps et classements sont vides (testé : listes vides, `computedAt: null`). Le seed contient des données **fictives** (`[DEMO]`) et est bloqué en production par défaut. Options : **(a)** déployer vide pour valider la plomberie (recommandé pour un premier essai) ; **(b)** peupler une base de **bêta** avec les données de démonstration, clairement étiquetées (`containsDemoData`) — cela contredit la règle « pas de seed en production » et suppose votre accord explicite ; **(c)** attendre le vrai data engine (phase 9).
-2. **Migration :** option A, B ou C (§5).
-3. **Branche du Blueprint :** `main` n'a que l'upload initial ; le backend est sur `claude/gifted-thompson-87ag3n`. Fusion dans `main` (via une pull request, que je ne crée que si vous le demandez) ou choix de la branche dans Render.
-4. **Ordre :** publier le frontend Lovable d'abord (pour connaître l'URL → `CORS_ORIGINS`), puis déployer l'API.
-5. **Région** Render/Neon (latence entre les deux).
-6. **Carte bancaire :** à l'inscription Render, vérifier si un moyen de paiement est exigé pour l'offre Free ; sinon, choisir une autre plateforme ou valider explicitement.
-7. **À confirmer dans l'interface Render** (non vérifié hors ligne, la documentation Render n'étant pas accessible depuis l'environnement de préparation) : la prise en compte de `NODE_VERSION=22` et `generateValue`. Render valide le Blueprint à sa création et signale toute erreur de syntaxe.
-8. **Prisma / pooler :** une chaîne directe est utilisée partout. Séparer connexion poolée (runtime) et directe (migrations) via `directUrl` exigerait de modifier le schéma Prisma : report à plus tard.
+**Décidé :** (1) base vide, aucun seed ; (2) migration dans la build command (option B) ; (3) `main` est la branche de déploiement ; (4) ordre : PostgreSQL → API → migration → health check → vérification publique → publication Lovable → `CORS_ORIGINS` définitif → connexion Lovable → tests de bout en bout ; (5) Render **Oregon**, Neon la région la plus proche d'Oregon.
+
+**Restent à votre main :**
+1. **Carte bancaire :** si Render ou Neon demande une carte ou une activation payante : **arrêt immédiat**, ne rien saisir, noter l'écran qui bloque.
+2. **Valeur initiale de `CORS_ORIGINS`** : `https://example.com` (temporaire, §4), à remplacer par l'URL Lovable réelle à l'étape 8, suivie d'un déploiement manuel.
+3. **À confirmer dans l'interface Render** (non vérifié hors ligne) : `NODE_VERSION=22` et `generateValue`.
+4. **Prisma / pooler :** une chaîne directe est utilisée partout ; `directUrl` (schéma Prisma) reporté.
 
 ## Limites connues de l'offre gratuite
 

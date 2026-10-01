@@ -6,16 +6,19 @@
 # Not here on purpose:
 #   * no database (PostgreSQL is created separately, e.g. on Neon; DATABASE_URL is entered by hand);
 #   * no PORT (Render injects it, the API reads process.env.PORT);
-#   * no preDeployCommand (paid plans only) — migrations are applied with `npm run db:migrate`
-#     (see the guide); never db:seed / db:reset on this database;
+#   * no preDeployCommand (paid plans only): on the Free plan the migration runs at the end of the
+#     build command instead (`npm run db:migrate` = `prisma migrate deploy`: applies pending
+#     migrations only, never resets). Never db:seed / db:reset on this database;
 #   * no API_BASE_URL / FRONTEND_URL / Redis (the code does not use them).
 services:
   - type: web
     name: pi-ecosystem-intelligence-api
     runtime: node
     plan: free
-    # region: <choose the region closest to your PostgreSQL database — see the guide>
-    buildCommand: npm ci --include=dev && npm run db:generate
+    region: oregon
+    # Migration step uses DATABASE_URL from the service environment; a failed migration fails the build
+    # and the previous deploy keeps serving.
+    buildCommand: npm ci --include=dev && npm run db:generate && npm run db:migrate
     startCommand: npm run start
     healthCheckPath: /api/health
     # Deploys are triggered manually from the dashboard (no surprise deploy on each push).
