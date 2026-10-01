@@ -35,7 +35,11 @@ Voir [ADR-0004](../architecture/decisions/0004-database-level-guarantees.md). V�
 - Toutes les lignes insérées par le seed ont `isDemo = true` (apps, users, developers, sources, raw_metrics, transactions, reviews, app_metrics, snapshots, anomalies).
 - Sources nommées `DEMO · …`, URLs en `.demo.invalid`, hash de transactions préfixés `demo_`, descriptions préfixées `[DEMO]`.
 - Relancer le seed supprime d'abord les lignes `isDemo = true` ; les données réelles ne sont jamais touchées.
-- Le seed refuse de s'exécuter avec `NODE_ENV=production` (sauf `SEED_ALLOW_PRODUCTION=true`).
+- **Garde de sécurité** (`packages/database/src/seed/guard.ts`, évalué avant toute connexion, aussi appelé par `db:reset` *avant* l'effacement) :
+  - base **locale** (`localhost`, `127.0.0.0/8`, `::1`, socket unix) : autorisée sans réglage ;
+  - base **distante** (tout autre hôte, y compris via les paramètres `host=` / `hostaddr=` de l'URL) : **refusée par défaut**, quel que soit `NODE_ENV` ; elle n'est autorisée que si `SEED_ALLOW_REMOTE_DATABASE` vaut **exactement le nom d'hôte** de la base visée (une valeur générique comme `true` est refusée) ;
+  - `NODE_ENV=production` exige en plus `SEED_ALLOW_PRODUCTION=true` ;
+  - les messages d'erreur n'affichent que le nom d'hôte, jamais l'URL, l'utilisateur ni le mot de passe.
 
 ## Commandes
 
@@ -44,7 +48,7 @@ npm run db:generate      # client Prisma
 npm run db:migrate       # prisma migrate deploy
 npm run db:migrate:dev   # nouvelle migration en développement (conserver triggers / CHECK !)
 npm run db:seed          # jeu DEMO + 90 jours d'historique calculé par le vrai moteur
-npm run db:reset         # reset complet + seed (développement uniquement)
+npm run db:reset         # reset complet + seed (développement uniquement ; le garde du seed s'exécute AVANT l'effacement)
 ```
 
 ## Évolutions prévues

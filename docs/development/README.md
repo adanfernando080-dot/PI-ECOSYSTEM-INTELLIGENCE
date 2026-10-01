@@ -40,6 +40,8 @@ npm run db:migrate
 npm run db:seed
 ```
 
+> Le seed (et `db:reset`) refuse toute base **non locale** par défaut : voir « Garde de sécurité » dans [`docs/database/README.md`](../database/README.md). Le service `seed` de docker-compose y déclare explicitement son hôte Docker `postgres`.
+
 Le seed génère 12 applications fictives (PiMarket, PiJobs, PiLearn, PiGames, PiServices, PiAI Hub, PiTravel, PiStore, PiTools, PiSocial, PiPay Tools, PiCreator), 180 jours de métriques brutes, des transactions, des avis, puis **exécute le vrai pipeline** sur 90 jours (4 périodes) → historique, classements et anomalies disponibles immédiatement. Scénarios inclus : pic d'activité (PiGames), signal de concentration + motif répétitif (PiPay Tools), rafale d'avis (PiServices), déclin (PiTravel), app récente (PiCreator), app sans avis et avec panne de données (PiTools), données uniquement déclarées (PiSocial).
 
 ## Lancer l'API

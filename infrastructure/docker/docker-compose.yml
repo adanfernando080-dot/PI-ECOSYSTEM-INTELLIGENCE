@@ -66,6 +66,9 @@ services:
     environment:
       NODE_ENV: development
       DATABASE_URL: postgresql://pi:pi@postgres:5432/pi_ecosystem?schema=public
+      # `postgres` is this compose file's own throw-away dev database (Docker network host name),
+      # not a localhost address, so the seed guard needs it named explicitly.
+      SEED_ALLOW_REMOTE_DATABASE: postgres
     command: ["npx", "tsx", "packages/database/src/seed/index.ts"]
 
   api:

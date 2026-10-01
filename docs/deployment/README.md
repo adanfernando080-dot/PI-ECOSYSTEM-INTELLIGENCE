@@ -78,7 +78,7 @@ npm ci --include=dev && npm run db:generate && npm run db:migrate
 - À chaque déploiement manuel, la base est donc contactée (Neon se réveille ; `connect_timeout=15` lui laisse le temps).
 - Premier déploiement : le build crée le schéma dans la base **vide** (une migration `20260929000000_init`).
 
-Jamais, sur cette base : `npm run db:seed`, `npm run db:reset`, `prisma migrate reset`. Aucune donnée `[DEMO]` n'est chargée : l'API répondra avec des listes vides (décision 1A : valider d'abord la plomberie).
+Jamais, sur cette base : `npm run db:seed`, `npm run db:reset`, `prisma migrate reset`. Le seed et `db:reset` refusent d'ailleurs par défaut toute base non locale (garde `SEED_ALLOW_REMOTE_DATABASE`, voir `docs/database/README.md`) ; `prisma migrate reset` lancé directement n'est **pas** couvert par ce garde. Aucune donnée `[DEMO]` n'est chargée : l'API répondra avec des listes vides (décision 1A : valider d'abord la plomberie).
 
 ## 6. Créer le Web Service (Blueprint Render)
 

@@ -7,12 +7,16 @@
  * over the last 90 days so history, rankings and anomalies are available
  * immediately. Every inserted row is flagged isDemo = true. Re-running the
  * seed removes previous demo rows first; non-demo rows are never touched.
+ *
+ * It refuses to run against a remote database unless SEED_ALLOW_REMOTE_DATABASE
+ * names that exact host (and, with NODE_ENV=production, SEED_ALLOW_PRODUCTION=true).
  */
 import { addDays, PERIODS } from '@pi/shared';
 import { recordAnomalies, recordMetrics, recordRankings } from '@pi/metrics/persistence';
 import { disconnectPrisma, getPrisma, loadDotEnv, type Prisma, type PrismaClient } from '../index';
 import { demoToEngineInputs } from './engine-adapter';
 import { generateDemoDataset, type DemoDataset } from './generator';
+import { evaluateSeedGuard } from './guard';
 
 const HISTORY_DAYS = 90;
 const CHUNK = 1000;
@@ -108,10 +112,13 @@ const isMain = process.argv[1] !== undefined && import.meta.url.endsWith(process
 
 if (isMain) {
   loadDotEnv();
-  if (process.env.NODE_ENV === 'production' && process.env.SEED_ALLOW_PRODUCTION !== 'true') {
-    console.error('Refusing to insert DEMO data with NODE_ENV=production (set SEED_ALLOW_PRODUCTION=true to override).');
+  // Safety guard: runs BEFORE any database connection is opened (see ./guard.ts).
+  const guard = evaluateSeedGuard(process.env);
+  if (!guard.ok) {
+    console.error(`[seed] ${guard.reason}`);
     process.exit(1);
   }
+  console.log(`[seed] Target: ${guard.target} database${guard.hosts.length ? ` (${guard.hosts.join(', ')})` : ''}.`);
   const prisma = getPrisma();
   seedDemo(prisma, { log: (m) => console.log(`[seed] ${m}`) })
     .then((r) => console.log(`[seed] Done. DEMO data as of ${r.asOf.toISOString().slice(0, 10)}.`))
