@@ -13,6 +13,8 @@ npm install
 npm run db:generate
 ```
 
+> Déploiement cloud (bêta lecture seule) : voir [`docs/deployment/README.md`](../deployment/README.md) et [`render.yaml`](../../render.yaml).
+
 ## Variables d'environnement
 
 | Variable | Obligatoire | Défaut | Rôle |

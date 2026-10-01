@@ -45,6 +45,12 @@ describe('CORS_ORIGINS configuration', () => {
     expect(() => loadEnv(prod({ CORS_ORIGINS: 'https://frontend.example.com/app' }))).toThrow(/bare origin/);
   });
 
+  it('refuses the .env.example JWT_SECRET placeholder in production only', () => {
+    const placeholder = 'change-me-to-a-long-random-string-of-32-chars-min';
+    expect(() => loadEnv(prod({ CORS_ORIGINS: 'https://frontend.example.com', JWT_SECRET: placeholder }))).toThrow(/placeholder/);
+    expect(loadEnv({ ...base, JWT_SECRET: placeholder }).JWT_SECRET).toBe(placeholder); // dev quick start keeps working
+  });
+
   it('does not change the other settings', () => {
     const env = loadEnv(prod({ CORS_ORIGINS: 'https://frontend.example.com', PORT: '8080' }));
     expect(env).toMatchObject({ NODE_ENV: 'production', PORT: 8080, JWT_ISSUER: 'pi-ecosystem-intelligence' });

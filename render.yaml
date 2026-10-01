@@ -1,0 +1,37 @@
+# Render Blueprint — Pi Ecosystem Intelligence API (read-only beta).
+#
+# NOTHING IS DEPLOYED by this file existing: it only takes effect if you create a Blueprint
+# on Render from this repository. Step-by-step guide: docs/deployment/README.md
+#
+# Not here on purpose:
+#   * no database (PostgreSQL is created separately, e.g. on Neon; DATABASE_URL is entered by hand);
+#   * no PORT (Render injects it, the API reads process.env.PORT);
+#   * no preDeployCommand (paid plans only) — migrations are applied with `npm run db:migrate`
+#     (see the guide); never db:seed / db:reset on this database;
+#   * no API_BASE_URL / FRONTEND_URL / Redis (the code does not use them).
+services:
+  - type: web
+    name: pi-ecosystem-intelligence-api
+    runtime: node
+    plan: free
+    # region: <choose the region closest to your PostgreSQL database — see the guide>
+    buildCommand: npm ci --include=dev && npm run db:generate
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    # Deploys are triggered manually from the dashboard (no surprise deploy on each push).
+    autoDeploy: false
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      # Entered by hand in the dashboard (never in this file): Neon DIRECT connection string.
+      - key: DATABASE_URL
+        sync: false
+      # Random 32+ char secret generated once by Render; never leaves the server.
+      - key: JWT_SECRET
+        generateValue: true
+      # Entered by hand: the exact https origin of the frontend, e.g. https://<your-frontend-domain>
+      # (no path, no trailing slash, no "*"). The API refuses to start without a valid value.
+      - key: CORS_ORIGINS
+        sync: false

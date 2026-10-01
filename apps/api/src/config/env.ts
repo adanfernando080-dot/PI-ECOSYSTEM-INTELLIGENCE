@@ -48,6 +48,10 @@ const EnvSchema = z
 })
   .superRefine((env, ctx) => {
     if (env.NODE_ENV !== 'production') return;
+    // The .env.example placeholder is long enough to pass the length check: never accept it in production.
+    if (/change[-_ ]?me/i.test(env.JWT_SECRET)) {
+      ctx.addIssue({ code: 'custom', path: ['JWT_SECRET'], message: 'JWT_SECRET still contains the example placeholder; generate a real secret' });
+    }
     const origins = splitOrigins(env.CORS_ORIGINS ?? '');
     if (origins.length === 0) {
       ctx.addIssue({ code: 'custom', path: ['CORS_ORIGINS'], message: 'CORS_ORIGINS is required in production (comma-separated https frontend origins)' });
