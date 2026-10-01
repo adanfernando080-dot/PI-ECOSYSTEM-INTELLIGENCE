@@ -53,6 +53,13 @@ describe('OpenAPI document', () => {
     expect(JSON.stringify(doc)).not.toContain('"422"');
   });
 
+  it('documents the /health alias and the /api prefix rule', () => {
+    const health = doc.paths['/api/health']!.get as { description?: string };
+    expect(health.description).toContain('GET /health');
+    expect(doc.info.description).toContain('prefixed by /api');
+    expect(doc.paths['/health']).toBeUndefined(); // alias documented, not duplicated as a second operation
+  });
+
   it('contains no merit vocabulary', () => {
     expect(JSON.stringify(doc)).not.toMatch(/best_app|winner/);
   });

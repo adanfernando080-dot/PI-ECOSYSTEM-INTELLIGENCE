@@ -23,7 +23,7 @@ npm run db:generate
 | `NODE_ENV` | non | `development` | `development` / `test` / `production` |
 | `PORT` | non | `3000` | |
 | `LOG_LEVEL` | non | `info` | niveau pino |
-| `CORS_ORIGINS` | non | `http://localhost:5173` | origines autorisées (frontend Lovable), séparées par des virgules |
+| `CORS_ORIGINS` | **oui en production** | dev/test : `http://localhost:5173` ; production : aucun | origines autorisées (frontend Lovable), séparées par des virgules. En production : obligatoire, `https` uniquement, pas de `*`, pas de localhost, origine « nue » (sans chemin ni `/` final) ; sinon l'API refuse de démarrer |
 | `REDIS_URL` | non | — | store du rate limiting (sinon mémoire) |
 | `RATE_LIMIT_WINDOW_MS` / `RATE_LIMIT_MAX` / `RATE_LIMIT_WRITE_MAX` | non | 60000 / 120 / 20 | |
 | `PI_API_KEY`, `PI_API_BASE_URL` | non | — | réservés à l'intégration Pi (inutilisés en V1, jamais exposés) |

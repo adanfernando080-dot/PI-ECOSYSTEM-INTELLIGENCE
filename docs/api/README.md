@@ -1,6 +1,6 @@
 # API REST — V1
 
-Base : `/api` · Format : JSON · Spec : **OpenAPI 3.1** sur `GET /api/openapi.json` (copie statique : [`openapi.json`](openapi.json)) · UI : `GET /api/docs`.
+Base : `/api` — **tous les endpoints métier sont préfixés par `/api`** (seule exception : l'alias `GET /health`) · Format : JSON · Spec : **OpenAPI 3.1** sur `GET /api/openapi.json` (copie statique : [`openapi.json`](openapi.json)) · UI : `GET /api/docs`.
 
 > **Connexion du frontend Lovable** : voir [`FRONTEND_CONTRACT.md`](FRONTEND_CONTRACT.md) (variables `VITE_API_BASE_URL` / `CORS_ORIGINS`, erreurs, provenance) et la référence générée [`ENDPOINTS.md`](ENDPOINTS.md).
 
@@ -35,7 +35,7 @@ Erreur :
 
 | Méthode | Chemin | Paramètres |
 |---|---|---|
-| GET | `/api/health` | — |
+| GET | `/api/health` | — (endpoint principal ; alias `GET /health` pour les hébergeurs, même réponse `{ status, database }`, sans donnée sensible) |
 | GET | `/api/meta/methodology` | — (poids et formules) |
 | GET | `/api/categories` | — |
 | GET | `/api/apps` | `category`, `status` (ACTIVE/INACTIVE ; PENDING/REJECTED = ADMIN), `sort` (name, newest, activity, growth, economic, community, transparency, confidence), `order`, `period` (24h/7d/**30d**/90d), `q`, `page`, `limit` (≤ 100) |
@@ -85,7 +85,8 @@ curl -X POST http://localhost:3000/api/apps/pijobs/reviews \
 ## Sécurité
 
 - Validation serveur de tous les params, query et bodies (zod) ; query parser « simple » (pas d'objets imbriqués) ; body JSON ≤ 100 kB.
-- `helmet` (en-têtes de sécurité), CORS en liste blanche (`CORS_ORIGINS`), `x-powered-by` désactivé.
+- `helmet` (en-têtes de sécurité), CORS en liste blanche (`CORS_ORIGINS`, obligatoire et strictement validé en production : https, sans `*`, sans localhost), `x-powered-by` désactivé.
+- Timeouts Node : `keepAliveTimeout` 65 s, `headersTimeout` 66 s (supérieurs au délai d'inactivité d'un répartiteur de charge standard).
 - Rate limiting global (`RATE_LIMIT_MAX`/fenêtre) et plus strict sur les écritures (`RATE_LIMIT_WRITE_MAX`) ; Redis si `REDIS_URL` est défini (obligatoire en multi-instance).
 - RBAC + contrôle de propriété dans les services ; rôle relu en base à chaque requête.
 - Logs JSON (pino) avec masquage de `authorization`, cookies, `token`, `secret`, `apiKey`.

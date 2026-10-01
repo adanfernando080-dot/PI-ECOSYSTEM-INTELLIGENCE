@@ -4,6 +4,8 @@
 
 `*` = champ obligatoire. Enveloppe succès `{ data, meta }`, erreur `{ error: { code, message, details? } }`. Rôle : « public » = aucun jeton requis ; un jeton valide est facultatif et n'élargit que certaines vues.
 
+> Tous les endpoints métier sont préfixés par `/api`. `GET /health` est un alias de `GET /api/health` (même réponse).
+
 ## `GET /api/health`
 
 Health check.  

@@ -1,6 +1,7 @@
 import { disconnectPrisma, getPrisma, loadDotEnv } from '@pi/database';
 import { createApp } from './app';
 import { loadEnv } from './config/env';
+import { configureServerTimeouts } from './http/server-timeouts';
 import { createLogger } from './lib/logger';
 import { createPrismaRepositories } from './repositories/prisma';
 
@@ -19,9 +20,11 @@ const { app, close } = createApp({
   },
 });
 
-const server = app.listen(env.PORT, () => {
-  logger.info({ port: env.PORT, env: env.NODE_ENV }, 'Pi Ecosystem Intelligence API listening');
-});
+const server = configureServerTimeouts(
+  app.listen(env.PORT, () => {
+    logger.info({ port: env.PORT, env: env.NODE_ENV }, 'Pi Ecosystem Intelligence API listening');
+  }),
+);
 
 async function shutdown(signal: string) {
   logger.info({ signal }, 'Shutting down');

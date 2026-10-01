@@ -82,8 +82,10 @@ export function createApp(deps: AppDependencies): { app: Express; close: () => P
   app.use('/api', limiters.global, limiters.writes);
   app.use('/api', authenticate(repos.users, env.JWT_SECRET, env.JWT_ISSUER));
 
+  // Main endpoint: /api/health. `/health` is a host-friendly alias (same handler); it sits
+  // outside /api so platform probes bypass rate limiting and authentication.
   app.get(
-    '/api/health',
+    ['/api/health', '/health'],
     route({}, async () => {
       const database = deps.healthCheck ? await deps.healthCheck().catch(() => false) : null;
       return { data: { status: database === false ? 'degraded' : 'ok', database }, meta: {} };

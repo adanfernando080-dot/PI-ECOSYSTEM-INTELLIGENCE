@@ -167,7 +167,11 @@ export function buildOpenApiDocument(options: { serverUrl?: string } = {}) {
   const UuidIdParams = z.object({ id: UuidSchema });
 
   // --- public -------------------------------------------------------------
-  add('get', '/api/health', { summary: 'Health check', tags: ['System'] });
+  add('get', '/api/health', {
+    summary: 'Health check',
+    description: 'Also served as GET /health (alias for hosting platforms). Exposes only status and database reachability.',
+    tags: ['System'],
+  });
   add('get', '/api/meta/methodology', { summary: 'Scoring methodology (weights, formulas, versions)', tags: ['System'] });
   add('get', '/api/categories', { summary: 'List categories', tags: ['Apps'], response: z.array(CategorySchema) });
   add('get', '/api/apps', {
@@ -308,7 +312,7 @@ export function buildOpenApiDocument(options: { serverUrl?: string } = {}) {
       version: '1.0.0',
       description:
         'Discover. Analyze. Compare. — Independent analytical indicators about the Pi ecosystem. ' +
-        'All responses use { data, meta } or { error: { code, message } }. Scores are analytical indicators, ' +
+        'Every business endpoint is prefixed by /api (the only exception is the GET /health alias). All responses use { data, meta } or { error: { code, message } }. Scores are analytical indicators, ' +
         'not verdicts; missing data is null, never 0; responses containing fictional data set meta.containsDemoData.',
     },
     servers: [{ url: options.serverUrl ?? '/' }],

@@ -74,6 +74,32 @@ describe('public endpoints', () => {
   });
 });
 
+describe('health check', () => {
+  it('serves the same minimal payload on /api/health and the /health alias', async () => {
+    const a = await request(app).get('/api/health');
+    const b = await request(app).get('/health');
+    expect(a.status).toBe(200);
+    expect(b.status).toBe(200);
+    expect(b.body).toEqual(a.body);
+    expect(Object.keys(a.body.data).sort()).toEqual(['database', 'status']); // nothing sensitive
+  });
+
+  it('reports degraded (not an error) when the database does not answer, on both paths', async () => {
+    const failing = createApp({ env, repos, logger: pino({ level: 'silent' }), healthCheck: async () => { throw new Error('secret connection string'); } });
+    for (const path of ['/api/health', '/health']) {
+      const res = await request(failing.app).get(path);
+      expect(res.body.data).toEqual({ status: 'degraded', database: false });
+      expect(JSON.stringify(res.body)).not.toContain('secret');
+    }
+    await failing.close();
+  });
+
+  it('keeps business endpoints under /api only (no unprefixed route)', async () => {
+    expect((await request(app).get('/apps')).status).toBe(404);
+    expect((await request(app).get('/api/apps?limit=1')).status).toBe(200);
+  });
+});
+
 describe('CORS (Lovable frontend contract)', () => {
   const origin = env.CORS_ORIGINS[0]!;
 

@@ -3,7 +3,7 @@
   "info": {
     "title": "Pi Ecosystem Intelligence API",
     "version": "1.0.0",
-    "description": "Discover. Analyze. Compare. — Independent analytical indicators about the Pi ecosystem. All responses use { data, meta } or { error: { code, message } }. Scores are analytical indicators, not verdicts; missing data is null, never 0; responses containing fictional data set meta.containsDemoData."
+    "description": "Discover. Analyze. Compare. — Independent analytical indicators about the Pi ecosystem. Every business endpoint is prefixed by /api (the only exception is the GET /health alias). All responses use { data, meta } or { error: { code, message } }. Scores are analytical indicators, not verdicts; missing data is null, never 0; responses containing fictional data set meta.containsDemoData."
   },
   "servers": [
     {
@@ -40,6 +40,7 @@
     "/api/health": {
       "get": {
         "summary": "Health check",
+        "description": "Also served as GET /health (alias for hosting platforms). Exposes only status and database reachability.",
         "tags": [
           "System"
         ],

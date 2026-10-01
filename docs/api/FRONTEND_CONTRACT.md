@@ -8,6 +8,8 @@ Sources de vérité (toutes générées depuis les schémas zod du backend) :
 - [`ENDPOINTS.md`](ENDPOINTS.md) — référence de chaque endpoint : méthode, chemin, paramètres, query, body, statuts, rôle
 - [`README.md`](README.md) — conventions et exemples `curl`
 
+> **Préfixe `/api`** : tous les endpoints métier sont sous `/api` (`/api/apps`, `/api/rankings/:type`…). Seul `GET /health` existe sans préfixe, comme alias du health check `GET /api/health`. `VITE_API_BASE_URL` inclut déjà `/api`.
+
 ## 1. Configuration
 
 ### Variable d'environnement du frontend
@@ -26,6 +28,7 @@ Liste blanche d'origines séparées par des virgules (schéma + hôte [+ port], 
 CORS_ORIGINS=http://localhost:5173,<LOVABLE_PREVIEW_OR_PUBLISHED_ORIGIN>
 ```
 
+- **Production** : `CORS_ORIGINS` est **obligatoire** ; l'API refuse de démarrer s'il est absent, s'il contient `*`, une origine non `https`, `localhost`/`127.0.0.1`, ou une origine avec chemin / `/` final. En développement/test, la valeur par défaut reste `http://localhost:5173`.
 - `<LOVABLE_PREVIEW_OR_PUBLISHED_ORIGIN>` est un **placeholder** : l'URL finale du frontend n'est pas connue. Elle doit être ajoutée (aperçu et/ou publiée) avant le premier appel depuis Lovable ; jamais de `*`.
 - Comportement vérifié (tests `http.test.ts` + essai réel) : origine autorisée → `Access-Control-Allow-Origin` = cette origine ; origine inconnue → aucun en-tête CORS (le navigateur bloque) ; preflight `OPTIONS` → 204.
 - Méthodes : `GET, POST, PATCH, DELETE`. En-têtes de requête autorisés : `Content-Type`, `Authorization`. En-têtes de réponse lisibles par le navigateur : `RateLimit`, `RateLimit-Policy`, `Retry-After`.
