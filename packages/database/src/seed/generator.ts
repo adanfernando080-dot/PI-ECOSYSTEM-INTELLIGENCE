@@ -17,6 +17,7 @@ import {
   type ReviewStatus,
   type Role,
 } from '@pi/shared';
+import { TAXONOMY_CATEGORIES } from '../real-data/taxonomy';
 
 export const DEMO_HISTORY_DAYS = 180;
 
@@ -155,20 +156,7 @@ interface AppProfile {
   staking?: number;
 }
 
-const CATEGORIES: Omit<DemoCategory, 'id'>[] = [
-  { name: 'Marketplace', slug: 'marketplace', description: 'Buy and sell goods between Pioneers.' },
-  { name: 'Jobs', slug: 'jobs', description: 'Find work or hire Pioneers.' },
-  { name: 'Education', slug: 'education', description: 'Courses and learning resources.' },
-  { name: 'Games', slug: 'games', description: 'Games and entertainment.' },
-  { name: 'Services', slug: 'services', description: 'Professional and personal services.' },
-  { name: 'AI', slug: 'ai', description: 'AI-powered tools.' },
-  { name: 'Travel', slug: 'travel', description: 'Travel booking and experiences.' },
-  { name: 'Shopping', slug: 'shopping', description: 'Online stores.' },
-  { name: 'Tools', slug: 'tools', description: 'Utilities for Pioneers.' },
-  { name: 'Social', slug: 'social', description: 'Social networks and communities.' },
-  { name: 'Payments', slug: 'payments', description: 'Payment utilities.' },
-  { name: 'Creator', slug: 'creator', description: 'Tools for content creators.' },
-];
+const CATEGORIES: Omit<DemoCategory, 'id'>[] = TAXONOMY_CATEGORIES.map((c) => ({ ...c }));
 
 const DEMO_DESC = (what: string) => `[DEMO] Fictional application used for development: ${what}`;
 

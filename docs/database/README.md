@@ -49,6 +49,8 @@ npm run db:migrate       # prisma migrate deploy
 npm run db:migrate:dev   # nouvelle migration en développement (conserver triggers / CHECK !)
 npm run db:seed          # jeu DEMO + 90 jours d'historique calculé par le vrai moteur
 npm run db:reset         # reset complet + seed (développement uniquement ; le garde du seed s'exécute AVANT l'effacement)
+npm run db:bootstrap     # catégories + premier administrateur (simulation par défaut ; --apply pour écrire) — voir docs/real-data
+npm run catalogue:import -- --file=<catalogue.json>   # import administrateur d'applications réelles (simulation par défaut)
 ```
 
 ## Évolutions prévues

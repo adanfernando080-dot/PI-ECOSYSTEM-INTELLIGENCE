@@ -27,6 +27,19 @@ enum Provenance {
   UNAVAILABLE
 }
 
+/// Where an application address came from. Never inferred: always recorded.
+enum AddressSource {
+  ADMIN_IMPORT
+  DEVELOPER_DECLARED
+}
+
+/// DECLARED = stated by the source above, not independently checked.
+/// VERIFIED = checked by a documented method (see app_addresses CHECK constraint).
+enum AddressVerificationStatus {
+  DECLARED
+  VERIFIED
+}
+
 enum DataSourceType {
   BLOCKCHAIN
   PI_API
@@ -206,11 +219,37 @@ model App {
   anomalies        Anomaly[]
   favorites        Favorite[]
   claims           AppClaim[]
+  addresses        AppAddress[]
 
   @@index([status])
   @@index([categoryId])
   @@index([developerId])
   @@map("apps")
+}
+
+/// Public blockchain addresses attached to an application (several per app).
+/// Every address keeps its provenance (source + sourceNote) and an explicit
+/// verification state; nothing is ever assumed to belong to an app.
+model AppAddress {
+  id                   String                    @id @default(uuid()) @db.Uuid
+  appId                String                    @db.Uuid
+  address              String
+  label                String?
+  source               AddressSource
+  /// Free-text origin of the address (e.g. where the administrator found it). Required.
+  sourceNote           String
+  verificationStatus   AddressVerificationStatus @default(DECLARED)
+  verificationMethod   String?
+  verificationEvidence String?
+  verifiedAt           DateTime?
+  createdAt            DateTime                  @default(now())
+  updatedAt            DateTime                  @updatedAt
+
+  app App @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  @@unique([appId, address])
+  @@index([address])
+  @@map("app_addresses")
 }
 
 model DataSource {
