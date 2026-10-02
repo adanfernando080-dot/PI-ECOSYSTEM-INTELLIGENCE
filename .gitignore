@@ -5,3 +5,7 @@ coverage/
 .env.*
 !.env.example
 *.log
+
+# Real catalogue working files: private, never commit (docs/real-data/CATALOGUE-GUIDE.md)
+catalogue.real*.json
+catalogue-private/

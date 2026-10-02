@@ -50,6 +50,8 @@ npm run catalogue:import -- --file=mon-catalogue.json --apply    # import
 
 Gabarit vide : [`catalogue.template.json`](catalogue.template.json) (importe 0 application). Ne mettez dans votre fichier que des informations réelles et documentées.
 
+**Constituer le catalogue réel :** [`CATALOGUE-GUIDE.md`](CATALOGUE-GUIDE.md) (collecte, sources, rédaction, vérification à deux personnes), [`FICHE-VERIFICATION.md`](FICHE-VERIFICATION.md) (une fiche par application) et [`catalogue.registre.template.csv`](catalogue.registre.template.csv) (registre de suivi).
+
 Structure (les valeurs entre `<…>` sont des **emplacements**, pas des données : elles sont refusées si elles sont recopiées telles quelles) :
 
 ```jsonc
