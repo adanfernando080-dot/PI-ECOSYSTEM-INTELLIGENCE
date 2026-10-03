@@ -18,12 +18,12 @@ Complète [`README.md`](README.md) (déploiement) et [`../real-data/README.md`](
 
 ## 1. Opérations INTERDITES sans approbation explicite
 
-Chaque point ci-dessous exige que vous écriviez, dans la conversation, une approbation nommant l'opération et la cible. Une approbation donnée pour une étape ne vaut pas pour une autre.
+Chaque point ci-dessous exige une approbation explicite, écrite dans la conversation, nommant l'opération et son objet précis (base, fichier ou application, selon le cas). Une approbation donnée pour une étape ne vaut pas pour une autre. Pour l'import du catalogue, l'approbation de publication et la confirmation d'import relèvent du Chef de projet (§ 8.4).
 
 1. Tout `db:seed`, `db:reset`, `prisma migrate reset`, ou `prisma migrate resolve` / `prisma db push` / `prisma migrate dev`, **quelle que soit la base**.
 2. Toute écriture dans Neon hors de ce runbook : `INSERT`, `UPDATE`, `DELETE`, `DROP`, `TRUNCATE`, `ALTER` saisis dans le SQL Editor (sauf le retour arrière documenté en §11, avec approbation).
 3. `db:bootstrap` avec `--admin-pi-username` ou `--confirm-admin` (création d'un administrateur) : **reporté après l'authentification Pi**.
-4. `catalogue:import --apply` sans simulation préalable, sans fiche de vérification signée selon `FICHE-VERIFICATION.md` (§8.2), sans approbation d'import distincte (§8.4) ou avec un fichier non relu.
+4. `catalogue:import --apply` sans simulation préalable, sans fiche de vérification signée selon `FICHE-VERIFICATION.md` (§8.2), sans confirmation d'import distincte (§8.4), avec un fichier non relu ou dont le SHA-256 diffère de celui approuvé.
 5. Tout import d'un catalogue fictif ou non sourcé ; toute valeur chiffrée (métriques, scores, transactions, staking) saisie à la main dans la base.
 6. Les workers (`worker:metrics`, `worker:rankings`, `worker:anomalies`, `worker:blockchain-sync`, `pipeline`) sur la base distante.
 7. `--allow-demo-data-present` sur une base distante, ou toute option de contournement d'un garde.
@@ -226,7 +226,7 @@ npm run db:bootstrap
 ```
 (sans `DB_ALLOW_REMOTE_WRITE`, le message « target » signale que l'écriture serait refusée : c'est le garde, voulu).
 
-Si, et seulement si, tout est conforme **et que vous avez approuvé l'écriture** :
+Si, et seulement si, tout est conforme **et que l'écriture a été approuvée explicitement (§ 1)** :
 ```bash
 DB_ALLOW_REMOTE_WRITE="$HOST" npm run db:bootstrap -- --apply
 ```
@@ -266,6 +266,8 @@ Ce runbook **ne définit pas** la procédure de vérification humaine et ne main
 
 ### 8.3 Validation technique (simulation, lecture seule)
 
+La simulation porte **exactement** sur le fichier correspondant au SHA-256 approuvé (guide § 2, étape 5) ; l'exécutant consigne le résultat et son identité ; avant la confirmation d'import, le Chef de projet vérifie qu'il s'agit d'une simulation réussie, du même fichier, du même SHA-256 et de l'opération autorisée (guide § 2 quinquies). Toute modification du fichier entraîne nouveau hash, nouvelle vérification, nouvelle simulation et nouvelle confirmation d'import.
+
 **[LOCAL → NEON]**
 ```bash
 npm run catalogue:import -- --file=./catalogue.real.json
@@ -277,9 +279,9 @@ npm run catalogue:import -- --file=./catalogue.real.json
 
 Si le fichier est invalide, la commande **s'arrête avant de contacter la base** et liste **toutes** les erreurs. Une erreur `demo row(s)` signifie que la base contient du démo : **stop**.
 
-### 8.4 Import (après approbation d'import explicite et fiche signée)
+### 8.4 Import (après confirmation d'import et fiche signée)
 
-> **L'approbation d'import n'est pas l'approbation de publication.** L'approbation de publication (signature du chef de projet sur la fiche, guide § 2 étape 5) ne vaut pas autorisation d'import. L'autorisation d'import est une **confirmation écrite distincte et traçable** qui identifie au minimum l'opération autorisée, la cible concernée et l'empreinte SHA-256 de `catalogue.real.json` ; elle est associée à la fiche signée. Son support exact et sa portée : **À CONFIRMER PAR LE RESPONSABLE DU PROJET**. Cette exigence s'ajoute à la règle du § 1 (approbation nommant l'opération et la cible) et ne la remplace pas.
+> **La confirmation d'import n'est pas l'approbation de publication, et un GO n'est pas une confirmation d'import.** L'approbation de publication (signature du Chef de projet sur la fiche, guide § 2 étape 5) ne vaut pas confirmation d'import. La **confirmation d'import** est une autorisation écrite, distincte et traçable, du Chef de projet ; elle identifie au minimum l'opération (import réel), l'application concernée, le fichier, son SHA-256, le résultat de la simulation, la date et l'heure, l'identité du Chef de projet et la décision explicite **AUTORISÉ POUR IMPORT** ; elle est conservée avec la fiche de vérification (support : registre ou fichier Markdown traçable dans `catalogue-private/`). Sa portée est limitée à application + fichier + SHA-256 + opération : elle ne couvre jamais un autre fichier, une autre version, un autre hash, une autre application ni une autre opération d'import. Le Chef de projet peut la **retirer avant l'exécution** (hash différent, simulation différente, preuve devenue insuffisante, anomalie détectée, autre condition empêchant l'import). Aucun accord oral ou implicite ne vaut confirmation d'import. Cette exigence s'ajoute à la règle du § 1 et ne la remplace pas. Détail : [guide](../real-data/CATALOGUE-GUIDE.md) § 2 quinquies.
 
 ```bash
 DB_ALLOW_REMOTE_WRITE="$HOST" npm run catalogue:import -- --file=./catalogue.real.json --apply
@@ -369,6 +371,6 @@ curl -s -o /dev/null -w "%{http_code}\n" "https://<service>/api/apps?status=PEND
 | 5 | Render + Neon | Migration additive + contrôles | oui (schéma) | étape 4 |
 | 6 | Local | Poste, session, contrôle d'identité | non | étape 5 OK |
 | 7 | Local → Neon | Bootstrap : catégories uniquement | oui | étape 6 |
-| 8 | Local → Neon | Catalogue : fiche humaine, simulation, import | oui | fiche signée, approbation |
+| 8 | Local → Neon | Catalogue : fiche humaine, simulation, import | oui | fiche signée, confirmation d'import |
 | 9 | Local | Vérifications de l'API | non | étapes 5, 7, 8 |
 | 10 | Local | Clôture | non | — |

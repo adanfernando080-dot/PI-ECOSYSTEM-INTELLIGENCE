@@ -76,15 +76,17 @@ Contrôles du vérificateur sur les adresses :
 
 ## G. Décision
 
-☐ **GO — publier** (`status: "ACTIVE"`) : toutes les lignes D et E sont **OK** ou **N.A. justifiées**.
-☐ **À compléter** : motif `<…>` (l'application **n'entre pas** dans le fichier pour l'instant).
+☐ **GO — publier** (`status: "ACTIVE"`) : toutes les lignes D et E sont **OK** ou **N.A. justifiées**, et la vérification humaine est valide. **GO n'est pas une confirmation d'import** : l'import exige séparément la confirmation d'import ([guide](CATALOGUE-GUIDE.md) § 2 quinquies).
+☐ **À COMPLÉTER** : motif `<…>` (l'application **n'entre pas** dans le fichier pour l'instant).
 ☐ **NO-GO** : motif `<…>`.
+
+Vocabulaire des statuts : [guide](CATALOGUE-GUIDE.md) § 2 quater. Validité de la vérification : guide § 2 sexies.
 
 Motif / commentaire du vérificateur : `<…>`
 
 ## H. Signatures (trois rôles distincts)
 
-Rédaction, vérification et approbation finale sont trois fonctions distinctes ([guide](CATALOGUE-GUIDE.md) § 2). Les cumuls éventuels de rôles ne sont pas définis par ce document : **À CONFIRMER PAR LE RESPONSABLE DU PROJET**.
+Rédaction, vérification et approbation de publication sont trois fonctions distinctes ([guide](CATALOGUE-GUIDE.md) § 2). Seuls trois rôles opérationnels existent : Rédacteur, Vérificateur, Chef de projet. Cumuls (guide § 2 ter) : Rédacteur + Vérificateur uniquement dans le repli exceptionnel (H2) ; Rédacteur + Chef de projet et Vérificateur + Chef de projet autorisés ; les trois rôles cumulés par une seule personne ne peuvent pas satisfaire le repli, qui exige un Chef de projet distinct du Rédacteur/Vérificateur. Aucun cumul ne supprime les exigences de preuve, de traçabilité ou de relecture.
 
 ### H1. Procédure normale
 
@@ -92,22 +94,22 @@ Rédaction, vérification et approbation finale sont trois fonctions distinctes 
 |---|---|---|---|---|
 | Rédacteur | prépare la fiche et le dossier | | | |
 | Vérificateur (**distinct du rédacteur**) | vérification indépendante à partir des sources | | | |
-| Chef de projet | approbation finale de **publication** (acte 1) | | | |
+| Chef de projet | **approbation de publication** (acte 1) | | | |
 
-L'**approbation d'import** (acte 2) est une confirmation écrite **distincte** (guide § 2, étape 7) : elle n'est pas signée dans cette fiche.
+La **confirmation d'import** (acte 2) est une confirmation écrite **distincte** (guide § 2, étape 7 et § 2 quinquies) : elle n'est pas signée dans cette fiche, mais elle est conservée avec elle.
 
 ### H2. Procédure de repli — à remplir **uniquement** si le repli est utilisé (guide § 2 bis)
 
 | Élément | Valeur |
 |---|---|
-| Circonstance : aucun Vérificateur distinct disponible, de façon exceptionnelle et temporaire | |
-| Justification consignée (niveau exact : **À CONFIRMER PAR LE RESPONSABLE DU PROJET**) | |
-| Fin de la rédaction / première vérification concernée (date, heure) | |
-| Relecture à froid (date, heure) — au moins 24 h après (plancher ; événements exacts : **À CONFIRMER PAR LE RESPONSABLE DU PROJET**) | |
-| Personne exerçant le repli (nom) | |
-| Approbation de publication du chef de projet (nom, date, signature) | |
-| Approbations propres au repli, le cas échéant : **À CONFIRMER PAR LE RESPONSABLE DU PROJET** | |
-| Nombre de signatures en cas de repli : **À CONFIRMER PAR LE RESPONSABLE DU PROJET** | |
+| Raison du recours au repli (aucun Vérificateur distinct réellement disponible, de façon exceptionnelle et temporaire) | |
+| Date et heure de la première vérification par le Rédacteur (fin) | |
+| Date et heure de la relecture à froid (seconde lecture complète) — au moins 24 h après la fin de la première vérification | |
+| Identité de la personne exerçant le repli | |
+| Justification de la conformité des critères | |
+| Une seule application à la fois (ou décision explicite et documentée du Chef de projet : référence) | |
+| Approbation du Chef de projet (nom, date, signature) | |
+| Signatures (minimum 2, par deux personnes distinctes) : (1) Rédacteur/Vérificateur ; (2) Chef de projet, distinct du Rédacteur/Vérificateur | |
 
 ## I. Traçabilité du fichier importé
 
@@ -117,4 +119,7 @@ L'**approbation d'import** (acte 2) est une confirmation écrite **distincte** (
 | Empreinte `sha256sum` au moment de la vérification | `<64 caractères hexadécimaux>` |
 | Empreinte recalculée **juste avant l'import** | `<identique ? oui / non>` — si **non** : stop |
 | Résultat de la simulation | `<N to create, 0 error, 0 conflict>` |
+| Simulation faite sur le fichier de l'empreinte approuvée ; exécutant (identité) | `<oui / non — nom>` |
+| Résultat de la simulation vérifié par le Chef de projet avant la confirmation d'import (simulation réussie, même fichier, même SHA-256, opération autorisée) ; date | `<oui / non — date>` |
+| Confirmation d'import (acte 2) : référence du support traçable dans `catalogue-private/`, décision « AUTORISÉ POUR IMPORT » | `<référence>` |
 | Date et heure de l'import (UTC) | `<…>` |

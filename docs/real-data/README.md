@@ -50,7 +50,7 @@ npm run catalogue:import -- --file=mon-catalogue.json --apply    # import
 
 Gabarit vide : [`catalogue.template.json`](catalogue.template.json) (importe 0 application). Ne mettez dans votre fichier que des informations réelles et documentées.
 
-**Constituer le catalogue réel :** [`CATALOGUE-GUIDE.md`](CATALOGUE-GUIDE.md) (collecte, sources, rédaction, vérification à deux personnes), [`FICHE-VERIFICATION.md`](FICHE-VERIFICATION.md) (une fiche par application) et [`catalogue.registre.template.csv`](catalogue.registre.template.csv) (registre de suivi).
+**Constituer le catalogue réel :** [`CATALOGUE-GUIDE.md`](CATALOGUE-GUIDE.md) (collecte, sources, rédaction, vérification par un Vérificateur distinct du Rédacteur, repli exceptionnel encadré, approbation de publication et confirmation d'import), [`FICHE-VERIFICATION.md`](FICHE-VERIFICATION.md) (une fiche par application) et [`catalogue.registre.template.csv`](catalogue.registre.template.csv) (registre de suivi).
 
 Structure (les valeurs entre `<…>` sont des **emplacements**, pas des données : elles sont refusées si elles sont recopiées telles quelles) :
 
@@ -98,7 +98,7 @@ Migration Prisma **additive** `20261002000000_app_addresses` : deux types et une
 
 Une adresse n'est jamais présentée comme appartenant à une application « vérifiée » sans preuve ; une adresse déclarée n'est pas une donnée observée.
 
-## Mise en service (à ne faire qu'après approbation)
+## Mise en service (à ne faire qu'après approbation ; l'import du catalogue exige en outre une confirmation d'import écrite, distincte et traçable, limitée à application + fichier + SHA-256 + opération : guide § 2 quinquies)
 
 1. Fusionner la branche dans `main`, puis un déploiement Render **manuel** : la build command applique la migration (additive) via `npm run db:migrate`.
 2. Depuis un terminal local (URL saisie sans écho, jamais affichée) :
