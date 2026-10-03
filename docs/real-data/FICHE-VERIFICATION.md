@@ -12,7 +12,7 @@
 | Nom public exact | `<nom>` |
 | Catégorie (`categorySlug`) | `<un des 12 slugs>` |
 | Rédacteur | `<nom>` — date de rédaction `<AAAA-MM-JJ>` |
-| Vérificateur (≠ rédacteur) | `<nom>` — date de vérification `<AAAA-MM-JJ>` |
+| Vérificateur (distinct du rédacteur ; en cas de repli : voir § H2) | `<nom>` — date de vérification `<AAAA-MM-JJ>` |
 
 ## B. Sources consultées (au moins une **officielle**)
 
@@ -84,11 +84,30 @@ Motif / commentaire du vérificateur : `<…>`
 
 ## H. Signatures (trois rôles distincts)
 
-| Rôle | Nom | Date | Signature / initiales |
-|---|---|---|---|
-| Rédacteur | | | |
-| Vérificateur (≠ rédacteur) | | | |
-| Chef de projet (approbation de publication) | | | |
+Rédaction, vérification et approbation finale sont trois fonctions distinctes ([guide](CATALOGUE-GUIDE.md) § 2). Les cumuls éventuels de rôles ne sont pas définis par ce document : **À CONFIRMER PAR LE RESPONSABLE DU PROJET**.
+
+### H1. Procédure normale
+
+| Rôle | Fonction | Nom | Date | Signature / initiales |
+|---|---|---|---|---|
+| Rédacteur | prépare la fiche et le dossier | | | |
+| Vérificateur (**distinct du rédacteur**) | vérification indépendante à partir des sources | | | |
+| Chef de projet | approbation finale de **publication** (acte 1) | | | |
+
+L'**approbation d'import** (acte 2) est une confirmation écrite **distincte** (guide § 2, étape 7) : elle n'est pas signée dans cette fiche.
+
+### H2. Procédure de repli — à remplir **uniquement** si le repli est utilisé (guide § 2 bis)
+
+| Élément | Valeur |
+|---|---|
+| Circonstance : aucun Vérificateur distinct disponible, de façon exceptionnelle et temporaire | |
+| Justification consignée (niveau exact : **À CONFIRMER PAR LE RESPONSABLE DU PROJET**) | |
+| Fin de la rédaction / première vérification concernée (date, heure) | |
+| Relecture à froid (date, heure) — au moins 24 h après (plancher ; événements exacts : **À CONFIRMER PAR LE RESPONSABLE DU PROJET**) | |
+| Personne exerçant le repli (nom) | |
+| Approbation de publication du chef de projet (nom, date, signature) | |
+| Approbations propres au repli, le cas échéant : **À CONFIRMER PAR LE RESPONSABLE DU PROJET** | |
+| Nombre de signatures en cas de repli : **À CONFIRMER PAR LE RESPONSABLE DU PROJET** | |
 
 ## I. Traçabilité du fichier importé
 

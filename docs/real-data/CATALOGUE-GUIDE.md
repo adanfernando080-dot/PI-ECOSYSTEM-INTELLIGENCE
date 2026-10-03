@@ -9,7 +9,7 @@ Ce guide dit **comment constituer** le fichier `catalogue.real.json` importé pa
 1. **Réel et sourcé, ou absent.** Une information qu'on ne peut pas sourcer n'entre pas dans le fichier. On ne comble jamais un champ « pour faire joli ».
 2. **Aucun chiffre.** Pas de nombre d'utilisateurs, de transactions, de revenus, de notes, de classement, de staking : ils sont calculés plus tard par les moteurs à partir de données réelles. L'outil refuse ces champs.
 3. **Déclaré n'est pas vérifié.** Une adresse est *déclarée* tant qu'une vérification documentée n'existe pas (méthode, preuve, date).
-4. **Deux personnes.** Le rédacteur du fichier et le vérificateur sont **deux personnes différentes** (à défaut, délai d'au moins 24 h et relecture à froid, à consigner).
+4. **Deux personnes.** Dans le processus normal, le rédacteur du fichier et le vérificateur sont **deux personnes différentes** : le Vérificateur est **distinct du Rédacteur**. **Repli exceptionnel :** lorsqu'aucun Vérificateur distinct du Rédacteur n'est disponible de façon exceptionnelle et temporaire, la procédure de repli documentée (§ 2 bis) peut être utilisée, sous réserve du respect de ses conditions et de sa traçabilité. Le repli n'est pas le mode normal de fonctionnement et ne supprime pas, de façon générale, l'exigence d'indépendance de la vérification.
 5. **Neutralité.** Le catalogue décrit ; il ne juge pas, ne classe pas, ne recommande pas, n'accuse pas.
 6. **Pas d'accès privé.** On n'utilise que des informations **publiques**. Jamais d'analytics privées, de données personnelles, ni d'accès obtenu sans autorisation.
 7. **Ce n'est pas une validation officielle.** Aucune mention suggérant un agrément, un soutien ou une validation par la Pi Core Team ou par Pi Network.
@@ -17,22 +17,37 @@ Ce guide dit **comment constituer** le fichier `catalogue.real.json` importé pa
 ## 2. Processus (une application à la fois)
 
 ```
-1 Collecter ─► 2 Remplir la fiche ─► 3 Relecture à froid ─► 4 Vérification par une 2e personne
+1 Préparer ─► 2 Vérifier ─► 3 Relecture à froid (si requise) ─► 4 Décision de vérification
                                                                         │
- 7 Import (après approbation) ◄─ 6 Simulation ◄─ 5 Signatures + empreinte du fichier ◄─┘
+ 8 Import (après autorisation explicite) ◄─ 7 Approbation d'import ◄─ 6 Simulation ◄─ 5 Approbation de publication + empreinte ◄─┘
 ```
 
 | # | Étape | Qui | Sortie |
 |---|---|---|---|
-| 1 | Rassembler les sources publiques (§3) | rédacteur | liens datés, copies d'écran/archives |
-| 2 | Remplir la [fiche](FICHE-VERIFICATION.md) : sections A à C et E | rédacteur | fiche brouillon |
-| 3 | Relire à froid (le lendemain) ; corriger | rédacteur | fiche stabilisée |
-| 4 | Contrôler **indépendamment** chaque champ à partir des sources (sections D, F) | vérificateur | décision GO / NO-GO motivée |
-| 5 | Signer (rédacteur, vérificateur, chef de projet) ; calculer l'**empreinte** du fichier JSON | les trois | fiche signée, empreinte notée |
+| 1 | **Préparer** : rassembler les sources publiques (§3) ; remplir la [fiche](FICHE-VERIFICATION.md) : sections A à C et E ; relire à froid (le lendemain) et corriger | rédacteur | liens datés, copies d'écran/archives, fiche stabilisée |
+| 2 | **Vérifier** : contrôler **indépendamment** chaque champ à partir des sources (sections D, F) | vérificateur, **distinct du rédacteur** (processus normal) ; en cas de repli : § 2 bis | contrôles renseignés |
+| 3 | **Relecture à froid lorsque requise** : uniquement en cas de repli (§ 2 bis) | personne exerçant le repli | relecture consignée |
+| 4 | **Décision de vérification** motivée GO / NO-GO (la fiche § G prévoit aussi « À compléter ») ; signatures du rédacteur et du vérificateur (fiche § H) | vérificateur ; rédacteur (signature) | décision motivée, fiche signée par ces deux rôles |
+| 5 | **Approbation de publication** (acte 1) : le chef de projet approuve la publication (signature, fiche § H) ; calculer l'**empreinte** du fichier JSON | chef de projet (approbation) | fiche signée par les trois rôles, empreinte notée |
 | 6 | Simulation `npm run catalogue:import -- --file=…` (lecture seule) | rédacteur | rapport « N to create, 0 error, 0 conflict » |
-| 7 | Import `--apply` **seulement** sur approbation explicite et si l'empreinte est identique | chef de projet | applications créées |
+| 7 | **Approbation d'import** (acte 2) : confirmation écrite **distincte** de l'approbation de publication, traçable, identifiant au minimum l'opération autorisée, la cible et l'empreinte du fichier ; associée à la fiche signée. Support exact et portée : **À CONFIRMER PAR LE RESPONSABLE DU PROJET** | chef de projet | confirmation écrite d'import |
+| 8 | Import `--apply` **uniquement** après l'autorisation explicite de l'étape 7 et si l'empreinte est identique | exécution technique (runbook § 8.4) | applications créées |
+
+L'approbation de publication (étape 5) **ne vaut pas** autorisation d'import (étape 7).
 
 Les applications **NO-GO ou non encore vérifiées ne figurent pas dans le fichier** : elles restent dans le registre (`A_VERIFIER`, `REFUSEE`).
+
+### 2 bis. Repli exceptionnel (aucun Vérificateur distinct disponible)
+
+Lorsqu'aucun Vérificateur distinct du Rédacteur n'est disponible de façon exceptionnelle et temporaire, la procédure de repli documentée peut être utilisée, sous réserve du respect de ses conditions et de sa traçabilité. Le repli est une **exception encadrée** au processus normal, avec des garde-fous renforcés : il peut permettre de poursuivre vers un GO **uniquement** si toutes ses conditions sont satisfaites. Il ne supprime pas, de façon générale, l'exigence d'indépendance. Si aucun Vérificateur distinct n'est disponible et que les conditions du repli ne sont pas toutes satisfaites, le Rédacteur ne peut pas vérifier seul : la vérification n'est pas valide et le dossier ne peut pas progresser vers le GO.
+
+Conditions :
+- **Circonstance** : absence exceptionnelle **et temporaire** d'un Vérificateur distinct. Le repli ne doit pas devenir le mode normal d'une équipe qui ne dispose durablement que d'une personne ; une absence **durable** de Vérificateur est une question de gouvernance distincte, et non une utilisation répétée du repli.
+- **Délai minimal : au moins 24 h** (plancher : ≥ 24 h, pas nécessairement égal à 24 h). Principe approuvé : le délai sépare la fin de la rédaction / première vérification concernée par le repli et la relecture à froid exigée avant l'approbation finale. Les événements exacts de départ et d'arrivée ne sont pas définis sans ambiguïté : **À CONFIRMER PAR LE RESPONSABLE DU PROJET**.
+- **Relecture à froid** (étape 3), puis décision de vérification (étape 4).
+- **Traçabilité** : la mise en œuvre du repli est consignée (fiche § H2). Niveau exact de justification écrite : **À CONFIRMER PAR LE RESPONSABLE DU PROJET**.
+- **Approbations requises** : l'approbation de publication (étape 5) et l'approbation d'import (étape 7) restent distinctes et inchangées ; d'éventuelles approbations propres au repli : **À CONFIRMER PAR LE RESPONSABLE DU PROJET**.
+- Nombre de signatures en cas de repli : **À CONFIRMER PAR LE RESPONSABLE DU PROJET**.
 
 ## 3. Sources
 
@@ -121,7 +136,7 @@ Ces méthodes sont des **libellés** : la plateforme ne les exécute pas automat
 
 | `status` | Effet | Quand |
 |---|---|---|
-| `ACTIVE` | **visible publiquement** (liste, fiche) | seulement si la fiche est **GO**, signée par les **trois** rôles |
+| `ACTIVE` | **visible publiquement** (liste, fiche) | seulement si la fiche est **GO**, signée par les **trois** rôles (processus normal, ou repli aux conditions du § 2 bis) |
 | `PENDING` | invisible du public | application importée mais non publiée (**non recommandé** : sans authentification administrateur en production, la publier ensuite exige du SQL manuel sur approbation) |
 | `INACTIVE` | **reste visible** par son lien direct | ne **pas** l'utiliser pour « cacher » |
 
@@ -189,10 +204,12 @@ Avant l'import, recalculer : **si l'empreinte diffère, le fichier n'est plus ce
 
 ## 12. Checklist avant l'import
 
-- [ ] Chaque application du fichier a une fiche **signée** (rédacteur ≠ vérificateur + chef de projet), décision **GO**.
+- [ ] Chaque application du fichier a une fiche **signée** (rédacteur, vérificateur, chef de projet), décision **GO**. Processus normal : vérificateur **≠ rédacteur**. En cas de repli : conditions du § 2 bis satisfaites et consignées (fiche § H2).
+- [ ] L'**approbation de publication** du chef de projet est donnée (acte 1).
 - [ ] Chaque application a au moins **une source officielle** consignée.
 - [ ] Aucune description ne contient de chiffre, de superlatif, de donnée personnelle ni de mention d'agrément.
 - [ ] Chaque adresse a une `sourceNote` ; chaque adresse « vérifiée » a méthode, preuve et date réelles.
 - [ ] L'empreinte du fichier est identique à celle consignée.
 - [ ] La simulation répond `N to create`, **0 error**, **0 conflict**.
-- [ ] Le runbook ([`../deployment/RUNBOOK-real-data.md`](../deployment/RUNBOOK-real-data.md)) est à jour de ses étapes 1 à 7 et l'approbation d'import est donnée par écrit.
+- [ ] Le runbook ([`../deployment/RUNBOOK-real-data.md`](../deployment/RUNBOOK-real-data.md)) est à jour de ses étapes 1 à 7.
+- [ ] L'**approbation d'import** (acte 2) est donnée **par écrit**, distincte de l'approbation de publication, et identifie l'opération, la cible et l'empreinte du fichier.

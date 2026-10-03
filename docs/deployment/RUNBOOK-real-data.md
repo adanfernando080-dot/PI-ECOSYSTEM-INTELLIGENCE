@@ -23,7 +23,7 @@ Chaque point ci-dessous exige que vous écriviez, dans la conversation, une appr
 1. Tout `db:seed`, `db:reset`, `prisma migrate reset`, ou `prisma migrate resolve` / `prisma db push` / `prisma migrate dev`, **quelle que soit la base**.
 2. Toute écriture dans Neon hors de ce runbook : `INSERT`, `UPDATE`, `DELETE`, `DROP`, `TRUNCATE`, `ALTER` saisis dans le SQL Editor (sauf le retour arrière documenté en §11, avec approbation).
 3. `db:bootstrap` avec `--admin-pi-username` ou `--confirm-admin` (création d'un administrateur) : **reporté après l'authentification Pi**.
-4. `catalogue:import --apply` sans simulation préalable, sans fiche de vérification humaine signée (§8) ou avec un fichier non relu.
+4. `catalogue:import --apply` sans simulation préalable, sans fiche de vérification signée selon `FICHE-VERIFICATION.md` (§8.2), sans approbation d'import distincte (§8.4) ou avec un fichier non relu.
 5. Tout import d'un catalogue fictif ou non sourcé ; toute valeur chiffrée (métriques, scores, transactions, staking) saisie à la main dans la base.
 6. Les workers (`worker:metrics`, `worker:rankings`, `worker:anomalies`, `worker:blockchain-sync`, `pipeline`) sur la base distante.
 7. `--allow-demo-data-present` sur une base distante, ou toute option de contournement d'un garde.
@@ -247,6 +247,8 @@ SELECT count(*) FROM categories WHERE description IS NULL;          -- 0
 
 > Sans catalogue vérifié, **arrêtez-vous à l'étape 7** : les catégories seules sont une mise en service valide.
 
+> **Répartition des responsabilités.** Ce runbook décrit l'**exécution technique** et les opérations de mise en service qu'il couvre. Les règles de **vérification humaine** (rôles, Vérificateur distinct du Rédacteur, repli exceptionnel, relecture à froid, approbations) sont définies par [`../real-data/CATALOGUE-GUIDE.md`](../real-data/CATALOGUE-GUIDE.md) et la fiche de référence [`../real-data/FICHE-VERIFICATION.md`](../real-data/FICHE-VERIFICATION.md). Cette précision sépare des responsabilités ; elle ne crée pas de hiérarchie générale entre les documents.
+
 ### 8.1 Préparer le fichier (hors dépôt)
 
 1. Copier le gabarit vide : `cp docs/real-data/catalogue.template.json ./catalogue.real.json` (fichier **non versionné**, à garder hors de Git).
@@ -256,19 +258,11 @@ SELECT count(*) FROM categories WHERE description IS NULL;          -- 0
 
 ### 8.2 Vérification humaine (obligatoire, avant tout `--apply`)
 
-Pour **chaque** application, une personne autre que le rédacteur du fichier, si possible, remplit et signe :
+Ce runbook **ne définit pas** la procédure de vérification humaine et ne maintient pas de fiche propre : les règles figurent dans [`../real-data/CATALOGUE-GUIDE.md`](../real-data/CATALOGUE-GUIDE.md) (§ 1 règle 4, § 2, § 2 bis, § 12) et la **fiche unique de référence** est [`../real-data/FICHE-VERIFICATION.md`](../real-data/FICHE-VERIFICATION.md). Pour **chaque** application du fichier :
 
-| Contrôle | OK ? |
-|---|---|
-| Le nom, le slug et la catégorie correspondent à l'application réelle | |
-| L'URL (https) est celle officielle et fonctionne | |
-| La description est factuelle, neutre, non promotionnelle, non diffamatoire | |
-| Chaque adresse a une `sourceNote` vérifiable ; « vérifiée » seulement avec preuve réelle | |
-| Aucune donnée personnelle ni information privée sur un tiers | |
-| Aucune statistique, aucun score, aucun chiffre n'est présent | |
-| Vérificateur · date · sources consultées | |
-
-Conserver cette fiche hors dépôt. Une application dont un contrôle échoue **sort du fichier**.
+1. la fiche `FICHE-VERIFICATION.md` est remplie et signée selon le guide : dans le processus normal par un **Vérificateur distinct du rédacteur du fichier** ; le **repli** n'est utilisable que dans les conditions du guide (§ 2 bis : situation exceptionnelle et temporaire, délai d'au moins 24 h, relecture à froid, traçabilité, approbations requises) ;
+2. cette fiche est conservée **hors dépôt** ;
+3. une application dont un contrôle échoue **sort du fichier**.
 
 ### 8.3 Validation technique (simulation, lecture seule)
 
@@ -283,7 +277,9 @@ npm run catalogue:import -- --file=./catalogue.real.json
 
 Si le fichier est invalide, la commande **s'arrête avant de contacter la base** et liste **toutes** les erreurs. Une erreur `demo row(s)` signifie que la base contient du démo : **stop**.
 
-### 8.4 Import (après approbation explicite et fiche signée)
+### 8.4 Import (après approbation d'import explicite et fiche signée)
+
+> **L'approbation d'import n'est pas l'approbation de publication.** L'approbation de publication (signature du chef de projet sur la fiche, guide § 2 étape 5) ne vaut pas autorisation d'import. L'autorisation d'import est une **confirmation écrite distincte et traçable** qui identifie au minimum l'opération autorisée, la cible concernée et l'empreinte SHA-256 de `catalogue.real.json` ; elle est associée à la fiche signée. Son support exact et sa portée : **À CONFIRMER PAR LE RESPONSABLE DU PROJET**. Cette exigence s'ajoute à la règle du § 1 (approbation nommant l'opération et la cible) et ne la remplace pas.
 
 ```bash
 DB_ALLOW_REMOTE_WRITE="$HOST" npm run catalogue:import -- --file=./catalogue.real.json --apply
