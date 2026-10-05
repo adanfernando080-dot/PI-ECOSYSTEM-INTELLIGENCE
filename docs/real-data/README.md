@@ -98,7 +98,7 @@ Migration Prisma **additive** `20261002000000_app_addresses` : deux types et une
 
 Une adresse n'est jamais présentée comme appartenant à une application « vérifiée » sans preuve ; une adresse déclarée n'est pas une donnée observée.
 
-## Mise en service (à ne faire qu'après approbation ; l'import du catalogue exige en outre une confirmation d'import écrite, distincte et traçable, limitée à application + fichier + SHA-256 + opération : guide § 2 quinquies)
+## Mise en service (à ne faire qu'après approbation écrite et explicite du Chef de projet, pour chaque opération à effet réel, avec vérification du résultat : runbook § 1 ; l'import du catalogue exige en outre une confirmation d'import écrite, distincte et traçable, limitée à application + fichier + SHA-256 + opération : guide § 2 quinquies)
 
 1. Fusionner la branche dans `main`, puis un déploiement Render **manuel** : la build command applique la migration (additive) via `npm run db:migrate`.
 2. Depuis un terminal local (URL saisie sans écho, jamais affichée) :

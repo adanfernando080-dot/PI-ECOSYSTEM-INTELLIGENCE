@@ -17,14 +17,14 @@ Ce guide dit **comment constituer** le fichier `catalogue.real.json` importé pa
 ## 2. Processus (une application à la fois)
 
 ```
-1 Préparer ─► 2 Vérifier ─► 3 Relecture à froid (si repli) ─► 4 Décision de vérification (GO / NO-GO / À COMPLÉTER)
+1 Préparer (+ relecture de préparation, J+1) ─► 2 Vérifier ─► 3 Relecture à froid (si repli) ─► 4 Décision de vérification (GO / NO-GO / À COMPLÉTER)
                                                                         │
  8 Import (après confirmation d'import) ◄─ 7 Confirmation d'import ◄─ 6 Simulation + vérification du résultat ◄─ 5 Approbation de publication + SHA-256 ◄─┘
 ```
 
 | # | Étape | Qui | Sortie |
 |---|---|---|---|
-| 1 | **Préparer** : rassembler les sources publiques (§3) ; remplir la [fiche](FICHE-VERIFICATION.md) : sections A à C et E ; relire la fiche le lendemain et corriger (relecture de préparation par le Rédacteur, distincte de la « relecture à froid » du repli, § 2 bis) | rédacteur | liens datés, copies d'écran/archives, fiche stabilisée |
+| 1 | **Préparer** : rassembler les sources publiques (§3) ; remplir la [fiche](FICHE-VERIFICATION.md) : sections A à C et E ; effectuer la **relecture de préparation** (le jour calendaire suivant) et corriger. La relecture de préparation est propre au processus normal ; elle est distincte de la « relecture à froid » du repli (§ 2 bis) et le seuil de 24 h ne s'y applique pas | rédacteur | liens datés, copies d'écran/archives, fiche stabilisée |
 | 2 | **Vérifier** : contrôler **indépendamment** chaque champ à partir des sources (sections D, F) | vérificateur, **distinct du rédacteur** (processus normal) ; en cas de repli : § 2 bis | contrôles renseignés |
 | 3 | **Relecture à froid lorsque requise** : uniquement en cas de repli (§ 2 bis) | personne exerçant le repli | relecture consignée |
 | 4 | **Décision de vérification** motivée GO / NO-GO / À COMPLÉTER (fiche § G ; vocabulaire : § 2 quater) ; signatures du rédacteur et du vérificateur (fiche § H) | vérificateur ; rédacteur (signature) | décision motivée, fiche signée par ces deux rôles |
@@ -42,8 +42,9 @@ Les applications **NO-GO ou non encore vérifiées ne figurent pas dans le fichi
 Lorsqu'aucun Vérificateur distinct du Rédacteur n'est **réellement** disponible, de façon exceptionnelle et temporaire, la procédure de repli documentée peut être utilisée, sous réserve du respect de **toutes** ses conditions et de sa traçabilité. Le repli est une **exception encadrée** au processus normal, jamais le mode normal de fonctionnement, avec des garde-fous renforcés : il peut permettre de poursuivre vers un GO **uniquement** si toutes ses conditions sont satisfaites. Il ne supprime pas, de façon générale, l'exigence d'indépendance. Si aucun Vérificateur distinct n'est disponible et que les conditions du repli ne sont pas toutes satisfaites, le Rédacteur ne peut pas vérifier seul : la vérification n'est pas valide et le dossier ne peut pas progresser vers le GO.
 
 Conditions :
-- **Circonstance** : absence **réelle**, exceptionnelle **et temporaire** d'un Vérificateur distinct. Le repli ne peut pas devenir le fonctionnement structurel permanent d'une équipe à une seule personne ; une absence **durable** de Vérificateur est une question de gouvernance distincte, et non une utilisation répétée du repli.
-- **Délai minimal : au moins 24 h** entre la **fin de la première vérification par le Rédacteur** et la **relecture à froid**.
+- **Circonstance** : absence **réelle**, exceptionnelle **et temporaire** d'un Vérificateur distinct. Le repli ne peut pas devenir le fonctionnement structurel permanent d'une équipe à une seule personne.
+- **Absence durable : aucun GO sous repli.** Une absence du Vérificateur est **durable** si elle est annoncée pour **plus de 30 jours calendaires**, **ou** si elle n'a **pas de date de retour confirmée**. Lorsqu'elle est constatée durable, le repli ne peut pas être utilisé pour valider de nouveaux dossiers : les nouvelles validations attendent le retour d'un Vérificateur distinct, et aucune succession de replis ne peut contourner cette règle. Le repli reste possible pour une absence ponctuelle ou temporaire qui n'atteint pas cette définition.
+- **Délai minimal : au moins 24 h** entre la **fin de la première vérification par le Rédacteur** et la **relecture à froid**. Ce seuil de 24 h ne s'applique qu'à la relecture à froid du repli, pas à la relecture de préparation du processus normal.
 - **Relecture à froid** (étape 3) : **seconde lecture complète du dossier** effectuée après ce délai ; puis décision de vérification (étape 4).
 - **Traçabilité** : la mise en œuvre du repli consigne au minimum (fiche § H2) : la raison du recours au repli ; la date et l'heure de la première vérification ; la date et l'heure de la relecture à froid ; l'identité de la personne ; la justification de la conformité des critères ; l'approbation du Chef de projet.
 - **Une seule application à la fois** peut être traitée sous repli, sauf décision explicite et documentée du Chef de projet.
@@ -64,7 +65,7 @@ Les seuls rôles opérationnels sont : **Rédacteur**, **Vérificateur**, **Chef
 
 Aucun cumul ne supprime les exigences de preuve, de traçabilité ou de relecture.
 
-Le Chef de projet est responsable de l'approbation de publication **et** de la confirmation d'import ; il peut refuser l'une ou l'autre.
+Le Chef de projet est responsable de l'approbation de publication **et** de la confirmation d'import ; il peut refuser l'une ou l'autre. Il est aussi l'autorité d'approbation des opérations techniques à effet réel ([runbook](../deployment/RUNBOOK-real-data.md) § 1), sans création de rôle technique.
 
 **Désaccord Vérificateur / Chef de projet.** En cas de désaccord sur la conformité du dossier, le dossier ne peut pas être considéré GO tant que les points de désaccord n'ont pas été réexaminés et résolus. L'approbation du Chef de projet ne peut pas, à elle seule : transformer un NO-GO en GO ; remplacer une vérification humaine valide ; permettre l'import d'un dossier dont les critères obligatoires restent non satisfaits. Le Chef de projet conserve son autorité pour refuser la publication ou l'import. Une confirmation d'import peut être **retirée avant l'exécution** si une condition importante change : empreinte différente, simulation différente, preuve devenue insuffisante, anomalie détectée, ou toute autre condition empêchant l'import.
 
@@ -103,9 +104,10 @@ Une **nouvelle vérification est obligatoire** si : le fichier ou son hash chang
 
 - **Approbation de publication** : décision du Chef de projet autorisant la publication du catalogue.
 - **Confirmation d'import** : autorisation écrite, distincte et traçable, permettant l'import réel.
-- **Relecture à froid** : seconde lecture effectuée après le délai minimal de 24 h lorsqu'un repli est utilisé.
+- **Relecture de préparation** : relecture de la fiche par le Rédacteur, le jour calendaire suivant, dans le processus normal ; aucun seuil de 24 h.
+- **Relecture à froid** : seconde lecture effectuée après le délai minimal de 24 h lorsqu'un repli est utilisé ; seule la relecture à froid est soumise à ce seuil.
 - **Fiche de vérification** : uniquement [`FICHE-VERIFICATION.md`](FICHE-VERIFICATION.md).
-- **Chef de projet** : responsable de l'approbation de publication et de la confirmation d'import.
+- **Chef de projet** : responsable de l'approbation de publication et de la confirmation d'import ; autorité d'approbation des opérations techniques à effet réel (runbook § 1).
 - **Cible** : terme réservé aux cas où il est défini dans son contexte ; sinon, nommer l'application, le fichier ou l'opération.
 
 ## 3. Sources

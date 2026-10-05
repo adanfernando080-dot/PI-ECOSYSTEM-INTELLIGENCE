@@ -103,6 +103,7 @@ La **confirmation d'import** (acte 2) est une confirmation écrite **distincte**
 | Élément | Valeur |
 |---|---|
 | Raison du recours au repli (aucun Vérificateur distinct réellement disponible, de façon exceptionnelle et temporaire) | |
+| Absence du Vérificateur non durable : durée annoncée (30 jours calendaires au plus) et date de retour confirmée (guide § 2 bis) | |
 | Date et heure de la première vérification par le Rédacteur (fin) | |
 | Date et heure de la relecture à froid (seconde lecture complète) — au moins 24 h après la fin de la première vérification | |
 | Identité de la personne exerçant le repli | |

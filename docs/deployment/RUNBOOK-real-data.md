@@ -1,6 +1,6 @@
 # Runbook — mise en service contrôlée des données réelles (Neon + Render Free)
 
-> **Statut : procédure à n'exécuter qu'après approbation explicite.** Ce document ne déclenche rien par lui-même. Commit applicatif de référence : `c325734` (branche `main`). Produit en **TEST / BÊTA** : ni approuvé ni validé par la Pi Core Team.
+> **Statut : procédure à n'exécuter qu'après approbation écrite et explicite du Chef de projet (§ 1).** Ce document ne déclenche rien par lui-même. Commit applicatif de référence : `c325734` (branche `main`). Produit en **TEST / BÊTA** : ni approuvé ni validé par la Pi Core Team.
 
 Complète [`README.md`](README.md) (déploiement) et [`../real-data/README.md`](../real-data/README.md) (outils d'amorçage et d'import). En cas de contradiction, **ce runbook prime** pour la mise en service.
 
@@ -16,22 +16,24 @@ Complète [`README.md`](README.md) (déploiement) et [`../real-data/README.md`](
 | Mot de passe Neon | **Rotation avant toute écriture distante** (étape 2). |
 | Migration | Dans la build command Render (offre Free : pas de pré-déploiement), commande `npm run db:migrate`, **additive**. |
 
-## 1. Opérations INTERDITES sans approbation explicite
+## 1. Opérations INTERDITES sans approbation du Chef de projet
 
-Chaque point ci-dessous exige une approbation explicite, écrite dans la conversation, nommant l'opération et son objet précis (base, fichier ou application, selon le cas). Une approbation donnée pour une étape ne vaut pas pour une autre. Pour l'import du catalogue, l'approbation de publication et la confirmation d'import relèvent du Chef de projet (§ 8.4).
+Le **Chef de projet** est l'autorité d'approbation de toutes les opérations techniques à effet réel : notamment `seed`, `reset`, migration, écriture dans Neon ou dans une base de données, déploiement et modification de variables Render, création ou suppression de branche Neon, sauvegarde nécessitant une action réelle, modification ou suppression de service, et toute autre opération explicitement à effet réel. Cela vaut aussi pour les étapes à effet réel du présent runbook (étapes 2, 3, 4, 5 et 7, retours arrière du § 11 ; pour l'étape 8, voir § 8.4). Chaque point ci-dessous exige l'**approbation du Chef de projet**, **écrite**, **explicite** et **spécifique** à l'opération **et** à son objet précis (base, fichier ou application, selon le cas) ; une approbation donnée pour une étape ne vaut pas pour une autre.
+
+**Approbation → exécution → vérification du résultat.** Pour une opération à effet réel, l'exécutant consigne le résultat (journal § 3) ; le Chef de projet vérifie ce résultat avant que l'étape soit considérée comme validée. L'exécutant n'est pas automatiquement une personne distincte de l'approbateur, sauf règle documentaire explicite. Aucun rôle technique n'est créé. Pour l'import du catalogue, les règles du § 8.4 (approbation de publication et confirmation d'import, décisions D3 à D6) restent inchangées.
 
 1. Tout `db:seed`, `db:reset`, `prisma migrate reset`, ou `prisma migrate resolve` / `prisma db push` / `prisma migrate dev`, **quelle que soit la base**.
-2. Toute écriture dans Neon hors de ce runbook : `INSERT`, `UPDATE`, `DELETE`, `DROP`, `TRUNCATE`, `ALTER` saisis dans le SQL Editor (sauf le retour arrière documenté en §11, avec approbation).
+2. Toute écriture dans Neon hors de ce runbook : `INSERT`, `UPDATE`, `DELETE`, `DROP`, `TRUNCATE`, `ALTER` saisis dans le SQL Editor (sauf le retour arrière documenté en §11, avec l'approbation du Chef de projet). Même lorsqu'une écriture est prévue par une étape du runbook, elle reste soumise à l'approbation écrite, explicite et spécifique du Chef de projet.
 3. `db:bootstrap` avec `--admin-pi-username` ou `--confirm-admin` (création d'un administrateur) : **reporté après l'authentification Pi**.
 4. `catalogue:import --apply` sans simulation préalable, sans fiche de vérification signée selon `FICHE-VERIFICATION.md` (§8.2), sans confirmation d'import distincte (§8.4), avec un fichier non relu ou dont le SHA-256 diffère de celui approuvé.
 5. Tout import d'un catalogue fictif ou non sourcé ; toute valeur chiffrée (métriques, scores, transactions, staking) saisie à la main dans la base.
 6. Les workers (`worker:metrics`, `worker:rankings`, `worker:anomalies`, `worker:blockchain-sync`, `pipeline`) sur la base distante.
 7. `--allow-demo-data-present` sur une base distante, ou toute option de contournement d'un garde.
-8. Modifier `render.yaml`, une variable d'environnement Render, ou déclencher un déploiement en dehors de l'étape où le runbook le prévoit.
+8. Modifier `render.yaml`, une variable d'environnement Render, ou déclencher un déploiement en dehors de l'étape où le runbook le prévoit. Même lorsqu'elle est prévue par une étape du runbook, cette opération reste soumise à l'approbation écrite, explicite et spécifique du Chef de projet.
 9. Coller `DATABASE_URL`, un mot de passe ou un jeton dans le dépôt, un ticket, un fichier ou la conversation.
-10. Fusionner dans `main`, créer ou supprimer une branche Neon autre que celle de l'étape 3, supprimer un service Render, créer un abonnement payant ou saisir une carte bancaire.
+10. Fusionner dans `main`, créer ou supprimer une branche Neon autre que celle de l'étape 3, supprimer un service Render, créer un abonnement payant ou saisir une carte bancaire. Même la branche prévue à l'étape 3 reste soumise à l'approbation écrite, explicite et spécifique du Chef de projet.
 
-**Règle d'arrêt :** à la moindre différence entre le résultat attendu et le résultat obtenu, **ne continuez pas** : notez-le dans le journal (§3) et revenez me voir.
+**Règle d'arrêt :** à la moindre différence entre le résultat attendu et le résultat obtenu, **ne continuez pas** : notez-le dans le journal (§3) et signalez-le au Chef de projet avant toute suite.
 
 ## 2. Compatibilité Windows : Git Bash ou WSL (pas PowerShell, pas cmd)
 
@@ -62,7 +64,7 @@ Toutes les commandes sont du **bash** et n'utilisent que `git`, `node`, `npm`, `
 Tenez un journal (fichier hors dépôt, **sans aucun secret**). Gabarit :
 
 ```
-Date/heure (UTC) | Étape | Action | Résultat attendu | Résultat obtenu | OK ?
+Date/heure (UTC) | Étape | Action | Approbation du Chef de projet (référence) | Résultat attendu | Résultat obtenu (exécutant) | Résultat vérifié par le Chef de projet | OK ?
 ```
 
 ## Étape 1 — Identifier la base Neon sans ambiguïté (lecture seule)
@@ -118,7 +120,7 @@ La chaîne de connexion a été exposée dans une conversation : elle est à con
 1. La branche de sauvegarde apparaît dans la liste, avec son **heure de création** (la noter) et son **parent** = la branche principale.
 2. SQL Editor **sur la branche de sauvegarde** : rejouer les requêtes de l'étape 1 → mêmes résultats (une migration `init`, tout à 0, 14 tables).
 3. Noter l'**hôte de la branche de sauvegarde** (différent de celui de la branche principale) : il sert à la restauration (§11).
-4. Ne **rien modifier** dans cette branche : lecture seule. Ne pas la supprimer avant la fin de la mise en service et votre validation.
+4. Ne **rien modifier** dans cette branche : lecture seule. Ne pas la supprimer avant la fin de la mise en service et la vérification du résultat par le Chef de projet.
 
 **STOP si** la branche n'existe pas, n'est pas lisible, ou ses résultats diffèrent de ceux de l'étape 1.
 
@@ -226,7 +228,7 @@ npm run db:bootstrap
 ```
 (sans `DB_ALLOW_REMOTE_WRITE`, le message « target » signale que l'écriture serait refusée : c'est le garde, voulu).
 
-Si, et seulement si, tout est conforme **et que l'écriture a été approuvée explicitement (§ 1)** :
+Si, et seulement si, tout est conforme **et que l'écriture a été approuvée par le Chef de projet (§ 1)** :
 ```bash
 DB_ALLOW_REMOTE_WRITE="$HOST" npm run db:bootstrap -- --apply
 ```
@@ -283,6 +285,8 @@ Si le fichier est invalide, la commande **s'arrête avant de contacter la base**
 
 > **La confirmation d'import n'est pas l'approbation de publication, et un GO n'est pas une confirmation d'import.** L'approbation de publication (signature du Chef de projet sur la fiche, guide § 2 étape 5) ne vaut pas confirmation d'import. La **confirmation d'import** est une autorisation écrite, distincte et traçable, du Chef de projet ; elle identifie au minimum l'opération (import réel), l'application concernée, le fichier, son SHA-256, le résultat de la simulation, la date et l'heure, l'identité du Chef de projet et la décision explicite **AUTORISÉ POUR IMPORT** ; elle est conservée avec la fiche de vérification (support : registre ou fichier Markdown traçable dans `catalogue-private/`). Sa portée est limitée à application + fichier + SHA-256 + opération : elle ne couvre jamais un autre fichier, une autre version, un autre hash, une autre application ni une autre opération d'import. Le Chef de projet peut la **retirer avant l'exécution** (hash différent, simulation différente, preuve devenue insuffisante, anomalie détectée, autre condition empêchant l'import). Aucun accord oral ou implicite ne vaut confirmation d'import. Cette exigence s'ajoute à la règle du § 1 et ne la remplace pas. Détail : [guide](../real-data/CATALOGUE-GUIDE.md) § 2 quinquies.
 
+> **Relation avec le § 1 (U3) et D3–D6.** Les opérations techniques préalables à l'import (étapes 2 à 7, ainsi que tout retour arrière du § 11) exigent chacune l'approbation écrite, explicite et spécifique du Chef de projet (§ 1). Pour le catalogue, la publication et l'import restent gouvernés par D3 à D6. La confirmation d'import est un acte distinct de l'approbation de ces opérations techniques et ne remplace pas rétroactivement les approbations du § 1 requises pour les opérations techniques précédentes. Pour l'import lui-même, la confirmation d'import est l'approbation requise : aucune approbation supplémentaire du § 1 n'est exigée pour le même acte. Les autres règles du § 1 (consignation du résultat par l'exécutant, vérification par le Chef de projet) restent applicables.
+
 ```bash
 DB_ALLOW_REMOTE_WRITE="$HOST" npm run catalogue:import -- --file=./catalogue.real.json --apply
 npm run catalogue:import -- --file=./catalogue.real.json     # contrôle : « 0 to create, N unchanged »
@@ -329,7 +333,7 @@ curl -s -o /dev/null -w "%{http_code}\n" "https://<service>/api/apps?status=PEND
 
 ## Étape 10 — Clôture
 
-**[LOCAL]** `unset DATABASE_URL HOST DBNAME` et **fermer le terminal**. Remettre `.env` en place si vous l'aviez renommé. **[NEON]** conserver la branche de sauvegarde jusqu'à votre validation finale, puis décider de sa suppression (opération §1.10 : approbation requise). **[GITHUB]** aucune opération. Archiver le journal et les fiches de vérification hors dépôt.
+**[LOCAL]** `unset DATABASE_URL HOST DBNAME` et **fermer le terminal**. Remettre `.env` en place si vous l'aviez renommé. **[NEON]** conserver la branche de sauvegarde jusqu'à la vérification du résultat de la mise en service par le Chef de projet, puis décider de sa suppression (opération §1.10 : approbation du Chef de projet requise). **[GITHUB]** aucune opération. Archiver le journal et les fiches de vérification hors dépôt.
 
 ## 11. Retours arrière
 
@@ -350,13 +354,13 @@ curl -s -o /dev/null -w "%{http_code}\n" "https://<service>/api/apps?status=PEND
 | Situation | Action | Écrit ? |
 |---|---|---|
 | Migration échouée à mi-parcours, état douteux (`_prisma_migrations` sans `finished_at`) | **Ne pas** relancer ni « résoudre » à la main. Restaurer depuis la branche de sauvegarde : pointer `DATABASE_URL` (Render) sur l'**hôte de la branche de sauvegarde** (étape 3), ou utiliser la fonction de restauration de Neon (libellé à confirmer). L'hôte changeant, l'hôte de `DB_ALLOW_REMOTE_WRITE` change aussi. | Neon + Render |
-| Retirer la migration, **uniquement avant tout import**, après sauvegarde, avec approbation | `DROP TABLE app_addresses; DROP TYPE "AddressVerificationStatus"; DROP TYPE "AddressSource"; DELETE FROM _prisma_migrations WHERE migration_name = '20261002000000_app_addresses';` | Neon, **destructif** |
+| Retirer la migration, **uniquement avant tout import**, après sauvegarde, avec l'approbation du Chef de projet | `DROP TABLE app_addresses; DROP TYPE "AddressVerificationStatus"; DROP TYPE "AddressSource"; DELETE FROM _prisma_migrations WHERE migration_name = '20261002000000_app_addresses';` | Neon, **destructif** |
 | Masquer des applications importées (**à préférer** à la suppression) | `UPDATE apps SET status = 'PENDING' WHERE slug IN ('…');` — `PENDING` n'apparaît ni dans les listes ni par slug (404, vérifié dans le code) ; **pas `INACTIVE`**, qui reste visible par slug. Contrôler ensuite par `curl` sans jeton. | Neon |
 | Supprimer des applications importées | `DELETE FROM apps WHERE slug IN ('…') AND "developerId" IS NULL;` (supprime aussi leurs adresses par cascade ; aucune métrique n'existe à ce stade) | Neon, **destructif** |
 | Retirer les catégories créées | `DELETE FROM categories WHERE slug IN (…);` **uniquement** si aucune application ne les utilise | Neon, **destructif** |
 | Secret exposé de nouveau | Refaire l'étape 2 (nouveau mot de passe) puis mettre à jour Render | Neon + Render |
 
-**Aucun outil de retrait n'existe dans le dépôt** (l'import ne supprime ni ne modifie rien) : toute suppression est du **SQL manuel**, à ne lancer qu'avec approbation explicite, après avoir relu la requête et son `WHERE`.
+**Aucun outil de retrait n'existe dans le dépôt** (l'import ne supprime ni ne modifie rien) : toute suppression est du **SQL manuel**, à ne lancer qu'avec l'approbation du Chef de projet, après avoir relu la requête et son `WHERE`.
 
 **Distinction à retenir :** le rollback applicatif remet l'ancien **code** ; la restauration de base remet d'anciennes **données**. Une application retirée, un administrateur ou un catalogue importé ne se corrigent **jamais** par un rollback Render.
 
@@ -374,3 +378,5 @@ curl -s -o /dev/null -w "%{http_code}\n" "https://<service>/api/apps?status=PEND
 | 8 | Local → Neon | Catalogue : fiche humaine, simulation, import | oui | fiche signée, confirmation d'import |
 | 9 | Local | Vérifications de l'API | non | étapes 5, 7, 8 |
 | 10 | Local | Clôture | non | — |
+
+Chaque étape « Écrit ? oui » exige l'approbation du Chef de projet (§ 1) — pour l'étape 8, la confirmation d'import du § 8.4 — puis la vérification du résultat par le Chef de projet avant validation de l'étape.
