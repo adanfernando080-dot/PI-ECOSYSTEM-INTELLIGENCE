@@ -1,13 +1,16 @@
-# Plateforme BTP panafricaine — Architecture de référence (v0.1)
+# Plateforme BTP mondiale adaptable aux marchés africains — Architecture de référence (v0.2)
 
 > Statut : proposition à valider. Aucun code n'est écrit. Ce document fixe les fondations, les frontières
 > (déterministe / IA locale / IA cloud) et le découpage MVP → V3.
 > Les valeurs métier (taxes, coefficients, prix) citées en exemple sont **illustratives** et doivent être
-> validées par des professionnels béninois avant d'entrer dans une base de production.
+> validées par des professionnels du marché concerné (d'abord le Bénin) avant d'entrer dans une base de production.
+>
+> **Révision v0.2** : le moteur architectural est **universel** ; le contexte économique et réglementaire est
+> **localisable par packs marché**. Voir §0.1, `adr/ADR-0001` à `ADR-0004` et `DATASET-STRATEGY.md`.
 
 ---
 
-## 0. Synthèse en 12 décisions
+## 0. Synthèse en 14 décisions
 
 | # | Décision | Pourquoi |
 |---|---|---|
@@ -15,14 +18,47 @@
 | D2 | **Application desktop Windows en premier** (Tauri + UI web), PWA/Android ensuite | Parc matériel des professionnels = laptops Windows ; accès fichier/GPU local ; offline réel |
 | D3 | **SQLite local = source de vérité** ; le cloud est un réplica optionnel | Offline-first sans compromis ; le cloud ne casse jamais le local |
 | D4 | **Toute écriture = opération dans un journal (oplog)** horodaté (HLC) | Historique, undo, versions, synchronisation et audit viennent du même mécanisme |
-| D5 | **Quantités ≠ Prix** : le métré référence des *codes catalogue*, jamais un montant | Exigence centrale ; permet scénarios, mises à jour de prix, multi-pays |
+| D5 | **Quantités ≠ Prix** : le métré référence des *codes catalogue*, jamais un montant ; le métré se fait en **deux étages** (géométrique universel, puis commercial via le pack) | Exigence centrale ; permet scénarios, mises à jour de prix, multi-pays |
 | D6 | **Métré = règles déclaratives versionnées + évaluateur sûr + arbre de trace** | Traçabilité de chaque chiffre, aucun calcul confié à une IA |
 | D7 | **L'IA ne produit que des « propositions »** (avec confiance et preuve visuelle) ; seul l'humain les promeut en modèle validé | Transparence, responsabilité professionnelle |
-| D8 | **Les « packs marché » sont des données signées, pas du code** (pays, devise, taxes, catalogues, gabarits, langues) | Extension multi-pays sans recompiler |
+| D8 | **Les « packs marché » sont des données signées, pas du code** : tout le contexte économique, réglementaire et de pratiques (pays→ville, devise, taxes, normes, catalogue, prix, fournisseurs, main-d'œuvre, méthode de mesurage, unités commerciales, gabarits, paramètres) | Extension multi-pays sans recompiler ; un même projet se chiffre avec plusieurs packs |
 | D9 | **Un LLM n'appelle que des outils** (moteurs déterministes) et n'écrit aucun nombre de sa propre initiative | L'assistant explique, il ne calcule pas |
 | D10 | **Plans chiffrés localement par défaut ; envoi cloud = opt-in explicite par projet** | Confidentialité des plans |
 | D11 | **Modèle géométrique unique** (2D/3D/IFC = vues et exports du même modèle) | Continuité conception → chiffrage |
 | D12 | **Le premier jalon livre de la valeur sans IA** (plan calibré + traçage assisté → métré → DQE → devis) ; l'IA arrive comme accélérateur mesurable | Le plus gros risque du projet est la reconnaissance de plans réels (voir §6.4) |
+| D13 | **Moteur architectural universel** : aucun schéma, règle, modèle IA ou donnée du moteur ne contient de pays, devise, taxe, prix, norme ; le contexte marché n'entre que par un `MarketBinding` au moment du chiffrage (ADR-0001, vérifié en CI) | Le Bénin est le premier marché, pas la limite du moteur |
+| D14 | **Trois corpus** : A général, B africain, C validation locale (un par marché) ; tests scellés ; évaluation par tranches ; le pays est une métadonnée d'évaluation, jamais une entrée de modèle (ADR-0003, `DATASET-STRATEGY.md`) | Généralisation prouvée, sans enfermer le moteur dans un pays |
+
+### 0.1 Principe directeur : deux dimensions étanches
+
+```
+ PLAN (PDF/image) ─► ┌───────────── MOTEUR ARCHITECTURAL (universel) ─────────────┐
+                     │ Compréhension IA ─► Modèle architectural NEUTRE            │
+                     │      ─► Métré GÉOMÉTRIQUE (surfaces, longueurs, volumes)   │
+                     └──────────────────────────┬───────────────────────────────┘
+                                                │  spécification neutre (classes génériques)
+                          MarketBinding = pack@version + zone
+                     ┌──────────────────────────▼───────────────────────────────┐
+                     │ CONTEXTE MARCHÉ (pack) : correspondances, compositions,   │
+                     │ catalogue, prix, fournisseurs, main-d'œuvre, taxes,       │
+                     │ normes, méthode de mesurage, unités, documents            │
+                     └──────────────────────────┬───────────────────────────────┘
+                                                ▼
+                          Métré commercial ─► Prix ─► DQE / DPGF / Devis
+
+  Même projet architectural  ─►  Pack Bénin  |  Pack Sénégal  |  Pack Côte d'Ivoire  |  Pack Ghana …
+```
+
+| Universel (moteur) | Localisable (pack marché) |
+|---|---|
+| murs, pièces, ouvertures, escaliers, niveaux, cotes, textes, symboles, relations spatiales | pays, régions, villes, devise, taxes |
+| conventions de dessin **détectées** (unités, langues, hachures, échelle) | normes et réglementations applicables |
+| modèle neutre + spécification de construction **générique** | catalogue, matériaux disponibles, équivalences |
+| métré géométrique (brut / ouvertures / net, périmètres, volumes, comptages) | compositions d'ouvrages, consommations, pertes, pratiques de construction |
+| 2D/3D, versions, traçabilité, assistant (outils) | prix, fournisseurs, main-d'œuvre, unités commerciales |
+| évaluateur de règles, moteur de prix (mécanique) | méthode de mesurage, paramètres de calcul, gabarits de documents |
+
+**Zones grises tranchées** (détail en ADR-0001) : les *conventions de représentation* d'un plan sont une propriété du plan (moteur) ; les *pratiques d'exécution* et les *valeurs par défaut* (hauteur sous plafond, épaisseur…) appartiennent au pack — le moteur ne devine pas.
 
 ---
 
@@ -36,10 +72,12 @@ Ce sont les éléments coûteux ou impossibles à corriger après coup :
 2. Oplog + versions de projet + format de fichier projet — §2, §8
 3. Séparation Quantités / Prix + schéma du catalogue et des packs marché — §4, §5, §9
 4. Format de règles de métré + moteur d'évaluation + format de trace — §4
-5. Cadre de test : « projets étalons » béninois avec métré de référence fait par un professionnel — §13
+5. Cadre de test : projets synthétiques à vérité analytique + corpus C‑BJ (projets réels avec métré de référence d'un professionnel) — §13
 6. Schéma des « propositions IA » (confiance, preuve, statut) — §6.2
 7. Modèle de sécurité (chiffrement local, licence offline, consentement cloud) — §11
 8. Contrats d'interface (ports) pour stockage, IA, sync, rendu de documents — §2.3
+9. **Frontière moteur / pack** : spécification neutre, `MarketBinding`, règles d'étanchéité vérifiées en CI — §0.1, ADR-0001/0002
+10. **Stratégie de corpus A/B/C**, taxonomie d'annotation, registre de provenance, protocole de scellement — `DATASET-STRATEGY.md`
 
 ### 1.2 MVP — chaîne PLAN → MÉTRÉ → PRIX BÉNIN → DQE → DEVIS (offline)
 
@@ -49,9 +87,9 @@ Ce sont les éléments coûteux ou impossibles à corriger après coup :
 | Import | PDF (vectoriel et raster), JPG, PNG ; calibration d'échelle (manuelle + détection assistée) |
 | Modèle | niveaux, murs, pièces, ouvertures (portes/fenêtres), dalles/toiture en **surface et pente simples** |
 | Édition | correction manuelle du modèle sur le plan (outils de traçage/ajustement 2D minimaux) |
-| IA locale | OCR + détection de cotes/échelle/titres, **propositions** de murs/pièces/ouvertures, contrôle de cohérence |
+| IA locale | modèles **universels** (non spécifiques à un pays) : OCR multilingue + détection de cotes/échelle/titres, **propositions** de murs/pièces/ouvertures, contrôle de cohérence ; domaine de validité déclaré (§6.0) |
 | Métré | lots gros-œuvre, maçonnerie, enduits, revêtements, peinture, menuiseries, couverture (liste exacte §12) |
-| Prix | catalogue Bénin v0, XOF, prix par ville/région avec date, source, confiance ; saisie/override utilisateur |
+| Prix | **pack Bénin v0** (premier pack marché), catalogue local, XOF, prix par ville/région avec date, source, confiance ; saisie/override utilisateur |
 | Documents | DQE (PDF + Excel), devis (PDF), fiche de traçabilité du métré |
 | Offline | 100 % des étapes ci-dessus ; mise à jour de catalogue par fichier ou réseau quand disponible |
 | Sécurité | chiffrement local, licence + essai 5 jours vérifiables hors ligne |
@@ -67,7 +105,7 @@ multi-pays actif, assistant conversationnel, structure/ferraillage, sync cloud m
 | 3D | extrusion depuis le modèle, champs d'élévation/épaisseur/couches déjà dans le schéma | V1 |
 | DPGF + sous-détails | compositions d'ouvrages hiérarchiques déjà dans le schéma | V1 |
 | Scénarios | `Estimate` = (version de métré, version de prix, paramètres) → N estimations par projet | V1 |
-| Multi-pays / devises | packs marché, taux de change versionnés, table de taxes | V1 |
+| Multi-pays / devises | packs marché signés, héritage de packs, taux de change versionnés, `ComplianceRuleSet`, pack n°2 comme preuve d'étanchéité | V1 |
 | Assistant IA | couche d'outils (§6.6) | V1 |
 | Sync cloud, multi-appareils | oplog + HLC + identifiants UUIDv7 | V1 |
 | Génération de plans, optimisation auto | moteur de scénarios + contraintes | V2 |
@@ -151,32 +189,40 @@ Le **core** ne connaît aucun adaptateur : il reçoit des données et rend des d
 - **Provenance de chaque attribut significatif** (voir 3.3).
 - **Immuabilité par version** : on ne modifie pas une version publiée ; on en crée une nouvelle (§8).
 - **Données tenant** : tout objet porte `projectId`, `createdAt`, `createdBy`, `schemaVersion`.
+- **Pureté du modèle architectural** : il ne contient **aucun** pays, devise, taxe, prix, fournisseur, norme ni code de catalogue local. Schémas fermés (`additionalProperties: false`), test de schéma et lint de pureté en CI (ADR-0001, règles R1–R3).
 
 ### 3.2 Hiérarchie
 
 ```
 Workspace (organisation)
  └─ Project
-     ├─ Site (pays, ville, adresse, altitude/zone, accès chantier)       → pilote prix, taxes, packs
+     ├─ Location (adresse libre / coordonnées — descriptive, sans effet sur le moteur)
      ├─ SourceDocument[] (PDF/JPG/PNG, hash, pages)                        → blobs immuables
-     │    └─ PlanSheet[] (page, échelle, calibration, niveau associé)
-     ├─ ArchitecturalModel (versionnée)
+     │    └─ PlanSheet[] (page, échelle, calibration, niveau associé, DrawingConventions)
+     ├─ ArchitecturalModel (versionnée) — NEUTRE, UNIVERSEL
      │    └─ Building[]
      │         └─ Level[]  (élévation, hauteur sous plafond)
-     │              ├─ Wall[]       (axe, épaisseur, hauteur, couches/matériaux, rôle: porteur/cloison…)
+     │              ├─ Wall[]       (axe, épaisseur, hauteur, constructionSpec neutre, rôle: porteur/cloison…)
      │              ├─ Opening[]    (type, dimensions, allège, linteau, hôte: wallId)
-     │              ├─ Space[]      (pièce : contour, usage, finitions sol/mur/plafond)
-     │              ├─ Slab[] / Roof[] (contour, épaisseur, pente, type)
+     │              ├─ Space[]      (pièce : contour, usage normalisé, libellé d'origine, finitions en classes neutres)
+     │              ├─ Stair[] / Slab[] / Roof[] (contour, épaisseur, pente, type)
      │              └─ Annotation[] (cotes, textes liés à des éléments)
+     ├─ GeometricTakeoff (dérivé du modèle ; UNIVERSEL ; ADR-0002 étage 1)
+     │    └─ GeoQuantity[]  (brut / ouvertures / net, périmètres, volumes, comptages + trace)
      ├─ AiProposal[]        (voir §6.2)
-     ├─ QuantitySet (versionné, dérivé du modèle + règles)
-     │    └─ QuantityLine[]   (code catalogue, quantité, unité, trace)
-     ├─ Estimate[]          (scénarios : QuantitySet vX + PriceBook vY + paramètres)
+     ├─ MarketBinding[]     ← SEUL point où le projet connaît un marché : pack@version + zone + params
+     ├─ QuantitySet[]       (un par MarketBinding : GeometricTakeoff × SpecMapping × Assembly × MeasurementMethod)
+     │    └─ QuantityLine[]   (code catalogue du pack, quantité, unité, trace)
+     ├─ Estimate[]          (scénarios : ArchitecturalModel@rev + MarketBinding + QuantitySet vX + PriceBook vY + paramètres)
      │    └─ EstimateLine[]   (quantité × prix résolu, lot, déboursé, montant)
-     └─ Document[]          (DQE/DPGF/devis générés : instantanés, hash, version de tout ce qui y a contribué)
+     └─ Document[]          (DQE/DPGF/devis générés : instantanés, hash, version de tout ce qui y a contribué, pack inclus)
 ```
 
-Tables transverses (hors projet) : `MarketPack`, `Catalogue*`, `PriceBook*`, `Unit`, `Currency`, `TaxRuleSet`, `DocumentTemplate`, `MeasurementRuleSet`, `ModelArtifact` (modèles IA).
+**Même projet, plusieurs marchés** : le modèle architectural et le `GeometricTakeoff` sont communs ; chaque `MarketBinding` produit son propre `QuantitySet` et ses `Estimate`.
+
+Tables transverses :
+- **Moteur** : `Unit`, `ModelArtifact` (modèles IA), taxonomie neutre de spécification (versionnée), `DrawingConventions`.
+- **Dans les packs marché** (pas dans le moteur) : `MarketPack`, `Catalogue*`, `SpecMapping`, `DefaultSpecProfile`, `Assembly`, `MeasurementMethod`, `PriceBook*`, `Currency`/règles d'arrondi, `TaxRuleSet`, `ComplianceRuleSet`, `Supplier`, `LabourRate`, `DocumentTemplate`.
 
 ### 3.3 Provenance, confiance, preuve (colonne vertébrale de la transparence)
 
@@ -203,7 +249,7 @@ Règle : **un élément `unreviewed` ne peut pas alimenter un document final** s
 ### 3.4 Géométrie
 
 - Repère local du niveau, axe X/Y en mètres, origine définie à la calibration du plan.
-- **Mur** = polyligne d'axe + épaisseur + hauteur + `layers[]` (enduit, bloc, enduit) → permet métré par couche *et* rendu 3D.
+- **Mur** = polyligne d'axe + épaisseur + hauteur + `constructionSpec` (système générique + couches en classes neutres) → permet métré par couche *et* rendu 3D, sans référence à un produit local.
 - **Ouverture** = rattachée à un mur hôte (`hostWallId`, `offsetAlongWall`) → la soustraction de surface est une relation, pas un calcul fragile par chevauchement géométrique.
 - **Pièce** = cycle fermé de murs (graphe topologique), pas seulement un polygone dessiné → une modification de mur propage à la surface de la pièce.
 - Topologie stockée : `wall.startNode / endNode` avec nœuds partagés → déplacer un mur déplace les murs connectés (comportement attendu en 2D éditable).
@@ -217,40 +263,69 @@ Règle : **un élément `unreviewed` ne peut pas alimenter un document final** s
     "id": "0192…", "levelId": "…", "code": "M-023",
     "axis": [[0,0],[8.40,0]],
     "thickness": { "value": 0.20, "unit": "m", "origin": "ai_detected", "confidence": 0.88 },
-    "height":    { "value": 3.00, "unit": "m", "origin": "default_rule" },
+    "height":    { "value": 3.00, "unit": "m", "origin": "default_rule",
+                   "defaultedBy": "profile:pack.bj/residential-standard@0.1.0" },
     "role": "load_bearing",
-    "layers": [
-      {"material": "enduit-ciment-ext", "thickness": 0.015},
-      {"material": "agglo-creux-20",    "thickness": 0.20},
-      {"material": "enduit-ciment-int", "thickness": 0.015}
-    ]
+    "constructionSpec": {
+      "system": "masonry.block.hollow",            // classe NEUTRE (taxonomie versionnée)
+      "layers": [
+        {"class": "render.cementitious", "thickness": 0.015, "side": "exterior"},
+        {"class": "masonry.block.hollow", "thickness": 0.20},
+        {"class": "render.cementitious", "thickness": 0.015, "side": "interior"}
+      ],
+      "origin": "default_rule"
+    }
   }
 }
 ```
+
+Le pack traduit `masonry.block.hollow` / 0,20 m en ouvrage(s) de son catalogue via `SpecMapping` (ADR-0002). Aucun code local n'apparaît ici.
+
+### 3.6 Conventions de dessin (propriété du plan, pas du pays)
+
+Chaque `PlanSheet` porte les conventions **détectées** (ou saisies), jamais supposées :
+
+```jsonc
+"drawingConventions": {
+  "unitSystem": { "value": "metric_cm", "confidence": 0.93 },   // metric_m | metric_cm | metric_mm | imperial_ft_in
+  "languages":  [ {"code": "fr", "confidence": 0.97} ],
+  "scale":      { "text": "1/100", "confidence": 0.9 },
+  "symbolSet":  { "doors": "arc_swing", "windows": "triple_line" },
+  "paper": "A3", "sourceType": "pdf_vector"
+}
+```
+
+Elles pilotent le parseur de cotes et l'OCR (multilingue : texte arabe, anglais, portugais, chinois…), et servent de clés de tranches pour l'évaluation IA (§6.4).
 
 ---
 
 ## 4. Moteur de métré (déterministe)
 
-### 4.1 Principe
+### 4.1 Principe : deux étages
 
 ```
-Modèle validé ─┐
-Règles de métré (versionnées) ─┼─► Évaluateur ─► QuantityLine[] + Trace
-Compositions d'ouvrages ───────┘
+ÉTAGE 1 — MÉTRÉ GÉOMÉTRIQUE (universel, aucun pack)
+  Modèle validé ──► Règles géométriques ──► GeometricTakeoff
+     (aires brute / ouvertures / nette, périmètres, volumes, comptages) + Trace
+
+ÉTAGE 2 — MÉTRÉ COMMERCIAL (fourni par le MarketBinding)
+  GeometricTakeoff ─┐
+  SpecMapping       ├─► Évaluateur ──► QuantityLine[] + Trace
+  Assembly (compositions, pertes)  │
+  MeasurementMethod ─┘
 ```
 
-Aucune IA ici. Même entrée → même sortie, bit à bit. C'est testable par des cas étalons.
+Aucune IA ici. Même entrée → même sortie, bit à bit. L'étage 1 est testable sur des **projets synthétiques à vérité analytique** et ne change jamais avec le pack ; l'étage 2 est validé sur le corpus C du marché.
 
 ### 4.2 Deux niveaux de règles
 
-1. **Règles de mesure** (géométrie → grandeurs) : surface brute, ouvertures déduites, périmètres, volumes de dalle…
-   Exemple : `wall.netArea = wall.length * wall.height - Σ opening.area`.
-2. **Compositions d'ouvrages** (grandeur → composants) : un *ouvrage* (ex. « maçonnerie agglo 20 cm ») = liste de composants avec **consommation par unité** et **taux de perte**.
+1. **Règles géométriques (moteur, étage 1)** : surface brute, surface des ouvertures, surface nette, périmètres, volumes de dalle…
+   Exemple : `wall.netArea = wall.length * wall.height - Σ opening.area`. Le moteur fournit **les trois grandeurs** (brute, ouvertures, nette).
+2. **Méthode de mesurage et compositions d'ouvrages (pack, étage 2)** : la `MeasurementMethod` choisit la grandeur de base et les conventions de déduction (par ex. seuils de déduction des ouvertures, qui diffèrent selon les méthodes normalisées) ; les `Assembly` transforment une grandeur en composants avec **consommation par unité** et **taux de perte**.
 
-Les deux sont des **données** (JSON/YAML) rattachées à un `MeasurementRuleSet` et à un pack marché : les pratiques constructives (épaisseur d'agglos courants, dosage, pertes) varient selon le pays et seront ajustables sans toucher au code.
+Les règles de l'étage 2 sont des **données** (JSON/YAML) livrées par le pack : les pratiques constructives (épaisseur d'agglos courants, dosage, pertes) varient selon le marché et s'ajustent sans toucher au code.
 
-### 4.3 Format d'une composition (exemple illustratif)
+### 4.3 Format d'une composition (exemple illustratif, contenu d'un pack)
 
 ```jsonc
 {
@@ -327,7 +402,7 @@ PriceBook (version, pays/région/ville, devise)
 EstimateLine = qté × prix résolu (+ coefficients) → montant
 ```
 
-Un `Estimate` référence : `QuantitySet@vN` + `PriceBook@vM` + `EstimateParameters@vK` (marges, frais, imprévus, taxes). Changer le prix ne touche pas au métré, et inversement. Plusieurs `Estimate` coexistent (Éco/Standard/Premium).
+Un `Estimate` référence : `ArchitecturalModel@rev` + `MarketBinding` (pack@version) + `QuantitySet@vN` + `PriceBook@vM` + `EstimateParameters@vK` (marges, frais, imprévus, taxes — valeurs par défaut fournies par le pack). Changer le prix ne touche pas au métré, et inversement. Plusieurs `Estimate` coexistent (Éco/Standard/Premium).
 
 ### 5.2 Modèle de prix
 
@@ -381,6 +456,16 @@ Les taux sont des **paramètres de l'Estimate**, pas des constantes. Les règles
 
 ## 6. Architecture IA
 
+### 6.0 Principe : un moteur de perception universel
+
+- Les modèles apprennent à comprendre des **plans** (murs, pièces, portes, fenêtres, escaliers, cotes, niveaux, textes, symboles, relations spatiales, éventuellement systèmes constructifs), **pas** une architecture nationale.
+- **Entrées** : pixels / vecteurs / texte de la page, et rien d'autre. **Aucun paramètre pays ou marché** n'est donné aux modèles (ADR-0001 R4). Les **conventions de dessin** (unités, langues, symboles) sont *détectées* (§3.6).
+- **Sorties** : éléments de la **taxonomie neutre** (`DATASET-STRATEGY.md` §3) ; jamais de produit ni de code de catalogue.
+- **OCR et parseur de cotes multilingues** et multi-systèmes d'unités (mètres, centimètres, millimètres, pieds‑pouces).
+- **Un modèle par tâche, pour tous les marchés.** Des adaptateurs régionaux ne sont envisagés que si les métriques par tranche le justifient (ADR-0003).
+- **Domaine de validité déclaré** par modèle ; un plan hors domaine est signalé, sa confiance est plafonnée et l'outil bascule vers le traçage assisté (`DATASET-STRATEGY.md` §6).
+- **Corpus d'entraînement et d'évaluation** : A général, B africain, C validation locale — §6.4.
+
 ### 6.1 Pipeline d'analyse de plan
 
 ```
@@ -391,7 +476,8 @@ Import ─► Normalisation ─► Classification de page ─► Échelle ─►
 |---|---|---|---|
 | Normalisation | PDF : **extraction vectorielle si disponible** (lignes, polylignes, texte exacts) ; sinon rastérisation 200–300 dpi, redressement, binarisation | local | déterministe |
 | Classification de page | plan / coupe / façade / cartouche / détail | local | IA légère |
-| Échelle | 1) texte d'échelle (« 1/100 »), 2) cotes reconnues vs longueurs mesurées, 3) barre d'échelle ; sinon **demande à l'utilisateur** | local | OCR + calcul déterministe |
+| Conventions de dessin | détection du système d'unités, des langues, du style de symboles, du papier (§3.6) | local | IA + règles |
+| Échelle | 1) texte d'échelle (« 1/100 », « 1:50 », échelles impériales), 2) cotes reconnues vs longueurs mesurées, 3) barre d'échelle ; sinon **demande à l'utilisateur** | local | OCR + calcul déterministe |
 | OCR / cotes | OCR (PaddleOCR/Tesseract exportés ONNX) + parseur de cotes | local | IA + règles |
 | Détection | segmentation des murs, détection portes/fenêtres, étiquettes de pièces | local (MVP) ; cloud pour plans difficiles | IA |
 | Reconstruction | vectorisation des murs, fermeture des pièces, graphe topologique, rattachement ouvertures→murs | local | **géométrie déterministe** sur sortie IA |
@@ -430,27 +516,37 @@ Le **PDF vectoriel** est le cas le plus favorable (géométrie exacte, texte ext
 | Assistant conversationnel | ✅ petit LLM quantifié (V1, si matériel) | ✅ LLM puissant | l'assistant reformule et appelle des outils |
 | Optimisation de coût (suggestions) | calcul local (moteur de scénarios) ; texte explicatif IA | ✅ | les chiffres viennent du moteur |
 | Génération de plans | ❌ | ✅ V2 | calcul lourd |
-| Suggestion de matériau alternatif | ✅ (règles + catalogue d'équivalences) | ✅ | équivalences = **données**, pas hallucination |
+| Suggestion de matériau alternatif | ✅ (règles + équivalences **du pack actif**) | ✅ | équivalences = **données du pack**, pas hallucination |
 
 **Règle cloud** : envoi uniquement de ce qui est nécessaire (recadrages plutôt que plan complet quand possible), consentement par projet, journal des envois consultable, pas d'entraînement sur les données clients sans accord explicite (§11.4).
 
-### 6.4 Risque principal et stratégie de réduction
+### 6.4 Risque principal et stratégie de corpus
 
 La reconnaissance fiable de plans réels (qualité de dessin hétérogène, scans, photos, conventions variables) est **le** risque technique du projet. Constats à assumer :
 
-1. Les jeux de données publics de plans (surtout occidentaux/asiatiques) généralisent mal à des plans béninois.
-2. Aucun modèle ne sera à 100 % : l'outil doit être conçu pour que **corriger soit rapide**, pas pour que l'IA ait toujours raison.
+1. Les jeux publics de plans sont surtout européens/asiatiques et résidentiels, avec des licences parfois non commerciales : ils ne suffisent pas, mais ne sont pas à écarter.
+2. Aucun modèle ne sera à 100 % : l'outil doit permettre de **corriger vite**.
+3. Valider la *perception* (corpus A/B) et valider le *produit* (métré, chiffrage ; corpus C) sont deux questions distinctes.
 
-Stratégie :
+**Trois corpus** (détail complet dans `DATASET-STRATEGY.md`, ADR-0003) :
 
-- **Constituer un jeu étalon dès maintenant** : 30–50 plans béninois réels (avec autorisation), annotés, avec métré de référence d'un professionnel. Il sert à la fois de **jeu d'évaluation** et de test de non-régression.
-- **Définir des KPI avant de choisir les modèles** : p.ex. « temps pour obtenir un modèle validé vs traçage manuel », rappel/précision murs & ouvertures par type de source (PDF vectoriel / PDF raster / photo).
-- **Boucle de données** : les corrections utilisateur (avec consentement) deviennent des annotations d'entraînement → l'outil s'améliore avec l'usage local.
-- **Palier de sécurité** : si l'IA est insuffisante sur raster, l'outil reste utile grâce au traçage assisté (accrochage aux lignes détectées, fermeture de pièces auto, copie d'ouvertures types).
+| | Rôle | Usage |
+|---|---|---|
+| **A — Général** | compréhension générale des plans du monde entier (Europe, Amériques, Asie, Afrique ; contemporains ; PDF vectoriels, scans, photos ; plusieurs niveaux de complexité) | entraînement |
+| **B — Africain** | robustesse aux pratiques et représentations rencontrées en Afrique | entraînement + validation + test |
+| **C — Local de validation** | projets réels du premier marché (C‑BJ) : plan + métré de référence d'un professionnel + DQE/devis réel ; un C par nouveau marché | **test scellé** ; validation du produit de bout en bout |
+
+Règles clés :
+- **Le pays est une métadonnée d'évaluation**, jamais une entrée de modèle.
+- **Tests scellés** (A‑test, B‑test, C) ; découpage par source ; dédoublonnage.
+- **Évaluation par tranches** : région × type de source × complexité × qualité ; non‑régression par tranche.
+- **KPI produit défini avant le choix des modèles** : temps pour obtenir un modèle validé vs traçage manuel.
+- **Boucle de données** : corrections utilisateur réutilisables uniquement avec consentement distinct et révocable.
+- **Palier de sécurité** : si la perception est insuffisante sur une tranche, le traçage assisté (accrochage aux lignes détectées, fermeture de pièces auto, copie d'ouvertures types) garde l'outil utile.
 
 ### 6.5 Gestion des modèles IA
 
-`ModelArtifact` : identifiant, version, hash, tâche, taille, matériel requis, métriques sur le jeu étalon, licence. Installés comme paquets signés ; plusieurs versions coexistent ; chaque proposition enregistre le `modelHash` utilisé → reproductibilité et audit.
+`ModelArtifact` : identifiant, version, hash, tâche, taille, matériel requis, **version de dataset**, **métriques par tranche** (région × source × complexité × qualité), **domaine de validité**, licence. Installés comme paquets signés ; plusieurs versions coexistent ; chaque proposition enregistre le `modelHash` utilisé → reproductibilité et audit.
 
 ### 6.6 Assistant (V1) : LLM = interface, moteurs = vérité
 
@@ -460,6 +556,7 @@ LLM ─► outil get_quantity(item="MAT.AGGLO.*", scope="project") ─► Quanti
 LLM ─► reformule : « 4 120 blocs commandables (voir détail par mur) »  + lien vers la trace
 ```
 
+- L'assistant opère toujours dans un **`MarketBinding` actif** ; chaque réponse indique le pack et la version de prix utilisés. Changer de pack = nouvelle estimation, pas une réécriture de la précédente.
 - Outils exposés : `get_quantity`, `explain_line`, `list_low_confidence`, `compare_versions`, `simulate_change` (retourne un *delta* **sans l'appliquer**), `suggest_alternatives`.
 - **Aucun nombre dans la réponse qui ne provienne d'un appel d'outil** (vérifié par un contrôle de sortie : tout nombre doit être rattaché à un résultat d'outil).
 - Toute modification passe par une **proposition d'opération** que l'utilisateur accepte (§8.3).
@@ -494,7 +591,7 @@ LLM ─► reformule : « 4 120 blocs commandables (voir détail par mur) »  + 
 
 1. **Oplog** (fin) : chaque opération (ajout mur, déplacement, acceptation d'une proposition, changement de prix…) est un enregistrement immuable `{opId, hlc, actor, entity, patch, inverse}` → undo/redo, audit, sync.
 2. **Révisions** (nommées) : « instantanés » d'un état du modèle à un moment (`Rev 3 — après validation client`). Contenu adressé par hash, partage de structure.
-3. **Documents émis** : un DQE/devis est lié à des versions précises `(Model@rev, QuantitySet@v, PriceBook@v, Params@v, Template@v)`. On peut **reproduire** un document des mois plus tard et prouver ce qu'il contenait.
+3. **Documents émis** : un DQE/devis est lié à des versions précises `(Model@rev, MarketPack@v, QuantitySet@v, PriceBook@v, Params@v, Template@v)`. On peut **reproduire** un document des mois plus tard et prouver ce qu'il contenait.
 
 ### 8.2 Comparer deux versions
 
@@ -510,34 +607,59 @@ Toute modification (humaine, assistant, optimisation) est une **Command** valida
 
 ---
 
-## 9. Multi-pays : packs marché
+## 9. Packs marché : le contexte économique et réglementaire localisable
+
+> Un pack contient **tout ce qui dépend du marché**, et rien de ce qui concerne la compréhension du plan (ADR-0001, ADR-0004).
 
 ### 9.1 Contenu d'un `MarketPack` (données signées et versionnées)
 
 | Élément | Exemples |
 |---|---|
-| Géographie | pays, régions, villes (hiérarchie), fuseau |
+| Géographie | pays, régions, villes (hiérarchie), zones de prix |
 | Monnaie | code ISO, unités mineures, règles d'arrondi, format d'affichage |
 | Fiscalité | `TaxRuleSet` (taux, assiette, exonérations, mentions légales), à valider par un fiscaliste local |
-| Langues | fichiers de traduction, glossaire BTP (FR au départ ; EN pour Ghana/Nigeria) |
-| Unités et conventions | m², ml, u, forfait, ensemble ; sens des décimales |
-| Catalogue | matériaux, ouvrages, équivalences, main-d'œuvre (qualifications) |
-| Règles de métré | compositions locales, taux de perte, hauteurs standard |
-| Gabarits de documents | DQE, DPGF, devis, mentions obligatoires |
-| Paramètres par défaut | frais généraux, marge, imprévus (modifiables) |
+| Normes et réglementations | `ComplianceRuleSet` : règles déclaratives qui produisent des **avertissements** (V1) ; le moteur n'invente aucune réglementation |
+| Catalogue et matériaux disponibles | articles locaux, conditionnements, équivalences |
+| Fournisseurs | référentiel, zones de livraison, conditions |
+| Main-d'œuvre | qualifications, taux, productivités |
+| Pratiques de construction | `SpecMapping` (spécification neutre → ouvrages), `DefaultSpecProfile`, `Assembly` (compositions, consommations, pertes) |
+| Méthode de mesurage | conventions de déduction des ouvertures, seuils, règles de présentation |
+| Unités commerciales | m², ml, u, forfait, sacs, camions…, conversions |
+| Prix | `PriceBook` par zone : min/moyen/max, date, source, confiance |
+| Documents | gabarits DQE/DPGF/devis, mentions obligatoires, numérotation |
+| Langues | traductions, glossaire BTP |
+| Paramètres de calcul locaux | frais généraux, marge, imprévus, coefficients de transport (modifiables) |
 
-**Ajouter le Togo = publier un pack**, pas modifier le code. Test d'architecture : un pack factice « Pays Test » (autre devise, autre taxe, autre langue) doit fonctionner de bout en bout en CI, pour garantir qu'aucun Bénin n'est codé en dur.
+**Héritage** : un pack peut en étendre un autre (zone monétaire ou cadre commun) et ne surcharger que ce qui diffère. **Ajouter un pays = publier un pack**, pas modifier le code.
 
-### 9.2 Catalogue à deux niveaux
+### 9.2 Spécification neutre ↔ catalogue local (couche de correspondance)
 
-- **Catalogue universel** : concepts neutres (`MAT.AGGLO` + attributs : dimensions, résistance) avec **code stable**.
-- **Spécialisation par pays** : noms locaux (« agglo », « parpaing »…), conditionnements, fournisseurs, équivalences.
-Les règles de métré parlent des **codes universels** ; les prix sont locaux. C'est ce qui rend les pays comparables et les règles réutilisables.
+- Le **modèle architectural** parle en classes génériques (`masonry.block.hollow`, `render.cementitious`…).
+- Le **pack** les traduit en ouvrages et articles locaux (`SpecMapping`) et fournit les valeurs par défaut quand le plan est muet (`DefaultSpecProfile`).
+- Spécification sans correspondance → `unmapped_spec` ; jamais de substitution silencieuse (ADR-0002).
+- Un **rapport de couverture** précède tout chiffrage : % d'éléments mappés, prix manquants, prix périmés.
 
-### 9.3 Base Bénin : stratégie de constitution
+### 9.3 Chiffrer le même projet avec plusieurs packs
+
+```
+Projet architectural (modèle@rev, GeometricTakeoff)  ─►  MarketBinding[Bénin]  ─► QuantitySet, Estimate (XOF)
+                                                     ─►  MarketBinding[Sénégal] ─► …
+                                                     ─►  MarketBinding[Ghana]   ─► … (GHS)
+```
+Le modèle n'est jamais modifié ; l'étage 1 du métré est identique pour tous. Les comparaisons inter‑marchés affichent devise, date des prix et taux de change utilisé.
+
+### 9.4 Garde-fous d'étanchéité
+
+- **Règle de dépendance** vérifiée en CI : `core-*`, `ai-*` ne peuvent pas importer `market-packs`.
+- **Lint de pureté** : aucun code pays/devise/nom de pays dans les schémas et le code du moteur.
+- **Pack factice « test »** (devise, taxes, langue, unités distinctes) exécuté de bout en bout ; **test de rejeu** : métré géométrique identique entre deux packs.
+- **Porte de disponibilité** par marché (`DATASET-STRATEGY.md` §5) avant d'annoncer « supporté ».
+
+### 9.5 Pack Bénin (premier pack) : stratégie de constitution
 
 Les prix publics structurés et à jour pour le BTP béninois sont probablement rares et dispersés : **il faut planifier une collecte** et ne jamais présenter une donnée non vérifiée comme fiable.
 
+- Le pack Bénin est le **premier marché commercial et le premier environnement de validation (C‑BJ)** ; il ne borne pas le moteur.
 - Phase 0 : catalogue restreint (≈ 150–300 articles couvrant les lots du MVP) + prix collectés sur Cotonou, avec dates et sources.
 - Phase 1 : Abomey-Calavi, Porto-Novo, Parakou.
 - Outil de collecte hors-ligne (saisie terrain avec photo du devis/facture, synchronisation différée) — c'est aussi la future brique « communauté de prix ».
@@ -634,10 +756,12 @@ Chaque lot = un `MeasurementRuleSet` testé contre au moins 3 projets étalons.
 |---|---|
 | Unitaire | évaluateur d'expressions, unités, arrondis, résolution de prix |
 | Propriétés | recalcul incrémental ≡ recalcul complet ; décimal ≡ référence ; sérialisation aller-retour |
-| Étalons | N projets réels avec métré et DQE de référence d'un professionnel ; écart toléré documenté par poste |
+| Étalons synthétiques | projets générés avec quantités géométriques connues exactement ; l'étage 1 du métré doit les reproduire |
+| Étalons réels (corpus C) | N projets du marché avec métré et DQE de référence d'un professionnel ; écart toléré documenté par poste |
 | Offline | scénario complet avec réseau coupé en CI |
-| Multi-pays | pack « Pays Test » de bout en bout |
-| IA | évaluation sur jeu étalon par source (vectoriel/raster/photo) ; seuils de non-régression ; rapport à chaque nouveau modèle |
+| Multi-pays | pack « Pays Test » de bout en bout ; **rejeu multi‑packs** : un même projet, deux packs → `GeometricTakeoff` identique bit à bit |
+| Pureté du moteur | dépendances interdites vers `market-packs` ; lint pays/devise ; schémas fermés |
+| IA | évaluation sur A‑test, B‑test, C par **tranches** (région × source × complexité × qualité) ; non‑régression par tranche ; rapport à chaque nouveau modèle |
 | Migration | ouverture de fichiers projets de toutes les versions de schéma antérieures |
 
 ---
@@ -667,29 +791,34 @@ Chaque lot = un `MeasurementRuleSet` testé contre au moins 3 projets étalons.
 ```
 btp-platform/
   packages/
-    core-model/        # types + invariants du modèle architectural
+    core-model/        # types + invariants du modèle architectural NEUTRE (aucun pays/devise)
+    core-geometry/     # métré géométrique (étage 1), universel
     core-units/        # unités, décimal, devises
-    core-measure/      # évaluateur d'expressions, règles, traces
+    core-measure/      # évaluateur d'expressions, assemblages, traces (étage 2 : exécute les règles d'un pack)
     core-pricing/      # PriceBook, résolution, estimations, taxes
     core-docs/         # DocumentModel (DQE/DPGF/devis)
     core-ops/          # oplog, commandes, versions, diff
     ai-contracts/      # AiProposal, ports AI, schémas ModelArtifact
     ai-pipeline/       # étapes d'analyse (local) ; adaptateurs ONNX
-    market-packs/      # bj/ (Bénin), test/ (pays factice) — DONNÉES
+    ai-eval/           # évaluation par tranches, rapports, non-régression
+    datasets/          # outils, taxonomie, registre de provenance (données lourdes hors dépôt)
+    market-packs/      # base.xof/, bj/ (Bénin), test/ (pays factice) — DONNÉES, jamais importé par core-*/ai-*
     render-pdf/ render-xlsx/
     storage-sqlite/ sync-protocol/
   apps/
     desktop/           # Tauri + UI
     (later) web/ api/ workers/
-  fixtures/golden/     # projets étalons + métré de référence
+  fixtures/synthetic/  # projets à vérité analytique
+  fixtures/golden/     # corpus C (références de professionnels), scellé
   docs/adr/            # décisions d'architecture
 ```
 
 Règle de dépendance : `core-*` ne dépend d'aucun adaptateur ; les `apps` assemblent.
 
-### ADR à rédiger en premier
+### Décisions d'architecture (ADR)
 
-1. Local-first + oplog · 2. Tauri vs Electron · 3. Représentation des nombres et arrondis · 4. Format des règles de métré · 5. Séparation Quantités/Prix · 6. Schéma de provenance/confiance · 7. Contrat `AiProposal` · 8. Format `.btpx` · 9. Packs marché signés · 10. Politique de consentement cloud · 11. Licence offline · 12. Taxonomie du catalogue universel.
+Rédigés (v0.2) : **ADR-0001** moteur universel / contexte marché · **ADR-0002** spécification neutre, correspondance, métré en deux étages · **ADR-0003** corpus A/B/C et scellement · **ADR-0004** packs marché.
+À rédiger : local‑first + oplog · Tauri vs Electron · nombres et arrondis · format des règles de métré · séparation Quantités/Prix · provenance/confiance · contrat `AiProposal` · format `.btpx` · consentement cloud · licence offline · gouvernance de la taxonomie neutre · paquets signés. Index : `adr/README.md`.
 
 ---
 
@@ -697,11 +826,11 @@ Règle de dépendance : `core-*` ne dépend d'aucun adaptateur ; les `apps` asse
 
 | Jalon | Contenu | Livrable vérifiable |
 |---|---|---|
-| **M0 — Fondations** (sans UI) | core-model/units/measure/pricing/docs ; projet étalon n°1 chiffré **en ligne de commande** ; DQE PDF/Excel générés | métré CLI = métré du professionnel (écart toléré) |
+| **M0 — Fondations** (sans UI) | core-model/geometry/units/measure/pricing/docs ; **projets synthétiques** (étage 1 exact) ; pack factice + pack Bénin v0 ; projet C‑BJ n°1 chiffré **en ligne de commande** ; DQE PDF/Excel ; CI d'étanchéité | étage 1 = vérité analytique ; métré CLI = métré du professionnel (écart toléré) ; rejeu 2 packs OK |
 | **M1 — Chaîne manuelle assistée** | UI minimale : import plan, calibration, traçage assisté, validation, métré, prix Bénin v0, DQE, devis, versions, offline | un métreur chiffre un vrai projet sans IA et le juge utilisable |
-| **M2 — IA locale v1** | PDF vectoriel d'abord, puis raster ; OCR/échelle ; propositions murs/pièces/ouvertures ; contrôles | gain de temps mesuré vs M1 sur le jeu étalon |
+| **M2 — IA locale v1** | modèles **universels** ; PDF vectoriel d'abord, puis raster ; OCR multilingue/échelle ; propositions murs/pièces/ouvertures ; contrôles ; corpus A + amorce B | rapport par tranches ; gain de temps mesuré vs M1 sur C‑BJ |
 | **M3 — MVP béta** | corrections de retour, licences/essai, packaging, catalogue étendu, tests terrain à Cotonou | N projets réels chiffrés par des utilisateurs externes |
-| **V1** | éditeur 2D, 3D, DPGF, scénarios, sync cloud, multi-pays, assistant | — |
+| **V1** | éditeur 2D, 3D, DPGF, scénarios, sync cloud, **second pack marché (preuve d'étanchéité) + son corpus C**, assistant | porte de disponibilité du 2ᵉ marché |
 | **V2 / V3** | selon §1.3 | — |
 
 Cette séquence applique la chaîne PLAN → IA → VALIDATION → MÉTRÉ → PRIX → DQE → DEVIS **dans l'ordre inverse du risque** : le déterministe (valeur sûre) est livré d'abord, l'IA vient l'accélérer, avec un critère de mesure objectif.
@@ -712,7 +841,9 @@ Cette séquence applique la chaîne PLAN → IA → VALIDATION → MÉTRÉ → P
 
 | Risque | Gravité | Réponse |
 |---|---|---|
-| Qualité insuffisante de la reconnaissance sur plans réels | Élevée | Jeu étalon + KPI + traçage assisté de repli (§6.4) |
+| Qualité insuffisante de la reconnaissance sur plans réels | Élevée | Corpus A/B/C, évaluation par tranches, KPI, domaine de validité, traçage assisté de repli (§6.4) |
+| Biais du corpus (géographique, graphique) ou licences inadaptées | Élevée | Corpus B, registre de provenance, plans synthétiques, revue juridique |
+| Fuite du contexte local dans le moteur (dette « Bénin ») | Moyenne | Règles R1–R5 d'ADR-0001 en CI, pack factice, second pack tôt |
 | Absence de données de prix fiables et à jour | Élevée | Collecte planifiée, confiance/âge affichés, gouvernance de catalogue (§9.3) |
 | Règles de métré contestées par les professionnels | Moyenne | Règles ouvertes et modifiables, validées avec des métreurs béninois, trace visible |
 | Performance IA sur PC modestes | Moyenne | Modèles quantifiés, traitement en arrière-plan, matériel minimal testé tôt |
@@ -726,21 +857,23 @@ Cette séquence applique la chaîne PLAN → IA → VALIDATION → MÉTRÉ → P
 ## 19. Questions ouvertes (réponses nécessaires avant M0)
 
 1. **Équipe et ressources** : qui développe (nombre, compétences TS/Rust/ML) ? Cela conditionne Tauri vs Electron et l'ambition du jalon M2.
-2. **Accès à des plans réels béninois** (avec autorisation) et à **au moins un métreur partenaire** pour valider règles et projets étalons ?
+2. **Accès aux corpus** : (a) sources de plans du monde (jeux publics à licence vérifiée, partenariats) ; (b) partenaires africains (cabinets, bureaux d'études, universités) ; (c) plans béninois réels avec autorisation et **au moins un métreur partenaire** pour le corpus C‑BJ ?
 3. **Sources de prix** : fournisseurs partenaires, quincailleries, entrepreneurs prêts à partager des devis/factures ?
 4. **Plateformes cibles** : Windows seulement au MVP, ou mobile (Android) indispensable dès le début ? (Android change l'architecture IA locale et l'UI.)
 5. **Types de bâtiments du MVP** : villas/maisons R+0/R+1 uniquement ? (recommandé) ou immeubles/bâtiments publics ?
 6. **Langue** : français uniquement au MVP (recommandé) ?
 7. **Modèle d'activation** : compte requis pour l'essai de 5 jours, ou activation hors ligne par clé ?
 8. **Budget IA cloud** : acceptable pour le MVP, ou 100 % local ?
+9. **Second marché** : quel pays pour prouver l'étanchéité en V1 (et quel partenaire pour son corpus C) ?
+10. **Droits sur les plans** : cadre contractuel type pour collecter/annoter des plans de tiers (revue juridique) ?
 
 ---
 
 ## 20. Prochaines étapes concrètes
 
-1. Valider ce document (décisions D1–D12 et périmètre MVP §1.2).
+1. Valider ce document (décisions D1–D14 et périmètre MVP §1.2).
 2. Répondre aux questions §19.
-3. Rédiger les 12 ADR (§16) — 1 à 2 pages chacun.
+3. Relire ADR-0001 à 0004 puis rédiger les 12 ADR restants (`adr/README.md`) — 1 à 2 pages chacun.
 4. Concevoir les schémas détaillés (types TS + JSON Schema) du modèle, de la trace et de `AiProposal`.
-5. Constituer le premier **projet étalon** (un plan réel + métré du professionnel) : il guidera tous les choix du M0.
+5. Lancer en parallèle : le **registre de provenance** et l'inventaire des licences (corpus A), les premiers **projets synthétiques**, et le premier projet **C‑BJ** (plan réel + métré du professionnel).
 6. Démarrer M0 (CLI, sans interface).
