@@ -1,28 +1,32 @@
-# ADR-0003 — Stratégie de corpus A / B / C et scellement des tests
+# ADR-0003 — Stratégie de corpus A / B / C, disjonction et scellement
 
-- Statut : **Proposé** (v0.2)
+- Statut : **Proposé** (révisé v0.3 après audit)
 - Remplace : « jeu étalon de 30–50 plans béninois »
 - Liens : ADR-0001 · `DATASET-STRATEGY.md` · `ARCHITECTURE.md` §6
 
 ## Contexte
-Un moteur de compréhension de plans doit généraliser à des conventions, qualités et origines variées. S'entraîner et se valider sur un seul pays enfermerait le moteur ; s'appuyer uniquement sur des jeux publics (surtout européens/asiatiques) laisserait des angles morts africains ; et la validation du **produit** (métré, chiffrage) exige des projets réels avec une vérité terrain professionnelle.
+Un moteur de compréhension de plans doit généraliser à des conventions, qualités et origines variées. Valider la **perception** (corpus A/B) et valider le **produit** (métré, chiffrage ; corpus C) sont deux questions distinctes.
 
 ## Décision
-1. **Trois corpus** : **A** général (compréhension générale), **B** africain (robustesse aux pratiques et représentations africaines), **C** local de validation (un par marché : C‑BJ d'abord).
-2. **Le pays est une métadonnée d'évaluation**, pas une entrée de modèle (cf. ADR‑0001 R4).
-3. **Un seul modèle universel par tâche** ; adaptateurs régionaux seulement si les métriques par tranche et le volume le justifient (nouvel ADR).
-4. **Scellement** : A‑test, B‑test (15–20 %, tiré par source) et C entier ne servent jamais à l'entraînement ni au réglage. Découpage **par source** (projet/cabinet/gabarit), dédoublonnage inter‑corpus.
-5. **Évaluation par tranches** (région × type de source × complexité × qualité) avec **non‑régression par tranche** et **porte de disponibilité** par marché.
-6. **Taxonomie d'annotation unique et versionnée** ; jeux externes rattachés via tables de correspondance versionnées.
-7. **Registre de provenance** par plan (licence, consentement, restrictions, retrait) ; chaque `ModelArtifact` enregistre sa version de dataset, ses métriques par tranche et son **domaine de validité**.
-8. **Plans synthétiques** autorisés pour l'entraînement et le test du métré géométrique (vérité analytique), **interdits** dans les tests de perception.
+1. **Trois corpus** : **A** général, **B** africain, **C** validation locale (un par marché : C‑BJ d'abord, C‑SN ensuite).
+2. **Disjonction** : chaque plan appartient à **un seul** corpus, selon sa provenance. B = plans d'origine africaine curés pour le contexte africain ; A = plans du reste du monde et sources mondiales sans origine africaine identifiée + synthétiques ; C = projets réels d'un marché avec vérité terrain professionnelle. *(v0.2 listait « Afrique » dans A : recouvrement supprimé.)* Aucun plan de C n'est dans B ni dans A.
+3. **Le pays est une métadonnée d'évaluation**, pas une entrée de modèle (ADR‑0001 R4) ; des tests **anti‑raccourci** (leave‑one‑region‑out, ablation du cartouche/texte) le vérifient.
+4. **Un seul modèle universel par tâche** ; adaptateurs régionaux seulement si les métriques par tranche et le volume le justifient (nouvel ADR).
+5. **Scellement** : A‑test, B‑test (15–20 %, tiré par source) et C entier ne servent jamais à l'entraînement ni au réglage. Découpage **par source** (cabinet > projet > plan > page ; pour le synthétique : famille de gabarit/graine du générateur), dédoublonnage inter‑corpus.
+6. **Propagation du scellé** : tout dérivé d'une donnée scellée (corrections, annotations, sorties de modèle, caches) hérite du scellé. Les corrections de **production** (consenties) forment un flux « P » **exclu de tous les tests**. Séparation **technique** : les tests scellés vivent dans un stockage privé à accès contrôlé ; le pipeline d'entraînement n'y a aucun droit (T‑DAT‑03). Le dépôt de code ne contient que pointeurs et empreintes.
+7. **Évaluation par tranches** (région × source × complexité × qualité) avec **effectifs et intervalles de confiance** (pas de verdict par tranche sous un effectif minimal), **calibration** par tranche, **non‑régression par tranche** et **porte de disponibilité** par marché. Les seuils chiffrés sont fixés après la mesure de base de la phase P0 (décision ouverte OD‑11).
+8. **Taxonomie d'annotation unique et versionnée** ; jeux externes rattachés via tables de correspondance versionnées.
+9. **Registre de provenance** par plan : source, licence, consentement, restrictions, retrait ; **registre de licences** pour les poids de départ et les dépendances logicielles ; chaque `ModelArtifact` enregistre sa version de dataset, ses métriques par tranche, sa calibration et son **domaine de validité**.
+10. **Plans synthétiques** autorisés pour l'entraînement et le test du métré géométrique (vérité analytique, doublement vérifiée), **interdits** dans les tests de perception.
+11. **Risque résiduel assumé** : un même bâtiment redessiné par plusieurs cabinets peut échapper au dédoublonnage ; documenté dans les rapports.
 
 ## Conséquences
-- (+) Le Bénin valide le produit sans borner le moteur ; chaque nouveau pays ajoute un C, pas un nouveau moteur.
-- (+) Les défauts de perception et les défauts de règles locales sont diagnostiqués séparément.
-- (−) Coût d'infrastructure de données (registre, outils d'annotation, versionnement) dès le départ.
-- (−) Constitution du corpus B : dépend de partenariats et de contrats (droit d'auteur sur les plans).
+- (+) Le Bénin valide le produit sans borner le moteur ; chaque marché ajoute un C.
+- (+) Les défauts de perception et de règles locales se diagnostiquent séparément.
+- (−) Infrastructure de données dès le départ (registre, accès séparés, outils d'annotation).
+- (−) Corpus B dépendant de partenariats et de contrats (droit d'auteur).
 
 ## Alternatives écartées
 - Corpus unique béninois : biais et plafond de généralisation.
-- Entraînement sur jeux publics seuls : licences potentiellement non commerciales, biais géographique, aucune vérité de métré.
+- Jeux publics seuls : licences potentiellement non commerciales, biais géographique, aucune vérité de métré.
+- Fixtures de corpus C dans le dépôt de code : contredit le scellement et la confidentialité.
