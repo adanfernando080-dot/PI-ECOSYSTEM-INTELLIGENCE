@@ -1,0 +1,1133 @@
+{
+  "packSchemaVersion": "1",
+  "id": "pack.test.divergent",
+  "version": "0.0.1-synthetic",
+  "dataClass": "synthetic/test",
+  "extends": null,
+  "requires": {
+    "engineApi": "1",
+    "specTaxonomy": "1.0.0",
+    "ruleLanguage": "declarative-1"
+  },
+  "description": "SYNTHÉTIQUE — pack factice volontairement DIVERGENT (devise à 2 décimales, unités impériales, taxes composées, langue anglaise, zones à 4 niveaux, structure de coût, documents).",
+  "currency": {
+    "code": "TST",
+    "minorUnits": 2,
+    "symbol": "T$",
+    "name": "Test dollar"
+  },
+  "units": [
+    {
+      "code": "sqft",
+      "dimension": "area",
+      "factor": "0.09290304"
+    },
+    {
+      "code": "lb",
+      "dimension": "mass",
+      "factor": "0.45359237"
+    },
+    {
+      "code": "bag",
+      "dimension": "mass",
+      "factor": "40"
+    },
+    {
+      "code": "cuyd",
+      "dimension": "volume",
+      "factor": "0.764554857984"
+    }
+  ],
+  "catalogue": [
+    {
+      "code": "D.BLOCK8",
+      "label": "Concrete block 8in [TEST]",
+      "kind": "material",
+      "unit": "u",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "D.BLOCK4",
+      "label": "Concrete block 4in [TEST]",
+      "kind": "material",
+      "unit": "u",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "D.CEMENT",
+      "label": "Cement bag 40 kg [TEST]",
+      "kind": "material",
+      "unit": "bag",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "D.SAND",
+      "label": "Sand, cubic yard [TEST]",
+      "kind": "material",
+      "unit": "cuyd",
+      "orderRounding": {
+        "scale": 1,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "D.TILE",
+      "label": "Floor/wall tile per sq ft [TEST]",
+      "kind": "material",
+      "unit": "sqft",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "D.STEEL",
+      "label": "Reinforcement steel per lb [TEST]",
+      "kind": "material",
+      "unit": "lb",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "D.PAINT",
+      "label": "Paint, 20 l pail [TEST]",
+      "kind": "material",
+      "unit": "l",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "D.SHEET",
+      "label": "Roof sheet [TEST]",
+      "kind": "material",
+      "unit": "m2",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "D.DOOR",
+      "label": "Door set [TEST]",
+      "kind": "material",
+      "unit": "u",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "D.WINDOW",
+      "label": "Window set [TEST]",
+      "kind": "material",
+      "unit": "u",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "D.CONCRETE",
+      "label": "Ready-mix concrete [TEST]",
+      "kind": "material",
+      "unit": "m3",
+      "orderRounding": {
+        "scale": 1,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "D.LAB",
+      "label": "Labour [TEST]",
+      "kind": "labour",
+      "unit": "h"
+    }
+  ],
+  "assemblies": [
+    {
+      "code": "D.MASONRY.8",
+      "version": "1.0.0",
+      "label": "Masonry, 8in blocks",
+      "unit": "m2",
+      "basis": "wall.area",
+      "lot": "B",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "D.BLOCK8",
+          "consumption": "11",
+          "unit": "u",
+          "per": "m2",
+          "lossRate": "0.04"
+        },
+        {
+          "kind": "material",
+          "item": "D.CEMENT",
+          "consumption": "0.35",
+          "unit": "bag",
+          "per": "m2"
+        },
+        {
+          "kind": "labour",
+          "item": "D.LAB",
+          "consumption": "0.6",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "D.MASONRY.4",
+      "version": "1.0.0",
+      "label": "Masonry, 4in blocks",
+      "unit": "m2",
+      "basis": "wall.area",
+      "lot": "B",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "D.BLOCK4",
+          "consumption": "11",
+          "unit": "u",
+          "per": "m2",
+          "lossRate": "0.04"
+        },
+        {
+          "kind": "material",
+          "item": "D.SAND",
+          "consumption": "0.02",
+          "unit": "m3",
+          "per": "m2"
+        },
+        {
+          "kind": "labour",
+          "item": "D.LAB",
+          "consumption": "0.5",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "D.RENDER.EXT",
+      "version": "1.0.0",
+      "label": "External render",
+      "unit": "m2",
+      "basis": "wall.area",
+      "lot": "B",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "D.CEMENT",
+          "consumption": "0.2",
+          "unit": "bag",
+          "per": "m2"
+        },
+        {
+          "kind": "labour",
+          "item": "D.LAB",
+          "consumption": "0.5",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "D.RENDER.INT",
+      "version": "1.0.0",
+      "label": "Internal render",
+      "unit": "m2",
+      "basis": "space.wall.area",
+      "lot": "B",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "D.CEMENT",
+          "consumption": "0.2",
+          "unit": "bag",
+          "per": "m2"
+        },
+        {
+          "kind": "labour",
+          "item": "D.LAB",
+          "consumption": "0.45",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "D.PAINT.WALL",
+      "version": "1.0.0",
+      "label": "Wall paint",
+      "unit": "m2",
+      "basis": "space.wall.area",
+      "lot": "B",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "D.PAINT",
+          "consumption": "0.3",
+          "unit": "l",
+          "per": "m2"
+        },
+        {
+          "kind": "labour",
+          "item": "D.LAB",
+          "consumption": "0.25",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "D.PAINT.CEIL",
+      "version": "1.0.0",
+      "label": "Ceiling paint",
+      "unit": "m2",
+      "basis": "space.ceiling.area",
+      "lot": "B",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "D.PAINT",
+          "consumption": "0.3",
+          "unit": "l",
+          "per": "m2"
+        },
+        {
+          "kind": "labour",
+          "item": "D.LAB",
+          "consumption": "0.3",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "D.TILE.FLOOR",
+      "version": "1.0.0",
+      "label": "Floor tiling",
+      "unit": "m2",
+      "basis": "space.floor.area",
+      "lot": "B",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "D.TILE",
+          "consumption": "10.7639",
+          "unit": "sqft",
+          "per": "m2",
+          "lossRate": "0.08"
+        },
+        {
+          "kind": "labour",
+          "item": "D.LAB",
+          "consumption": "0.9",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "D.TILE.WALL",
+      "version": "1.0.0",
+      "label": "Wall tiling",
+      "unit": "m2",
+      "basis": "space.wall.area",
+      "lot": "B",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "D.TILE",
+          "consumption": "10.7639",
+          "unit": "sqft",
+          "per": "m2",
+          "lossRate": "0.08"
+        },
+        {
+          "kind": "labour",
+          "item": "D.LAB",
+          "consumption": "1.1",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "D.SLAB",
+      "version": "1.0.0",
+      "label": "Reinforced slab (parametric estimate)",
+      "unit": "m3",
+      "basis": "slab.volume",
+      "lot": "A",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "D.CONCRETE",
+          "consumption": "1",
+          "unit": "m3",
+          "per": "m3",
+          "lossRate": "0.03"
+        },
+        {
+          "kind": "material",
+          "item": "D.STEEL",
+          "consumption": "176",
+          "unit": "lb",
+          "per": "m3",
+          "lossRate": "0.05"
+        },
+        {
+          "kind": "labour",
+          "item": "D.LAB",
+          "consumption": "5",
+          "unit": "h",
+          "per": "m3"
+        }
+      ],
+      "estimateFlag": "parametric_structural"
+    },
+    {
+      "code": "D.ROOF",
+      "version": "1.0.0",
+      "label": "Roof sheeting",
+      "unit": "m2",
+      "basis": "roof.area",
+      "lot": "C",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "D.SHEET",
+          "consumption": "1",
+          "unit": "m2",
+          "per": "m2",
+          "lossRate": "0.1"
+        },
+        {
+          "kind": "labour",
+          "item": "D.LAB",
+          "consumption": "0.4",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "D.DOOR",
+      "version": "1.0.0",
+      "label": "Door set, fitted",
+      "unit": "u",
+      "basis": "opening.count",
+      "lot": "C",
+      "quantityRounding": {
+        "scale": 0,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "D.DOOR",
+          "consumption": "1",
+          "unit": "u",
+          "per": "u"
+        },
+        {
+          "kind": "labour",
+          "item": "D.LAB",
+          "consumption": "2",
+          "unit": "h",
+          "per": "u"
+        }
+      ]
+    },
+    {
+      "code": "D.WINDOW",
+      "version": "1.0.0",
+      "label": "Window set, fitted",
+      "unit": "u",
+      "basis": "opening.count",
+      "lot": "C",
+      "quantityRounding": {
+        "scale": 0,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "D.WINDOW",
+          "consumption": "1",
+          "unit": "u",
+          "per": "u"
+        },
+        {
+          "kind": "labour",
+          "item": "D.LAB",
+          "consumption": "1.5",
+          "unit": "h",
+          "per": "u"
+        }
+      ]
+    }
+  ],
+  "specMappings": [
+    {
+      "id": "D.SM.1",
+      "version": "1.0.0",
+      "target": "wall",
+      "class": "masonry.block.hollow",
+      "assembly": "D.MASONRY.8",
+      "thickness": {
+        "min": "0.19",
+        "max": "0.21"
+      }
+    },
+    {
+      "id": "D.SM.2",
+      "version": "1.0.0",
+      "target": "wall",
+      "class": "masonry.block.hollow",
+      "assembly": "D.MASONRY.4",
+      "thickness": {
+        "min": "0.09",
+        "max": "0.11"
+      }
+    },
+    {
+      "id": "D.SM.3",
+      "version": "1.0.0",
+      "target": "wall.layer",
+      "class": "render.cementitious",
+      "assembly": "D.RENDER.EXT",
+      "side": "exterior"
+    },
+    {
+      "id": "D.SM.4",
+      "version": "1.0.0",
+      "target": "space.wall",
+      "class": "render.cementitious",
+      "assembly": "D.RENDER.INT"
+    },
+    {
+      "id": "D.SM.5",
+      "version": "1.0.0",
+      "target": "space.wall",
+      "class": "paint.emulsion",
+      "assembly": "D.PAINT.WALL"
+    },
+    {
+      "id": "D.SM.6",
+      "version": "1.0.0",
+      "target": "space.wall",
+      "class": "wall.tile.ceramic",
+      "assembly": "D.TILE.WALL"
+    },
+    {
+      "id": "D.SM.7",
+      "version": "1.0.0",
+      "target": "space.ceiling",
+      "class": "paint.emulsion",
+      "assembly": "D.PAINT.CEIL"
+    },
+    {
+      "id": "D.SM.8",
+      "version": "1.0.0",
+      "target": "space.floor",
+      "class": "floor.tile.ceramic",
+      "assembly": "D.TILE.FLOOR"
+    },
+    {
+      "id": "D.SM.9",
+      "version": "1.0.0",
+      "target": "slab",
+      "class": "slab.reinforced.concrete",
+      "assembly": "D.SLAB"
+    },
+    {
+      "id": "D.SM.10",
+      "version": "1.0.0",
+      "target": "roof",
+      "class": "roof.sheet.metal",
+      "assembly": "D.ROOF"
+    },
+    {
+      "id": "D.SM.11",
+      "version": "1.0.0",
+      "target": "opening",
+      "class": "opening.door.single",
+      "assembly": "D.DOOR"
+    },
+    {
+      "id": "D.SM.12",
+      "version": "1.0.0",
+      "target": "opening",
+      "class": "opening.window.casement",
+      "assembly": "D.WINDOW"
+    }
+  ],
+  "zoneTree": [
+    {
+      "id": "REALM",
+      "parent": null,
+      "type": "realm",
+      "name": "Realm (test)"
+    },
+    {
+      "id": "REALM-P1",
+      "parent": "REALM",
+      "type": "province",
+      "name": "Province 1 (test)"
+    },
+    {
+      "id": "REALM-P1-D1",
+      "parent": "REALM-P1",
+      "type": "district",
+      "name": "District 1 (test)"
+    },
+    {
+      "id": "REALM-P1-D1-T1",
+      "parent": "REALM-P1-D1",
+      "type": "town",
+      "name": "Town 1 (test)"
+    }
+  ],
+  "measurementMethod": {
+    "id": "MM.DIVERGENT.GROSS",
+    "version": "1.0.0",
+    "deductions": {
+      "wall.area": {
+        "mode": "gross"
+      },
+      "space.wall.area": {
+        "mode": "gross"
+      }
+    }
+  },
+  "costBuildUp": [
+    {
+      "id": "direct",
+      "label": "Direct cost",
+      "kind": "sum",
+      "scope": "line",
+      "of": [
+        "material",
+        "labour",
+        "equipment",
+        "transport"
+      ]
+    },
+    {
+      "id": "contingency",
+      "label": "Contingency",
+      "kind": "percent",
+      "scope": "line",
+      "base": [
+        "direct"
+      ],
+      "rate": {
+        "param": "contingencyRate"
+      }
+    },
+    {
+      "id": "profit",
+      "label": "Overhead and profit",
+      "kind": "percent",
+      "scope": "line",
+      "base": [
+        "direct",
+        "contingency"
+      ],
+      "rate": {
+        "param": "profitRate"
+      }
+    },
+    {
+      "id": "provisional",
+      "label": "Provisional sum",
+      "kind": "fixed",
+      "scope": "total",
+      "amount": {
+        "param": "provisionalSum"
+      }
+    },
+    {
+      "id": "taxA",
+      "label": "Tax A (TEST)",
+      "kind": "percent",
+      "scope": "total",
+      "base": [
+        "lines",
+        "provisional"
+      ],
+      "rate": {
+        "param": "taxARate"
+      },
+      "effect": "tax"
+    },
+    {
+      "id": "taxB",
+      "label": "Tax B on subtotal + Tax A (TEST, compound)",
+      "kind": "percent",
+      "scope": "total",
+      "base": [
+        "lines",
+        "provisional",
+        "taxA"
+      ],
+      "rate": {
+        "param": "taxBRate"
+      },
+      "effect": "tax"
+    }
+  ],
+  "params": {
+    "staleAfterDays": "90",
+    "lowConfidenceBelow": "0.60",
+    "contingencyRate": "0.05",
+    "profitRate": "0.15",
+    "provisionalSum": "2500",
+    "taxARate": "0.10",
+    "taxBRate": "0.05"
+  },
+  "rounding": {
+    "quantity": {
+      "scale": 1,
+      "mode": "half_up"
+    },
+    "unitPrice": {
+      "scale": 0,
+      "mode": "half_up"
+    },
+    "lineAmount": {
+      "scale": 0,
+      "mode": "half_up"
+    },
+    "totalLayer": {
+      "scale": 0,
+      "mode": "half_up"
+    }
+  },
+  "workBreakdown": [
+    {
+      "code": "A",
+      "label": "Structure",
+      "order": 1
+    },
+    {
+      "code": "B",
+      "label": "Walls, finishes",
+      "order": 2
+    },
+    {
+      "code": "C",
+      "label": "Roof, joinery",
+      "order": 3
+    }
+  ],
+  "documentTemplates": [
+    {
+      "id": "tpl.boq.en",
+      "kind": "BOQ",
+      "layout": "priced-lines",
+      "language": "en",
+      "labels": {
+        "n": "No.",
+        "number": "No.",
+        "date": "Date",
+        "lot": "Section",
+        "designation": "Description",
+        "unit": "Unit",
+        "quantity": "Qty",
+        "unitPrice": "Rate",
+        "amount": "Amount",
+        "subtotal": "Section subtotal",
+        "total": "TOTAL",
+        "linesTotal": "Sum of items",
+        "issuer": "Issuer",
+        "client": "Client",
+        "site": "Site",
+        "validity": "Validity",
+        "totalHT": "Total before tax",
+        "totalTTC": "Total incl. taxes",
+        "title": "Bill of Quantities"
+      }
+    },
+    {
+      "id": "tpl.quote.en",
+      "kind": "QUOTATION",
+      "layout": "quote",
+      "language": "en",
+      "labels": {
+        "n": "No.",
+        "number": "No.",
+        "date": "Date",
+        "lot": "Section",
+        "designation": "Description",
+        "unit": "Unit",
+        "quantity": "Qty",
+        "unitPrice": "Rate",
+        "amount": "Amount",
+        "subtotal": "Section subtotal",
+        "total": "TOTAL",
+        "linesTotal": "Sum of items",
+        "issuer": "Issuer",
+        "client": "Client",
+        "site": "Site",
+        "validity": "Validity",
+        "totalHT": "Total before tax",
+        "totalTTC": "Total incl. taxes",
+        "title": "Quotation"
+      }
+    }
+  ],
+  "legalIdentifiers": [
+    {
+      "key": "taxId",
+      "label": "Tax Reg. No."
+    }
+  ],
+  "numberingRules": [
+    {
+      "kind": "BOQ",
+      "pattern": "BOQ/{YYYY}/{seq:3}"
+    },
+    {
+      "kind": "QUOTATION",
+      "pattern": "Q-{YYYY}-{seq:3}"
+    }
+  ],
+  "defaultSpecProfiles": [],
+  "priceBooks": [
+    {
+      "id": "pb.divergent.test",
+      "version": "pb-div-0.0.1",
+      "dataClass": "synthetic/test",
+      "currency": "TST",
+      "entries": [
+        {
+          "id": "pe:div:D.BLOCK8",
+          "item": "D.BLOCK8",
+          "unit": "u",
+          "zoneId": "REALM-P1-D1-T1",
+          "currency": "TST",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-div-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "110",
+            "median": "120",
+            "mean": "121",
+            "max": "132",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:div:D.BLOCK4",
+          "item": "D.BLOCK4",
+          "unit": "u",
+          "zoneId": "REALM-P1-D1-T1",
+          "currency": "TST",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-div-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "83",
+            "median": "90",
+            "mean": "91",
+            "max": "99",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:div:D.CEMENT",
+          "item": "D.CEMENT",
+          "unit": "bag",
+          "zoneId": "REALM-P1-D1-T1",
+          "currency": "TST",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-div-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "1150",
+            "median": "1250",
+            "mean": "1263",
+            "max": "1375",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:div:D.SAND",
+          "item": "D.SAND",
+          "unit": "cuyd",
+          "zoneId": "REALM-P1-D1-T1",
+          "currency": "TST",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-div-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "3496",
+            "median": "3800",
+            "mean": "3838",
+            "max": "4180",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:div:D.TILE",
+          "item": "D.TILE",
+          "unit": "sqft",
+          "zoneId": "REALM-P1-D1-T1",
+          "currency": "TST",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-div-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "377",
+            "median": "410",
+            "mean": "414",
+            "max": "451",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:div:D.STEEL",
+          "item": "D.STEEL",
+          "unit": "lb",
+          "zoneId": "REALM-P1-D1-T1",
+          "currency": "TST",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-div-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "78",
+            "median": "85",
+            "mean": "86",
+            "max": "94",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:div:D.PAINT",
+          "item": "D.PAINT",
+          "unit": "l",
+          "zoneId": "REALM-P1-D1-T1",
+          "currency": "TST",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-div-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "2668",
+            "median": "2900",
+            "mean": "2929",
+            "max": "3190",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:div:D.SHEET",
+          "item": "D.SHEET",
+          "unit": "m2",
+          "zoneId": "REALM-P1-D1-T1",
+          "currency": "TST",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-div-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "1748",
+            "median": "1900",
+            "mean": "1919",
+            "max": "2090",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:div:D.DOOR",
+          "item": "D.DOOR",
+          "unit": "u",
+          "zoneId": "REALM-P1-D1-T1",
+          "currency": "TST",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-div-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "19320",
+            "median": "21000",
+            "mean": "21210",
+            "max": "23100",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:div:D.WINDOW",
+          "item": "D.WINDOW",
+          "unit": "u",
+          "zoneId": "REALM-P1-D1-T1",
+          "currency": "TST",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-div-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "14260",
+            "median": "15500",
+            "mean": "15655",
+            "max": "17050",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:div:D.CONCRETE",
+          "item": "D.CONCRETE",
+          "unit": "m3",
+          "zoneId": "REALM-P1-D1-T1",
+          "currency": "TST",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-div-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "10856",
+            "median": "11800",
+            "mean": "11918",
+            "max": "12980",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:div:D.LAB",
+          "item": "D.LAB",
+          "unit": "h",
+          "zoneId": "REALM-P1-D1-T1",
+          "currency": "TST",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-div-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "350",
+            "median": "380",
+            "mean": "384",
+            "max": "418",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        }
+      ]
+    }
+  ],
+  "contentHash": "sha256:aa1e62412482d850754f11218dc0902de3ea32f647cb1b870ceb0bed398cf153",
+  "signature": {
+    "keyId": "test-key-1",
+    "alg": "ed25519",
+    "value": "Jd6arX3iQ4qkIOtoptyXOKCf9D5CN3A66vUrNo6yYXAShzYP2HuR/UGvzhucwgYXjXYTNUaq9UMjhsMB7OlKBA=="
+  }
+}

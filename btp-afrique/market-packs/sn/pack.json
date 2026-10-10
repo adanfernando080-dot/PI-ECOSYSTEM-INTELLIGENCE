@@ -1,0 +1,597 @@
+{
+  "packSchemaVersion": "1",
+  "dataClass": "synthetic/test",
+  "extends": {
+    "id": "pack.test.base-xof",
+    "version": "0.0.1-synthetic",
+    "contentHash": "sha256:18e8a65280f8a50b4c9556d48836d7534c2bdc1a9e14dfeb09c07181c787897b"
+  },
+  "requires": {
+    "engineApi": "1",
+    "specTaxonomy": "1.0.0",
+    "ruleLanguage": "declarative-1"
+  },
+  "id": "pack.sn",
+  "version": "0.0.1-synthetic",
+  "description": "SYNTHÉTIQUE — pack « Sénégal » de test : AUCUN prix, taux ni pratique réels. Démontre surcharge d'ouvrage, seuil de déduction et paramètres propres.",
+  "zoneTree": [
+    {
+      "id": "SN",
+      "parent": null,
+      "type": "country",
+      "name": "Sénégal (zone de test)"
+    },
+    {
+      "id": "SN-DAKAR",
+      "parent": "SN",
+      "type": "region",
+      "name": "Dakar (test)"
+    },
+    {
+      "id": "SN-DAKAR-DAKAR",
+      "parent": "SN-DAKAR",
+      "type": "department",
+      "name": "Dakar (test)"
+    },
+    {
+      "id": "SN-DAKAR-DAKAR-PLATEAU",
+      "parent": "SN-DAKAR-DAKAR",
+      "type": "commune",
+      "name": "Plateau (test)"
+    }
+  ],
+  "legalIdentifiers": [
+    {
+      "key": "ninea",
+      "label": "NINEA"
+    },
+    {
+      "key": "rccm",
+      "label": "RCCM"
+    }
+  ],
+  "numberingRules": [
+    {
+      "kind": "DQE",
+      "pattern": "DQE/{YYYY}/{seq:4}"
+    },
+    {
+      "kind": "DEVIS",
+      "pattern": "DV/{YYYY}/{seq:4}"
+    }
+  ],
+  "assemblies": [
+    {
+      "code": "OUV.MAC.BLOC20",
+      "version": "1.0.0",
+      "label": "Maçonnerie de blocs creux de 20 cm",
+      "unit": "m2",
+      "basis": "wall.area",
+      "lot": "LOT01",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "MAT.BLOC.20",
+          "consumption": "13",
+          "unit": "u",
+          "per": "m2",
+          "lossRate": "0.05"
+        },
+        {
+          "kind": "assembly",
+          "ref": "OUV.MORTIER.CIM",
+          "consumption": "0.015",
+          "unit": "m3",
+          "per": "m2"
+        },
+        {
+          "kind": "labour",
+          "item": "MO.MACON",
+          "consumption": "0.85",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    }
+  ],
+  "measurementMethod": {
+    "id": "MM.TEST.THRESHOLD",
+    "version": "1.0.0",
+    "deductions": {
+      "wall.area": {
+        "mode": "threshold",
+        "thresholdM2": "0.50"
+      },
+      "space.wall.area": {
+        "mode": "threshold",
+        "thresholdM2": "0.50"
+      }
+    }
+  },
+  "params": {
+    "overheadRate": "0.15",
+    "marginRate": "0.08"
+  },
+  "priceBooks": [
+    {
+      "id": "pb.sn.test",
+      "version": "pb-sn-0.0.1",
+      "dataClass": "synthetic/test",
+      "currency": "XOF",
+      "entries": [
+        {
+          "id": "pe:sn:MAT.BLOC.20:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MAT.BLOC.20",
+          "unit": "u",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "447",
+            "median": "486",
+            "mean": "491",
+            "max": "535",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MAT.BLOC.10:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MAT.BLOC.10",
+          "unit": "u",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "348",
+            "median": "378",
+            "mean": "382",
+            "max": "416",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MAT.CIMENT:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MAT.CIMENT",
+          "unit": "sac",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "5962",
+            "median": "6480",
+            "mean": "6545",
+            "max": "7128",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MAT.SABLE:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MAT.SABLE",
+          "unit": "m3",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "11923",
+            "median": "12960",
+            "mean": "13090",
+            "max": "14256",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MAT.GRAVIER:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MAT.GRAVIER",
+          "unit": "m3",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "17885",
+            "median": "19440",
+            "mean": "19634",
+            "max": "21384",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MAT.CARREAU.SOL:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MAT.CARREAU.SOL",
+          "unit": "m2",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "6458",
+            "median": "7020",
+            "mean": "7090",
+            "max": "7722",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MAT.CARREAU.MUR:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MAT.CARREAU.MUR",
+          "unit": "m2",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "5465",
+            "median": "5940",
+            "mean": "5999",
+            "max": "6534",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MAT.COLLE:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MAT.COLLE",
+          "unit": "sac25",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "4968",
+            "median": "5400",
+            "mean": "5454",
+            "max": "5940",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MAT.PEINTURE:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MAT.PEINTURE",
+          "unit": "pot20",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "27821",
+            "median": "30240",
+            "mean": "30542",
+            "max": "33264",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MAT.TOLE:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MAT.TOLE",
+          "unit": "m2",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "4471",
+            "median": "4860",
+            "mean": "4909",
+            "max": "5346",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MENU.PORTE.100:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MENU.PORTE.100",
+          "unit": "u",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "84456",
+            "median": "91800",
+            "mean": "92718",
+            "max": "100980",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MENU.PORTE.90:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MENU.PORTE.90",
+          "unit": "u",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "69552",
+            "median": "75600",
+            "mean": "76356",
+            "max": "83160",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MENU.FEN.120:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MENU.FEN.120",
+          "unit": "u",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "59616",
+            "median": "64800",
+            "mean": "65448",
+            "max": "71280",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MENU.FEN.60:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MENU.FEN.60",
+          "unit": "u",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "24840",
+            "median": "27000",
+            "mean": "27270",
+            "max": "29700",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MO.MACON:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MO.MACON",
+          "unit": "h",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "1490",
+            "median": "1620",
+            "mean": "1636",
+            "max": "1782",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MO.PLATRIER:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MO.PLATRIER",
+          "unit": "h",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "1590",
+            "median": "1728",
+            "mean": "1745",
+            "max": "1901",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MO.CARRELEUR:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MO.CARRELEUR",
+          "unit": "h",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "1788",
+            "median": "1944",
+            "mean": "1963",
+            "max": "2138",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MO.PEINTRE:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MO.PEINTRE",
+          "unit": "h",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "1391",
+            "median": "1512",
+            "mean": "1527",
+            "max": "1663",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MO.COUVREUR:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MO.COUVREUR",
+          "unit": "h",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "1689",
+            "median": "1836",
+            "mean": "1854",
+            "max": "2020",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MO.MENUISIER:SN-DAKAR-DAKAR-PLATEAU",
+          "item": "MO.MENUISIER",
+          "unit": "h",
+          "zoneId": "SN-DAKAR-DAKAR-PLATEAU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "1788",
+            "median": "1944",
+            "mean": "1963",
+            "max": "2138",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:sn:MAT.ACIER:SN",
+          "item": "MAT.ACIER",
+          "unit": "kg",
+          "zoneId": "SN",
+          "currency": "XOF",
+          "date": "2026-02-01",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-sn-0.0.1",
+          "confidence": "0.40",
+          "stat": {
+            "min": "894",
+            "median": "972",
+            "mean": "982",
+            "max": "1069",
+            "n": 2
+          },
+          "dataClass": "synthetic/test"
+        }
+      ]
+    }
+  ],
+  "contentHash": "sha256:5420316327e35a21faeb3448e558c5b917e45ee825185ad054f6fd8b15d75cf8",
+  "signature": {
+    "keyId": "test-key-1",
+    "alg": "ed25519",
+    "value": "aOld6/30NxpEaHebQQhDoIc+5lhVbAXnGXCexYHtMztiMccUVi8uop8uXVd0Yav3mv6yrGVDdEDqVMFKB4B1CQ=="
+  }
+}

@@ -23,3 +23,16 @@ L'architecture promet « même entrée → même sortie, bit à bit » et un tes
 ## Alternatives écartées
 - Flottants IEEE + tolérance : empêche l'égalité par hash.
 - Rust/WASM pour toute la géométrie : n'élimine pas le choix de représentation ; envisageable si un goulot est mesuré.
+
+## Addendum M0 — Garantie de reproductibilité (définie précisément)
+Le « bit à bit » n'est ni nécessaire ni réaliste partout. La garantie est donc définie **par niveau** :
+
+| Niveau | Objets | Garantie | Mécanisme | Test |
+|---|---|---|---|---|
+| **R1 — Exacte** | modèle, hypothèses, `GeoQuantity`, `QuantitySet`, `Estimate`, `DocumentModel`, manifeste, fichiers du bundle | mêmes entrées ⇒ **mêmes octets canoniques ⇒ même SHA‑256**, sur tout processus et toute plateforme | `BigInt` exact, aucun flottant, racine entière, arrondis explicites, JSON canonique (clés triées), SHA‑256 pur TS | `tests/reproducibility`, `tests/golden`, inter‑processus |
+| **R2 — Contenu** | rendus Markdown/PDF/XLSX | les **chiffres** sont ceux du `DocumentModel` ; les octets d'un PDF peuvent différer (polices, métadonnées) | le rendu ne calcule rien | `tests/documents` (rendu) |
+| **R3 — Enregistrée** | sorties de perception IA (V1+) | **non rejouables** à l'identique d'un matériel à l'autre ; la garantie commence au **modèle accepté** | proposition → décision humaine → modèle versionné | T‑AI‑07 (M1) |
+
+**Ce qui est inclus dans une empreinte de contenu** : entrées, règles (+ hash), paramètres, résultats. **Ce qui n'y est pas** : l'empreinte du code du moteur (`engine.sourceHash`), enregistrée à part dans le bundle — un moteur correct, quelle que soit sa build, produit les mêmes empreintes ; une divergence est un bogue détecté par les `golden`.
+**Évolution volontaire du moteur** : un changement de résultat légitime met à jour `tests/golden/hashes.json` (`UPDATE_GOLDEN=1`), avec entrée de changelog et, si l'API change, incrément d'`engineApi`.
+**Portée vérifiée en M0** : inter‑processus Node (même OS). Windows/macOS/WASM : à ajouter en CI dès que ces cibles existent (T‑ENG‑03 reste ouvert pour ces plateformes).

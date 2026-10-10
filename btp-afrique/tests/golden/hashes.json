@@ -1,0 +1,32 @@
+{
+  "cell.bj": {
+    "takeoff": "sha256:ec630eb9b5e97f98fb39ce358eea40309f9a974629b996bf22cfa59673a78695",
+    "quantitySet": "sha256:510e002ea9d88639f619d5973c8a203d94c38d06a698593a58792d6f799a050e",
+    "estimate": "sha256:4e6466351f03897436252284af21b4e6d10a12d7ef77141016330ee32f46d0b4",
+    "dqe": "sha256:e0253ea6c97c0772af1a25b6d67b06fc222e5b2472b57cd396019950eaaab2f2",
+    "manifest": "sha256:7efd41a6310d5bf490c047427ddacbf90387c73580f15cb77dc3443ce1c72fc5",
+    "bindingRev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+    "packResolved": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f"
+  },
+  "house.bj": {
+    "takeoff": "sha256:7c2e4c5df93f6a6c2507e7a76f084d541c677a03337c516d2b52d84970d84cbf",
+    "quantitySet": "sha256:234ab494b7d415ebb643a61abbec98fed367935f5bf7a0db2f0674f6ba0d7c0a",
+    "estimate": "sha256:303d31e939938efda427568e3b114777b75f83e1c3cbc5f306fa0c9a2afee63d",
+    "doc": "sha256:824b527358bf538cf1619b7e1afdfafc519fdb237fc1aa7aa71bb7e858536e8a",
+    "total": "5232620"
+  },
+  "house.divergent": {
+    "takeoff": "sha256:7c2e4c5df93f6a6c2507e7a76f084d541c677a03337c516d2b52d84970d84cbf",
+    "quantitySet": "sha256:4f415cf973c251ac736d6cf45e21e842538dd46296edd9fad5e25c8431df2472",
+    "estimate": "sha256:738f8f7c26dfbbb0ea60f957bf52594b7a59b3f6755a79f0f7416e1e050976c0",
+    "doc": "sha256:fbb0c6446e059d1330b31d4ac4e46183ce60c94bd066f5c6303c9286dff6d8a6",
+    "total": "2044876"
+  },
+  "house.sn": {
+    "takeoff": "sha256:7c2e4c5df93f6a6c2507e7a76f084d541c677a03337c516d2b52d84970d84cbf",
+    "quantitySet": "sha256:83cd6a7e8dc44d559274c4d30d8a6af9d16a9940dd8547bce56b79f488e505bf",
+    "estimate": "sha256:c16328c934cf04d1dbc170907a8af9ca4bd93ab6eabb3597a89d01ae8a00da39",
+    "doc": "sha256:79197ceb2ba042a965f380126dedf3465aa2682d501a00149656427aa44d8193",
+    "total": "5747235"
+  }
+}

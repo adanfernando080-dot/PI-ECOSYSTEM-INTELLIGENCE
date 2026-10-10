@@ -1,0 +1,547 @@
+{
+  "packSchemaVersion": "1",
+  "dataClass": "synthetic/test",
+  "extends": {
+    "id": "pack.test.base-xof",
+    "version": "0.0.1-synthetic",
+    "contentHash": "sha256:18e8a65280f8a50b4c9556d48836d7534c2bdc1a9e14dfeb09c07181c787897b"
+  },
+  "requires": {
+    "engineApi": "1",
+    "specTaxonomy": "1.0.0",
+    "ruleLanguage": "declarative-1"
+  },
+  "id": "pack.bj",
+  "version": "0.0.1-synthetic",
+  "description": "SYNTHÉTIQUE — pack « Bénin » de test : AUCUN prix, taux ni pratique réels.",
+  "zoneTree": [
+    {
+      "id": "BJ",
+      "parent": null,
+      "type": "country",
+      "name": "Bénin (zone de test)"
+    },
+    {
+      "id": "BJ-LITTORAL",
+      "parent": "BJ",
+      "type": "department",
+      "name": "Littoral (test)"
+    },
+    {
+      "id": "BJ-LITTORAL-COTONOU",
+      "parent": "BJ-LITTORAL",
+      "type": "commune",
+      "name": "Cotonou (test)"
+    }
+  ],
+  "legalIdentifiers": [
+    {
+      "key": "ifu",
+      "label": "IFU"
+    },
+    {
+      "key": "rccm",
+      "label": "RCCM"
+    }
+  ],
+  "numberingRules": [
+    {
+      "kind": "DQE",
+      "pattern": "DQE-{YYYY}-{seq:4}"
+    },
+    {
+      "kind": "DEVIS",
+      "pattern": "DEV-{YYYY}-{seq:4}"
+    }
+  ],
+  "defaultSpecProfiles": [
+    {
+      "id": "A-01",
+      "key": "level.clearHeight",
+      "value": {
+        "value": "3.00",
+        "unit": "m"
+      },
+      "scope": "project",
+      "rationale": "Profil synthétique : hauteur libre proposée"
+    }
+  ],
+  "priceBooks": [
+    {
+      "id": "pb.bj.test",
+      "version": "pb-bj-0.0.1",
+      "dataClass": "synthetic/test",
+      "currency": "XOF",
+      "entries": [
+        {
+          "id": "pe:bj:MAT.BLOC.20:BJ-LITTORAL-COTONOU",
+          "item": "MAT.BLOC.20",
+          "unit": "u",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "414",
+            "median": "450",
+            "mean": "455",
+            "max": "495",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MAT.BLOC.10:BJ-LITTORAL-COTONOU",
+          "item": "MAT.BLOC.10",
+          "unit": "u",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "322",
+            "median": "350",
+            "mean": "354",
+            "max": "385",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MAT.CIMENT:BJ-LITTORAL-COTONOU",
+          "item": "MAT.CIMENT",
+          "unit": "sac",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "5520",
+            "median": "6000",
+            "mean": "6060",
+            "max": "6600",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MAT.SABLE:BJ-LITTORAL-COTONOU",
+          "item": "MAT.SABLE",
+          "unit": "m3",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "11040",
+            "median": "12000",
+            "mean": "12120",
+            "max": "13200",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MAT.GRAVIER:BJ-LITTORAL-COTONOU",
+          "item": "MAT.GRAVIER",
+          "unit": "m3",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "16560",
+            "median": "18000",
+            "mean": "18180",
+            "max": "19800",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MAT.CARREAU.SOL:BJ-LITTORAL-COTONOU",
+          "item": "MAT.CARREAU.SOL",
+          "unit": "m2",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "5980",
+            "median": "6500",
+            "mean": "6565",
+            "max": "7150",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MAT.CARREAU.MUR:BJ-LITTORAL-COTONOU",
+          "item": "MAT.CARREAU.MUR",
+          "unit": "m2",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "5060",
+            "median": "5500",
+            "mean": "5555",
+            "max": "6050",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MAT.COLLE:BJ-LITTORAL-COTONOU",
+          "item": "MAT.COLLE",
+          "unit": "sac25",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "4600",
+            "median": "5000",
+            "mean": "5050",
+            "max": "5500",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MAT.PEINTURE:BJ-LITTORAL-COTONOU",
+          "item": "MAT.PEINTURE",
+          "unit": "pot20",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "25760",
+            "median": "28000",
+            "mean": "28280",
+            "max": "30800",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MAT.TOLE:BJ-LITTORAL-COTONOU",
+          "item": "MAT.TOLE",
+          "unit": "m2",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "4140",
+            "median": "4500",
+            "mean": "4545",
+            "max": "4950",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MENU.PORTE.100:BJ-LITTORAL-COTONOU",
+          "item": "MENU.PORTE.100",
+          "unit": "u",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "78200",
+            "median": "85000",
+            "mean": "85850",
+            "max": "93500",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MENU.PORTE.90:BJ-LITTORAL-COTONOU",
+          "item": "MENU.PORTE.90",
+          "unit": "u",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "64400",
+            "median": "70000",
+            "mean": "70700",
+            "max": "77000",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MENU.FEN.120:BJ-LITTORAL-COTONOU",
+          "item": "MENU.FEN.120",
+          "unit": "u",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "55200",
+            "median": "60000",
+            "mean": "60600",
+            "max": "66000",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MENU.FEN.60:BJ-LITTORAL-COTONOU",
+          "item": "MENU.FEN.60",
+          "unit": "u",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "23000",
+            "median": "25000",
+            "mean": "25250",
+            "max": "27500",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MO.MACON:BJ-LITTORAL-COTONOU",
+          "item": "MO.MACON",
+          "unit": "h",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "1380",
+            "median": "1500",
+            "mean": "1515",
+            "max": "1650",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MO.PLATRIER:BJ-LITTORAL-COTONOU",
+          "item": "MO.PLATRIER",
+          "unit": "h",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "1472",
+            "median": "1600",
+            "mean": "1616",
+            "max": "1760",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MO.CARRELEUR:BJ-LITTORAL-COTONOU",
+          "item": "MO.CARRELEUR",
+          "unit": "h",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "1656",
+            "median": "1800",
+            "mean": "1818",
+            "max": "1980",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MO.PEINTRE:BJ-LITTORAL-COTONOU",
+          "item": "MO.PEINTRE",
+          "unit": "h",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "1288",
+            "median": "1400",
+            "mean": "1414",
+            "max": "1540",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MO.COUVREUR:BJ-LITTORAL-COTONOU",
+          "item": "MO.COUVREUR",
+          "unit": "h",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "1564",
+            "median": "1700",
+            "mean": "1717",
+            "max": "1870",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MO.MENUISIER:BJ-LITTORAL-COTONOU",
+          "item": "MO.MENUISIER",
+          "unit": "h",
+          "zoneId": "BJ-LITTORAL-COTONOU",
+          "currency": "XOF",
+          "date": "2026-09-15",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.80",
+          "stat": {
+            "min": "1656",
+            "median": "1800",
+            "mean": "1818",
+            "max": "1980",
+            "n": 5
+          },
+          "dataClass": "synthetic/test"
+        },
+        {
+          "id": "pe:bj:MAT.ACIER:BJ",
+          "item": "MAT.ACIER",
+          "unit": "kg",
+          "zoneId": "BJ",
+          "currency": "XOF",
+          "date": "2026-02-01",
+          "source": {
+            "type": "synthetic",
+            "ref": "TEST-DATA-DO-NOT-USE"
+          },
+          "version": "pb-bj-0.0.1",
+          "confidence": "0.40",
+          "stat": {
+            "min": "828",
+            "median": "900",
+            "mean": "909",
+            "max": "990",
+            "n": 2
+          },
+          "dataClass": "synthetic/test"
+        }
+      ]
+    }
+  ],
+  "contentHash": "sha256:91e8fb68a503873a02255f7ab0bec8ac6b5ed652ed21eae69879ccece986c7fd",
+  "signature": {
+    "keyId": "test-key-1",
+    "alg": "ed25519",
+    "value": "I0MQkRI+SyOcPuGA+xekFvMczdXHPd79FFkRwTTq+9jKbSmR4Rw0foOubJ7cXOzWoY+WqYG0wJ+2JRRkjIJ+CA=="
+  }
+}

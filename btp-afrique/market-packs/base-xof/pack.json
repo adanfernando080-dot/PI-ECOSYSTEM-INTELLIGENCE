@@ -1,0 +1,1013 @@
+{
+  "packSchemaVersion": "1",
+  "id": "pack.test.base-xof",
+  "version": "0.0.1-synthetic",
+  "dataClass": "synthetic/test",
+  "description": "SYNTHÉTIQUE — socle commun (devise, unités, gabarits, modèle d'ouvrages) aux packs de test Bénin et Sénégal. Aucune donnée réelle.",
+  "extends": null,
+  "requires": {
+    "engineApi": "1",
+    "specTaxonomy": "1.0.0",
+    "ruleLanguage": "declarative-1"
+  },
+  "currency": {
+    "code": "XOF",
+    "minorUnits": 0,
+    "symbol": "FCFA",
+    "name": "Franc CFA (test)"
+  },
+  "units": [
+    {
+      "code": "sac",
+      "dimension": "mass",
+      "factor": "50"
+    },
+    {
+      "code": "sac25",
+      "dimension": "mass",
+      "factor": "25"
+    },
+    {
+      "code": "pot20",
+      "dimension": "volume",
+      "factor": "0.02"
+    }
+  ],
+  "catalogue": [
+    {
+      "code": "MAT.BLOC.20",
+      "label": "Bloc creux 20 cm [TEST]",
+      "kind": "material",
+      "unit": "u",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "MAT.BLOC.10",
+      "label": "Bloc creux 10 cm [TEST]",
+      "kind": "material",
+      "unit": "u",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "MAT.CIMENT",
+      "label": "Ciment, sac de 50 kg [TEST]",
+      "kind": "material",
+      "unit": "sac",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "MAT.SABLE",
+      "label": "Sable [TEST]",
+      "kind": "material",
+      "unit": "m3",
+      "orderRounding": {
+        "scale": 1,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "MAT.GRAVIER",
+      "label": "Gravier [TEST]",
+      "kind": "material",
+      "unit": "m3",
+      "orderRounding": {
+        "scale": 1,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "MAT.ACIER",
+      "label": "Acier HA [TEST]",
+      "kind": "material",
+      "unit": "kg",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "MAT.CARREAU.SOL",
+      "label": "Carreau de sol [TEST]",
+      "kind": "material",
+      "unit": "m2",
+      "orderRounding": {
+        "scale": 1,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "MAT.CARREAU.MUR",
+      "label": "Carreau mural [TEST]",
+      "kind": "material",
+      "unit": "m2",
+      "orderRounding": {
+        "scale": 1,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "MAT.COLLE",
+      "label": "Colle carrelage, sac de 25 kg [TEST]",
+      "kind": "material",
+      "unit": "sac25",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "MAT.PEINTURE",
+      "label": "Peinture émulsion, pot de 20 l [TEST]",
+      "kind": "material",
+      "unit": "pot20",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "MAT.TOLE",
+      "label": "Tôle de couverture [TEST]",
+      "kind": "material",
+      "unit": "m2",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "MENU.PORTE.100",
+      "label": "Bloc-porte bois 100×210 [TEST]",
+      "kind": "material",
+      "unit": "u",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "MENU.PORTE.90",
+      "label": "Bloc-porte bois 90×210 [TEST]",
+      "kind": "material",
+      "unit": "u",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "MENU.FEN.120",
+      "label": "Fenêtre aluminium 120×120 [TEST]",
+      "kind": "material",
+      "unit": "u",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "MENU.FEN.60",
+      "label": "Fenêtre aluminium 60×60 [TEST]",
+      "kind": "material",
+      "unit": "u",
+      "orderRounding": {
+        "scale": 0,
+        "mode": "ceil"
+      }
+    },
+    {
+      "code": "MO.MACON",
+      "label": "Maçon [TEST]",
+      "kind": "labour",
+      "unit": "h"
+    },
+    {
+      "code": "MO.PLATRIER",
+      "label": "Plâtrier-enduiseur [TEST]",
+      "kind": "labour",
+      "unit": "h"
+    },
+    {
+      "code": "MO.CARRELEUR",
+      "label": "Carreleur [TEST]",
+      "kind": "labour",
+      "unit": "h"
+    },
+    {
+      "code": "MO.PEINTRE",
+      "label": "Peintre [TEST]",
+      "kind": "labour",
+      "unit": "h"
+    },
+    {
+      "code": "MO.COUVREUR",
+      "label": "Couvreur [TEST]",
+      "kind": "labour",
+      "unit": "h"
+    },
+    {
+      "code": "MO.MENUISIER",
+      "label": "Menuisier-poseur [TEST]",
+      "kind": "labour",
+      "unit": "h"
+    }
+  ],
+  "assemblies": [
+    {
+      "code": "OUV.MORTIER.CIM",
+      "version": "1.0.0",
+      "label": "Mortier de ciment (sous-ouvrage)",
+      "unit": "m3",
+      "basis": "wall.area",
+      "lot": "LOT01",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "MAT.CIMENT",
+          "consumption": "350",
+          "unit": "kg",
+          "per": "m3",
+          "lossRate": "0.03"
+        },
+        {
+          "kind": "material",
+          "item": "MAT.SABLE",
+          "consumption": "1.1",
+          "unit": "m3",
+          "per": "m3",
+          "lossRate": "0.05"
+        }
+      ]
+    },
+    {
+      "code": "OUV.MAC.BLOC20",
+      "version": "1.0.0",
+      "label": "Maçonnerie de blocs creux de 20 cm",
+      "unit": "m2",
+      "basis": "wall.area",
+      "lot": "LOT01",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "MAT.BLOC.20",
+          "consumption": "12.5",
+          "unit": "u",
+          "per": "m2",
+          "lossRate": "0.05"
+        },
+        {
+          "kind": "assembly",
+          "ref": "OUV.MORTIER.CIM",
+          "consumption": "0.015",
+          "unit": "m3",
+          "per": "m2"
+        },
+        {
+          "kind": "labour",
+          "item": "MO.MACON",
+          "consumption": "0.8",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "OUV.MAC.BLOC10",
+      "version": "1.0.0",
+      "label": "Maçonnerie de blocs creux de 10 cm (cloisons)",
+      "unit": "m2",
+      "basis": "wall.area",
+      "lot": "LOT01",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "MAT.BLOC.10",
+          "consumption": "12.5",
+          "unit": "u",
+          "per": "m2",
+          "lossRate": "0.05"
+        },
+        {
+          "kind": "assembly",
+          "ref": "OUV.MORTIER.CIM",
+          "consumption": "0.01",
+          "unit": "m3",
+          "per": "m2"
+        },
+        {
+          "kind": "labour",
+          "item": "MO.MACON",
+          "consumption": "0.7",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "OUV.DALLE.BA",
+      "version": "1.0.0",
+      "label": "Dalle en béton armé (estimation paramétrique)",
+      "unit": "m3",
+      "basis": "slab.volume",
+      "lot": "LOT01",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "MAT.CIMENT",
+          "consumption": "350",
+          "unit": "kg",
+          "per": "m3",
+          "lossRate": "0.03"
+        },
+        {
+          "kind": "material",
+          "item": "MAT.SABLE",
+          "consumption": "0.45",
+          "unit": "m3",
+          "per": "m3",
+          "lossRate": "0.05"
+        },
+        {
+          "kind": "material",
+          "item": "MAT.GRAVIER",
+          "consumption": "0.85",
+          "unit": "m3",
+          "per": "m3",
+          "lossRate": "0.05"
+        },
+        {
+          "kind": "material",
+          "item": "MAT.ACIER",
+          "consumption": "80",
+          "unit": "kg",
+          "per": "m3",
+          "lossRate": "0.05"
+        },
+        {
+          "kind": "labour",
+          "item": "MO.MACON",
+          "consumption": "6",
+          "unit": "h",
+          "per": "m3"
+        }
+      ],
+      "estimateFlag": "parametric_structural"
+    },
+    {
+      "code": "OUV.ENDUIT.EXT",
+      "version": "1.0.0",
+      "label": "Enduit extérieur au mortier de ciment",
+      "unit": "m2",
+      "basis": "wall.area",
+      "lot": "LOT02",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "assembly",
+          "ref": "OUV.MORTIER.CIM",
+          "consumption": "0.02",
+          "unit": "m3",
+          "per": "m2"
+        },
+        {
+          "kind": "labour",
+          "item": "MO.PLATRIER",
+          "consumption": "0.6",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "OUV.ENDUIT.INT",
+      "version": "1.0.0",
+      "label": "Enduit intérieur au mortier de ciment",
+      "unit": "m2",
+      "basis": "space.wall.area",
+      "lot": "LOT02",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "assembly",
+          "ref": "OUV.MORTIER.CIM",
+          "consumption": "0.02",
+          "unit": "m3",
+          "per": "m2"
+        },
+        {
+          "kind": "labour",
+          "item": "MO.PLATRIER",
+          "consumption": "0.5",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "OUV.CARRELAGE.SOL",
+      "version": "1.0.0",
+      "label": "Carrelage de sol",
+      "unit": "m2",
+      "basis": "space.floor.area",
+      "lot": "LOT02",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "MAT.CARREAU.SOL",
+          "consumption": "1",
+          "unit": "m2",
+          "per": "m2",
+          "lossRate": "0.10"
+        },
+        {
+          "kind": "material",
+          "item": "MAT.COLLE",
+          "consumption": "5",
+          "unit": "kg",
+          "per": "m2",
+          "lossRate": "0.05"
+        },
+        {
+          "kind": "labour",
+          "item": "MO.CARRELEUR",
+          "consumption": "0.8",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "OUV.CARRELAGE.MUR",
+      "version": "1.0.0",
+      "label": "Faïence murale",
+      "unit": "m2",
+      "basis": "space.wall.area",
+      "lot": "LOT02",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "MAT.CARREAU.MUR",
+          "consumption": "1",
+          "unit": "m2",
+          "per": "m2",
+          "lossRate": "0.10"
+        },
+        {
+          "kind": "material",
+          "item": "MAT.COLLE",
+          "consumption": "5",
+          "unit": "kg",
+          "per": "m2",
+          "lossRate": "0.05"
+        },
+        {
+          "kind": "labour",
+          "item": "MO.CARRELEUR",
+          "consumption": "1",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "OUV.PEINT.MUR",
+      "version": "1.0.0",
+      "label": "Peinture murale en émulsion",
+      "unit": "m2",
+      "basis": "space.wall.area",
+      "lot": "LOT02",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "MAT.PEINTURE",
+          "consumption": "0.25",
+          "unit": "l",
+          "per": "m2",
+          "lossRate": "0.10"
+        },
+        {
+          "kind": "labour",
+          "item": "MO.PEINTRE",
+          "consumption": "0.25",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "OUV.PEINT.PLAFOND",
+      "version": "1.0.0",
+      "label": "Peinture de plafond en émulsion",
+      "unit": "m2",
+      "basis": "space.ceiling.area",
+      "lot": "LOT02",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "MAT.PEINTURE",
+          "consumption": "0.25",
+          "unit": "l",
+          "per": "m2",
+          "lossRate": "0.10"
+        },
+        {
+          "kind": "labour",
+          "item": "MO.PEINTRE",
+          "consumption": "0.3",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    },
+    {
+      "code": "OUV.PORTE.100",
+      "version": "1.0.0",
+      "label": "Porte bois 100×210, pose comprise",
+      "unit": "u",
+      "basis": "opening.count",
+      "lot": "LOT03",
+      "quantityRounding": {
+        "scale": 0,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "MENU.PORTE.100",
+          "consumption": "1",
+          "unit": "u",
+          "per": "u"
+        },
+        {
+          "kind": "labour",
+          "item": "MO.MENUISIER",
+          "consumption": "2",
+          "unit": "h",
+          "per": "u"
+        }
+      ]
+    },
+    {
+      "code": "OUV.PORTE.90",
+      "version": "1.0.0",
+      "label": "Porte bois 90×210, pose comprise",
+      "unit": "u",
+      "basis": "opening.count",
+      "lot": "LOT03",
+      "quantityRounding": {
+        "scale": 0,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "MENU.PORTE.90",
+          "consumption": "1",
+          "unit": "u",
+          "per": "u"
+        },
+        {
+          "kind": "labour",
+          "item": "MO.MENUISIER",
+          "consumption": "2",
+          "unit": "h",
+          "per": "u"
+        }
+      ]
+    },
+    {
+      "code": "OUV.FEN.120",
+      "version": "1.0.0",
+      "label": "Fenêtre aluminium 120×120, pose comprise",
+      "unit": "u",
+      "basis": "opening.count",
+      "lot": "LOT03",
+      "quantityRounding": {
+        "scale": 0,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "MENU.FEN.120",
+          "consumption": "1",
+          "unit": "u",
+          "per": "u"
+        },
+        {
+          "kind": "labour",
+          "item": "MO.MENUISIER",
+          "consumption": "1.5",
+          "unit": "h",
+          "per": "u"
+        }
+      ]
+    },
+    {
+      "code": "OUV.FEN.60",
+      "version": "1.0.0",
+      "label": "Fenêtre aluminium 60×60, pose comprise",
+      "unit": "u",
+      "basis": "opening.count",
+      "lot": "LOT03",
+      "quantityRounding": {
+        "scale": 0,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "MENU.FEN.60",
+          "consumption": "1",
+          "unit": "u",
+          "per": "u"
+        },
+        {
+          "kind": "labour",
+          "item": "MO.MENUISIER",
+          "consumption": "1",
+          "unit": "h",
+          "per": "u"
+        }
+      ]
+    },
+    {
+      "code": "OUV.TOLE",
+      "version": "1.0.0",
+      "label": "Couverture en tôle",
+      "unit": "m2",
+      "basis": "roof.area",
+      "lot": "LOT04",
+      "quantityRounding": {
+        "scale": 2,
+        "mode": "half_up"
+      },
+      "components": [
+        {
+          "kind": "material",
+          "item": "MAT.TOLE",
+          "consumption": "1",
+          "unit": "m2",
+          "per": "m2",
+          "lossRate": "0.10"
+        },
+        {
+          "kind": "labour",
+          "item": "MO.COUVREUR",
+          "consumption": "0.4",
+          "unit": "h",
+          "per": "m2"
+        }
+      ]
+    }
+  ],
+  "specMappings": [
+    {
+      "id": "SM.MAC.BLOC20",
+      "version": "1.0.0",
+      "target": "wall",
+      "class": "masonry.block.hollow",
+      "assembly": "OUV.MAC.BLOC20",
+      "thickness": {
+        "min": "0.19",
+        "max": "0.21"
+      }
+    },
+    {
+      "id": "SM.MAC.BLOC10",
+      "version": "1.0.0",
+      "target": "wall",
+      "class": "masonry.block.hollow",
+      "assembly": "OUV.MAC.BLOC10",
+      "thickness": {
+        "min": "0.09",
+        "max": "0.11"
+      }
+    },
+    {
+      "id": "SM.ENDUIT.EXT",
+      "version": "1.0.0",
+      "target": "wall.layer",
+      "class": "render.cementitious",
+      "assembly": "OUV.ENDUIT.EXT",
+      "side": "exterior"
+    },
+    {
+      "id": "SM.ENDUIT.INT",
+      "version": "1.0.0",
+      "target": "space.wall",
+      "class": "render.cementitious",
+      "assembly": "OUV.ENDUIT.INT"
+    },
+    {
+      "id": "SM.PEINT.MUR",
+      "version": "1.0.0",
+      "target": "space.wall",
+      "class": "paint.emulsion",
+      "assembly": "OUV.PEINT.MUR"
+    },
+    {
+      "id": "SM.CARR.MUR",
+      "version": "1.0.0",
+      "target": "space.wall",
+      "class": "wall.tile.ceramic",
+      "assembly": "OUV.CARRELAGE.MUR"
+    },
+    {
+      "id": "SM.PEINT.PLAF",
+      "version": "1.0.0",
+      "target": "space.ceiling",
+      "class": "paint.emulsion",
+      "assembly": "OUV.PEINT.PLAFOND"
+    },
+    {
+      "id": "SM.CARR.SOL",
+      "version": "1.0.0",
+      "target": "space.floor",
+      "class": "floor.tile.ceramic",
+      "assembly": "OUV.CARRELAGE.SOL"
+    },
+    {
+      "id": "SM.DALLE",
+      "version": "1.0.0",
+      "target": "slab",
+      "class": "slab.reinforced.concrete",
+      "assembly": "OUV.DALLE.BA"
+    },
+    {
+      "id": "SM.TOLE",
+      "version": "1.0.0",
+      "target": "roof",
+      "class": "roof.sheet.metal",
+      "assembly": "OUV.TOLE"
+    },
+    {
+      "id": "SM.PORTE.100",
+      "version": "1.0.0",
+      "target": "opening",
+      "class": "opening.door.single",
+      "assembly": "OUV.PORTE.100",
+      "width": {
+        "min": "0.96",
+        "max": "1.05"
+      },
+      "material": "joinery.timber"
+    },
+    {
+      "id": "SM.PORTE.90",
+      "version": "1.0.0",
+      "target": "opening",
+      "class": "opening.door.single",
+      "assembly": "OUV.PORTE.90",
+      "width": {
+        "min": "0.75",
+        "max": "0.95"
+      },
+      "material": "joinery.timber"
+    },
+    {
+      "id": "SM.FEN.120",
+      "version": "1.0.0",
+      "target": "opening",
+      "class": "opening.window.casement",
+      "assembly": "OUV.FEN.120",
+      "width": {
+        "min": "1.15",
+        "max": "1.25"
+      },
+      "material": "joinery.aluminium"
+    },
+    {
+      "id": "SM.FEN.60",
+      "version": "1.0.0",
+      "target": "opening",
+      "class": "opening.window.casement",
+      "assembly": "OUV.FEN.60",
+      "width": {
+        "min": "0.55",
+        "max": "0.65"
+      },
+      "material": "joinery.aluminium"
+    }
+  ],
+  "measurementMethod": {
+    "id": "MM.TEST.NET",
+    "version": "1.0.0",
+    "deductions": {
+      "wall.area": {
+        "mode": "net"
+      },
+      "space.wall.area": {
+        "mode": "net"
+      }
+    }
+  },
+  "costBuildUp": [
+    {
+      "id": "direct",
+      "label": "Déboursé sec",
+      "kind": "sum",
+      "scope": "line",
+      "of": [
+        "material",
+        "labour",
+        "equipment",
+        "transport"
+      ]
+    },
+    {
+      "id": "overheads",
+      "label": "Frais généraux",
+      "kind": "percent",
+      "scope": "line",
+      "base": [
+        "direct"
+      ],
+      "rate": {
+        "param": "overheadRate"
+      }
+    },
+    {
+      "id": "margin",
+      "label": "Marge",
+      "kind": "percent",
+      "scope": "line",
+      "base": [
+        "direct",
+        "overheads"
+      ],
+      "rate": {
+        "param": "marginRate"
+      }
+    },
+    {
+      "id": "vat",
+      "label": "TVA (taux de TEST)",
+      "kind": "percent",
+      "scope": "total",
+      "base": [
+        "lines"
+      ],
+      "rate": {
+        "param": "vatRate"
+      },
+      "effect": "tax"
+    }
+  ],
+  "params": {
+    "staleAfterDays": "180",
+    "lowConfidenceBelow": "0.50",
+    "overheadRate": "0.12",
+    "marginRate": "0.10",
+    "vatRate": "0.18"
+  },
+  "rounding": {
+    "quantity": {
+      "scale": 2,
+      "mode": "half_up"
+    },
+    "unitPrice": {
+      "scale": 0,
+      "mode": "half_up"
+    },
+    "lineAmount": {
+      "scale": 0,
+      "mode": "half_up"
+    },
+    "totalLayer": {
+      "scale": 0,
+      "mode": "half_up"
+    }
+  },
+  "workBreakdown": [
+    {
+      "code": "LOT01",
+      "label": "Gros œuvre",
+      "order": 1
+    },
+    {
+      "code": "LOT02",
+      "label": "Enduits et revêtements",
+      "order": 2
+    },
+    {
+      "code": "LOT03",
+      "label": "Menuiseries",
+      "order": 3
+    },
+    {
+      "code": "LOT04",
+      "label": "Couverture",
+      "order": 4
+    }
+  ],
+  "documentTemplates": [
+    {
+      "id": "tpl.dqe.fr",
+      "kind": "DQE",
+      "layout": "priced-lines",
+      "language": "fr",
+      "labels": {
+        "n": "N°",
+        "number": "N°",
+        "date": "Date",
+        "lot": "Lot",
+        "designation": "Désignation",
+        "unit": "U",
+        "quantity": "Quantité",
+        "unitPrice": "Prix unitaire",
+        "amount": "Montant",
+        "subtotal": "Sous-total du lot",
+        "total": "TOTAL",
+        "linesTotal": "Total des postes",
+        "issuer": "Émetteur",
+        "client": "Client",
+        "site": "Chantier",
+        "validity": "Validité",
+        "totalHT": "Total HT",
+        "totalTTC": "Total TTC",
+        "title": "Détail quantitatif estimatif (DQE)"
+      }
+    },
+    {
+      "id": "tpl.devis.fr",
+      "kind": "DEVIS",
+      "layout": "quote",
+      "language": "fr",
+      "labels": {
+        "n": "N°",
+        "number": "N°",
+        "date": "Date",
+        "lot": "Lot",
+        "designation": "Désignation",
+        "unit": "U",
+        "quantity": "Quantité",
+        "unitPrice": "Prix unitaire",
+        "amount": "Montant",
+        "subtotal": "Sous-total du lot",
+        "total": "TOTAL",
+        "linesTotal": "Total des postes",
+        "issuer": "Émetteur",
+        "client": "Client",
+        "site": "Chantier",
+        "validity": "Validité",
+        "totalHT": "Total HT",
+        "totalTTC": "Total TTC",
+        "title": "Devis"
+      }
+    }
+  ],
+  "contentHash": "sha256:18e8a65280f8a50b4c9556d48836d7534c2bdc1a9e14dfeb09c07181c787897b",
+  "signature": {
+    "keyId": "test-key-1",
+    "alg": "ed25519",
+    "value": "dAQ1JaKxM6wsc5HVy/h1sNf7gJX5GbiV1Wsc4py7L6Lpl5ir5vLpO3hO6zvaH0L+kNT3MxMICi0izbla8NARBw=="
+  }
+}

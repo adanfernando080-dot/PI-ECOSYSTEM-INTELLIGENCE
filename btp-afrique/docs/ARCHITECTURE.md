@@ -25,7 +25,7 @@
 | D7 | **L'IA ne produit que des « propositions »** (avec confiance et preuve visuelle) ; seul l'humain les promeut en modèle validé | Transparence, responsabilité professionnelle |
 | D8 | **Les « packs marché » sont des données signées, pas du code** : tout le contexte économique, réglementaire et de pratiques (arbre de zones, devise, taxes, normes, catalogue, prix, fournisseurs, main-d'œuvre, méthode de mesurage, unités commerciales, gabarits, paramètres) | Extension multi-pays sans recompiler ; un même projet se chiffre avec plusieurs packs |
 | D9 | **Un LLM n'appelle que des outils** (moteurs déterministes) et n'écrit aucun nombre de sa propre initiative | L'assistant explique, il ne calcule pas |
-| D10 | **Plans chiffrés localement par défaut ; envoi cloud = opt-in explicite par projet** | Confidentialité des plans |
+| D10 | **Fonctions essentielles utilisables sans connexion et sans IA ; aucun plan envoyé au cloud sans consentement explicite par projet ; IA locale ET/OU cloud optionnelle derrière les mêmes contrats, choisie par benchmark** (ADR-0017) | Offline-first sans imposer une IA 100 % locale ; confidentialité des plans |
 | D11 | **Modèle géométrique unique** (2D/3D/IFC = vues et exports du même modèle) | Continuité conception → chiffrage |
 | D12 | **Le premier jalon livre de la valeur sans IA** (plan calibré + traçage assisté → métré → DQE → devis) ; l'IA arrive comme accélérateur mesurable | Le plus gros risque du projet est la reconnaissance de plans réels (voir §6.4) |
 | D13 | **Moteur architectural universel** : aucun schéma, règle, modèle IA ou donnée du moteur ne contient de pays, devise, taxe, prix, norme ; le contexte marché n'entre que par un `MarketBinding` au moment du chiffrage (ADR-0001, vérifié en CI) | Le Bénin est le premier marché, pas la limite du moteur |
@@ -96,7 +96,7 @@ Ce sont les éléments coûteux ou impossibles à corriger après coup :
 | Import | PDF (vectoriel et raster), JPG, PNG ; calibration d'échelle (manuelle + détection assistée) |
 | Modèle | niveaux, murs, pièces, ouvertures (portes/fenêtres), dalles/toiture en **surface et pente simples** |
 | Édition | correction manuelle du modèle sur le plan (outils de traçage/ajustement 2D minimaux) |
-| IA locale | modèles **universels** (non spécifiques à un pays) : OCR (langues **déclarées** dans le domaine de validité : FR et EN au MVP, les autres seulement après mesure) + détection de cotes/échelle/titres, **propositions** de murs/pièces/ouvertures, contrôle de cohérence ; domaine de validité déclaré (§6.0) |
+| IA (locale ou cloud optionnel, choix par benchmark — ADR-0017) | modèles **universels** (non spécifiques à un pays) : OCR (langues **déclarées** dans le domaine de validité : FR et EN au MVP, les autres seulement après mesure) + détection de cotes/échelle/titres, **propositions** de murs/pièces/ouvertures, contrôle de cohérence ; domaine de validité déclaré (§6.0) |
 | Métré | lots gros-œuvre, maçonnerie, enduits, revêtements, peinture, menuiseries, couverture (liste exacte §12) |
 | Prix | **pack Bénin v0** (premier pack marché), catalogue local, XOF, prix par ville/région avec date, source, confiance ; saisie/override utilisateur |
 | Documents | DQE (PDF + Excel), devis (PDF) — types de documents **définis par le pack Bénin v0** —, fiche de traçabilité du métré, manifeste de provenance |
@@ -185,7 +185,7 @@ Le **core** ne connaît aucun adaptateur : il reçoit des données et rend des d
 | Excel | exceljs | — | formules Excel réelles optionnelles |
 | Cloud (V1) | Postgres, stockage objet, workers de jobs | — | Aucun besoin avant V1 |
 
-**Matériel minimal cible à valider avec des utilisateurs réels** : 8 Go RAM, CPU 4 cœurs sans GPU, Windows 10/11. Tout le pipeline IA du MVP doit tourner sur CPU en un temps acceptable (objectif : < 60 s par page A3 courante) ; sinon traitement en tâche de fond avec progression.
+**Matériel minimal cible à valider avec des utilisateurs réels** : 8 Go RAM, CPU 4 cœurs sans GPU, Windows 10/11. Les fonctions essentielles (modèle, métré, prix, documents) tournent sur ce matériel sans IA. Une fonction IA doit soit tourner localement en un temps acceptable (objectif : < 60 s par page A3 courante, sinon tâche de fond), soit disposer d'un repli (traçage assisté) ; le choix local / cloud optionnel est tranché par benchmark (ADR-0017).
 
 ---
 
@@ -576,6 +576,8 @@ Détection ─► Preuve (bbox, détecteur, version) ─► Score CALIBRÉ ─�
 
 ### 6.3 IA locale vs IA cloud
 
+> **Principe (ADR-0017)** : rien n'impose l'IA 100 % locale. Le tableau ci-dessous donne la **cible provisoire** par fonction ; chaque colonne sera confirmée ou inversée par benchmark (qualité par tranche, latence, coût, matériel). Dans tous les cas : aucun plan envoyé sans consentement explicite, aucun service cloud dans le moteur métier, repli manuel si l'IA est indisponible.
+
 | Fonction | Local (offline) | Cloud (optionnel) | Justification |
 |---|---|---|---|
 | OCR, cotes, texte d'échelle | ✅ MVP | repli | modèles petits, exigence offline |
@@ -872,7 +874,7 @@ Chaque test a un identifiant **stable** utilisé par la matrice `Exigence → Ar
 
 | ID | Test | Jalon |
 |---|---|---|
-| T‑ENG‑01 | Évaluateur d'expressions : décimal, vérification dimensionnelle, aucune évaluation arbitraire | M0 |
+| T‑ENG‑01 | Unités et décimal exacts : conversions, vérification dimensionnelle, aucune évaluation arbitraire (pas de langage d'expressions en M0 — ADR-0012) | M0 |
 | T‑ENG‑02 | Arrondis : ordre d'arrondi déclaré respecté, aucun arrondi implicite | M0 |
 | T‑ENG‑03 | **Déterminisme cross‑plateforme** : mêmes hash de `GeometricTakeoff`/`QuantitySet` sur Windows, Linux, macOS et WASM | M0 |
 | T‑ENG‑04 | Propriété : recalcul incrémental ≡ recalcul complet | M0 |
@@ -1044,7 +1046,7 @@ Cette séquence applique la chaîne PLAN → IA → VALIDATION → MÉTRÉ → P
 5. **Types de bâtiments du MVP** : villas/maisons R+0/R+1 uniquement ? (recommandé) ou immeubles/bâtiments publics ?
 6. **Langue** : français uniquement au MVP (recommandé) ?
 7. **Modèle d'activation** : compte requis pour l'essai de 5 jours, ou activation hors ligne par clé ?
-8. **Budget IA cloud** : acceptable pour le MVP, ou 100 % local ?
+8. **IA locale / cloud** : *tranché* (ADR-0017) — aucune obligation d'IA 100 % locale ; benchmark en M2 ; consentement explicite obligatoire pour tout envoi de plan.
 9. **Second marché** : *tranché* — **Sénégal** (squelette dès M0, pack complet V1). Reste ouvert : le partenaire pour C‑SN.
 10. **Droits sur les plans** : cadre contractuel type pour collecter/annoter des plans de tiers (revue juridique) ?
 11. **Numérotation légale des devis** par marché (continuité de séquence exigée ou non hors ligne) — OD‑13.

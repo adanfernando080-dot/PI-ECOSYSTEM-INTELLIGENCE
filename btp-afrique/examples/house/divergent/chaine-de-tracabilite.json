@@ -1,0 +1,2542 @@
+[
+  {
+    "document": {
+      "id": "doc:e991aea738be",
+      "kind": "BOQ",
+      "number": "BOQ/2026/001",
+      "contentHash": "sha256:264ab73d34641bd86d26b7fdee6539e96128e6be2da4348257ae9708fe5e71e5"
+    },
+    "line": {
+      "id": "el:D.SLAB",
+      "n": "1.1",
+      "designation": "Reinforced slab (parametric estimate)",
+      "unit": "m3",
+      "quantity": "6.1",
+      "unitPrice": "35938",
+      "amount": "219222"
+    },
+    "price": [
+      {
+        "item": "D.CONCRETE",
+        "qtyPerUnit": "1.03",
+        "unit": "m3",
+        "unitPriceMinor": "11800",
+        "entryId": "pe:div:D.CONCRETE",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "D.STEEL",
+        "qtyPerUnit": "184.8",
+        "unit": "lb",
+        "unitPriceMinor": "85",
+        "entryId": "pe:div:D.STEEL",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "D.LAB",
+        "qtyPerUnit": "5",
+        "unit": "h",
+        "unitPriceMinor": "380",
+        "entryId": "pe:div:D.LAB",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "D.CONCRETE",
+        "label": "Ready-mix concrete [TEST]",
+        "kind": "material",
+        "unit": "m3"
+      },
+      {
+        "code": "D.STEEL",
+        "label": "Reinforcement steel per lb [TEST]",
+        "kind": "material",
+        "unit": "lb"
+      },
+      {
+        "code": "D.LAB",
+        "label": "Labour [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "D.SLAB",
+      "version": "1.0.0",
+      "hash": "sha256:68fa972d49f48753818cff42cbfed75316de98ab0e809e11bb6edfca164e02da",
+      "lot": "A",
+      "unit": "m3"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:D.SLAB",
+      "theoretical": "6.1008",
+      "quantity": "6.1",
+      "unit": "m3"
+    },
+    "contributions": [
+      {
+        "id": "ctb:D.SM.9:sl-1",
+        "mapping": {
+          "id": "D.SM.9",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "slab",
+          "id": "sl-1",
+          "code": "DAL1"
+        },
+        "specClass": "slab.reinforced.concrete",
+        "quantity": "6.1008 m3",
+        "geo": [
+          {
+            "id": "geo:sl-1:slab.volume",
+            "kind": "slab.volume",
+            "value": "6.1008",
+            "unit": "m3",
+            "rule": {
+              "id": "geom.slab.volume",
+              "version": "1.0.0",
+              "hash": "sha256:d81e6d691f641b29625b2df28e5d87f3d6ce4ca589b01bc17b943995b3fb70e4"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.test.divergent:REALM-P1-D1-T1",
+      "rev": "sha256:6ddf0762cb0386533fcdc5452f43f868ec02fd96c11b8fbaa7efd8fef7e69c2f",
+      "packId": "pack.test.divergent",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:1a6c774e8fa377163d4ffe056a4073c0a5b52d0470f4840c05d16c2123b5719e",
+      "zoneId": "REALM-P1-D1-T1"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:e991aea738be",
+      "kind": "BOQ",
+      "number": "BOQ/2026/001",
+      "contentHash": "sha256:264ab73d34641bd86d26b7fdee6539e96128e6be2da4348257ae9708fe5e71e5"
+    },
+    "line": {
+      "id": "el:D.MASONRY.4",
+      "n": "2.1",
+      "designation": "Masonry, 4in blocks",
+      "unit": "m2",
+      "quantity": "27",
+      "unitPrice": "1593",
+      "amount": "43011"
+    },
+    "price": [
+      {
+        "item": "D.BLOCK4",
+        "qtyPerUnit": "11.44",
+        "unit": "u",
+        "unitPriceMinor": "90",
+        "entryId": "pe:div:D.BLOCK4",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "D.SAND",
+        "qtyPerUnit": "0.026159012386287845",
+        "unit": "cuyd",
+        "unitPriceMinor": "3800",
+        "entryId": "pe:div:D.SAND",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "D.LAB",
+        "qtyPerUnit": "0.5",
+        "unit": "h",
+        "unitPriceMinor": "380",
+        "entryId": "pe:div:D.LAB",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "D.BLOCK4",
+        "label": "Concrete block 4in [TEST]",
+        "kind": "material",
+        "unit": "u"
+      },
+      {
+        "code": "D.SAND",
+        "label": "Sand, cubic yard [TEST]",
+        "kind": "material",
+        "unit": "cuyd"
+      },
+      {
+        "code": "D.LAB",
+        "label": "Labour [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "D.MASONRY.4",
+      "version": "1.0.0",
+      "hash": "sha256:b5869dd02192e65434375e8625759c2e6da10c29fdca5b76248c08d904f7174f",
+      "lot": "B",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:D.MASONRY.4",
+      "theoretical": "27",
+      "quantity": "27",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:D.SM.2:w-08",
+        "mapping": {
+          "id": "D.SM.2",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-08",
+          "code": "W08"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "10.5 m2",
+        "geo": [
+          {
+            "id": "geo:w-08:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "10.5",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.2:w-09",
+        "mapping": {
+          "id": "D.SM.2",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-09",
+          "code": "W09"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "7.5 m2",
+        "geo": [
+          {
+            "id": "geo:w-09:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "7.5",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.2:w-10",
+        "mapping": {
+          "id": "D.SM.2",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-10",
+          "code": "W10"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "9 m2",
+        "geo": [
+          {
+            "id": "geo:w-10:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "9",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-01"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.test.divergent:REALM-P1-D1-T1",
+      "rev": "sha256:6ddf0762cb0386533fcdc5452f43f868ec02fd96c11b8fbaa7efd8fef7e69c2f",
+      "packId": "pack.test.divergent",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:1a6c774e8fa377163d4ffe056a4073c0a5b52d0470f4840c05d16c2123b5719e",
+      "zoneId": "REALM-P1-D1-T1"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:e991aea738be",
+      "kind": "BOQ",
+      "number": "BOQ/2026/001",
+      "contentHash": "sha256:264ab73d34641bd86d26b7fdee6539e96128e6be2da4348257ae9708fe5e71e5"
+    },
+    "line": {
+      "id": "el:D.MASONRY.8",
+      "n": "2.2",
+      "designation": "Masonry, 8in blocks",
+      "unit": "m2",
+      "quantity": "84",
+      "unitPrice": "2461",
+      "amount": "206724"
+    },
+    "price": [
+      {
+        "item": "D.BLOCK8",
+        "qtyPerUnit": "11.44",
+        "unit": "u",
+        "unitPriceMinor": "120",
+        "entryId": "pe:div:D.BLOCK8",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "D.CEMENT",
+        "qtyPerUnit": "0.35",
+        "unit": "bag",
+        "unitPriceMinor": "1250",
+        "entryId": "pe:div:D.CEMENT",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "D.LAB",
+        "qtyPerUnit": "0.6",
+        "unit": "h",
+        "unitPriceMinor": "380",
+        "entryId": "pe:div:D.LAB",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "D.BLOCK8",
+        "label": "Concrete block 8in [TEST]",
+        "kind": "material",
+        "unit": "u"
+      },
+      {
+        "code": "D.CEMENT",
+        "label": "Cement bag 40 kg [TEST]",
+        "kind": "material",
+        "unit": "bag"
+      },
+      {
+        "code": "D.LAB",
+        "label": "Labour [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "D.MASONRY.8",
+      "version": "1.0.0",
+      "hash": "sha256:5ce4ff30f58b76cddeadd8e43b19801479ad33e8ac95ee2df638b5408dcd926b",
+      "lot": "B",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:D.MASONRY.8",
+      "theoretical": "84",
+      "quantity": "84",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:D.SM.1:w-01",
+        "mapping": {
+          "id": "D.SM.1",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-01",
+          "code": "W01"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "15 m2",
+        "geo": [
+          {
+            "id": "geo:w-01:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "15",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.1:w-02",
+        "mapping": {
+          "id": "D.SM.1",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-02",
+          "code": "W02"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "9 m2",
+        "geo": [
+          {
+            "id": "geo:w-02:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "9",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.1:w-03",
+        "mapping": {
+          "id": "D.SM.1",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-03",
+          "code": "W03"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "10.5 m2",
+        "geo": [
+          {
+            "id": "geo:w-03:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "10.5",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.1:w-04",
+        "mapping": {
+          "id": "D.SM.1",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-04",
+          "code": "W04"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "7.5 m2",
+        "geo": [
+          {
+            "id": "geo:w-04:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "7.5",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.1:w-05",
+        "mapping": {
+          "id": "D.SM.1",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-05",
+          "code": "W05"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "9 m2",
+        "geo": [
+          {
+            "id": "geo:w-05:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "9",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.1:w-06",
+        "mapping": {
+          "id": "D.SM.1",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-06",
+          "code": "W06"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "15 m2",
+        "geo": [
+          {
+            "id": "geo:w-06:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "15",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.1:w-07",
+        "mapping": {
+          "id": "D.SM.1",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-07",
+          "code": "W07"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "18 m2",
+        "geo": [
+          {
+            "id": "geo:w-07:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "18",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-01"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.test.divergent:REALM-P1-D1-T1",
+      "rev": "sha256:6ddf0762cb0386533fcdc5452f43f868ec02fd96c11b8fbaa7efd8fef7e69c2f",
+      "packId": "pack.test.divergent",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:1a6c774e8fa377163d4ffe056a4073c0a5b52d0470f4840c05d16c2123b5719e",
+      "zoneId": "REALM-P1-D1-T1"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:e991aea738be",
+      "kind": "BOQ",
+      "number": "BOQ/2026/001",
+      "contentHash": "sha256:264ab73d34641bd86d26b7fdee6539e96128e6be2da4348257ae9708fe5e71e5"
+    },
+    "line": {
+      "id": "el:D.PAINT.CEIL",
+      "n": "2.3",
+      "designation": "Ceiling paint",
+      "unit": "m2",
+      "quantity": "44.38",
+      "unitPrice": "1188",
+      "amount": "52723"
+    },
+    "price": [
+      {
+        "item": "D.PAINT",
+        "qtyPerUnit": "0.3",
+        "unit": "l",
+        "unitPriceMinor": "2900",
+        "entryId": "pe:div:D.PAINT",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "D.LAB",
+        "qtyPerUnit": "0.3",
+        "unit": "h",
+        "unitPriceMinor": "380",
+        "entryId": "pe:div:D.LAB",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "D.PAINT",
+        "label": "Paint, 20 l pail [TEST]",
+        "kind": "material",
+        "unit": "l"
+      },
+      {
+        "code": "D.LAB",
+        "label": "Labour [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "D.PAINT.CEIL",
+      "version": "1.0.0",
+      "hash": "sha256:c40c2d4b48dcb7ce46ee635e5c6a9bcef9e1ba68e51d21bcec4945ae92d27c51",
+      "lot": "B",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:D.PAINT.CEIL",
+      "theoretical": "44.375",
+      "quantity": "44.38",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:D.SM.7:sp-cha",
+        "mapping": {
+          "id": "D.SM.7",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-cha",
+          "code": "CHA"
+        },
+        "specClass": "paint.emulsion",
+        "quantity": "9.5475 m2",
+        "geo": [
+          {
+            "id": "geo:sp-cha:space.ceiling.area",
+            "kind": "space.ceiling.area",
+            "value": "9.5475",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.ceiling.area",
+              "version": "1.0.0",
+              "hash": "sha256:91259c27cac7649d74a28ee0ca90b0e1b61456a6f743b9dfb215c5cdfb40f01f"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.7:sp-sal",
+        "mapping": {
+          "id": "D.SM.7",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sal",
+          "code": "SAL"
+        },
+        "specClass": "paint.emulsion",
+        "quantity": "28.13 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sal:space.ceiling.area",
+            "kind": "space.ceiling.area",
+            "value": "28.13",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.ceiling.area",
+              "version": "1.0.0",
+              "hash": "sha256:91259c27cac7649d74a28ee0ca90b0e1b61456a6f743b9dfb215c5cdfb40f01f"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.7:sp-sdb",
+        "mapping": {
+          "id": "D.SM.7",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sdb",
+          "code": "SDB"
+        },
+        "specClass": "paint.emulsion",
+        "quantity": "6.6975 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sdb:space.ceiling.area",
+            "kind": "space.ceiling.area",
+            "value": "6.6975",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.ceiling.area",
+              "version": "1.0.0",
+              "hash": "sha256:91259c27cac7649d74a28ee0ca90b0e1b61456a6f743b9dfb215c5cdfb40f01f"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-03"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.test.divergent:REALM-P1-D1-T1",
+      "rev": "sha256:6ddf0762cb0386533fcdc5452f43f868ec02fd96c11b8fbaa7efd8fef7e69c2f",
+      "packId": "pack.test.divergent",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:1a6c774e8fa377163d4ffe056a4073c0a5b52d0470f4840c05d16c2123b5719e",
+      "zoneId": "REALM-P1-D1-T1"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:e991aea738be",
+      "kind": "BOQ",
+      "number": "BOQ/2026/001",
+      "contentHash": "sha256:264ab73d34641bd86d26b7fdee6539e96128e6be2da4348257ae9708fe5e71e5"
+    },
+    "line": {
+      "id": "el:D.PAINT.WALL",
+      "n": "2.4",
+      "designation": "Wall paint",
+      "unit": "m2",
+      "quantity": "101.1",
+      "unitPrice": "1165",
+      "amount": "117782"
+    },
+    "price": [
+      {
+        "item": "D.PAINT",
+        "qtyPerUnit": "0.3",
+        "unit": "l",
+        "unitPriceMinor": "2900",
+        "entryId": "pe:div:D.PAINT",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "D.LAB",
+        "qtyPerUnit": "0.25",
+        "unit": "h",
+        "unitPriceMinor": "380",
+        "entryId": "pe:div:D.LAB",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "D.PAINT",
+        "label": "Paint, 20 l pail [TEST]",
+        "kind": "material",
+        "unit": "l"
+      },
+      {
+        "code": "D.LAB",
+        "label": "Labour [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "D.PAINT.WALL",
+      "version": "1.0.0",
+      "hash": "sha256:9645aa3b5425ddb8626a3b379384213def8b0f681781bcdb51d7956ce4da9a23",
+      "lot": "B",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:D.PAINT.WALL",
+      "theoretical": "101.1",
+      "quantity": "101.1",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:D.SM.5:sp-cha:1",
+        "mapping": {
+          "id": "D.SM.5",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-cha",
+          "code": "CHA"
+        },
+        "specClass": "paint.emulsion",
+        "quantity": "37.2 m2",
+        "geo": [
+          {
+            "id": "geo:sp-cha:space.wall.area.gross",
+            "kind": "space.wall.area.gross",
+            "value": "37.2",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:54c290e8ac99947537a1f8bb2b91998941c2d9f9d93177b38939c258e9998b3a"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.5:sp-sal:1",
+        "mapping": {
+          "id": "D.SM.5",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sal",
+          "code": "SAL"
+        },
+        "specClass": "paint.emulsion",
+        "quantity": "63.9 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sal:space.wall.area.gross",
+            "kind": "space.wall.area.gross",
+            "value": "63.9",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:54c290e8ac99947537a1f8bb2b91998941c2d9f9d93177b38939c258e9998b3a"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-01",
+      "A-03"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.test.divergent:REALM-P1-D1-T1",
+      "rev": "sha256:6ddf0762cb0386533fcdc5452f43f868ec02fd96c11b8fbaa7efd8fef7e69c2f",
+      "packId": "pack.test.divergent",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:1a6c774e8fa377163d4ffe056a4073c0a5b52d0470f4840c05d16c2123b5719e",
+      "zoneId": "REALM-P1-D1-T1"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:e991aea738be",
+      "kind": "BOQ",
+      "number": "BOQ/2026/001",
+      "contentHash": "sha256:264ab73d34641bd86d26b7fdee6539e96128e6be2da4348257ae9708fe5e71e5"
+    },
+    "line": {
+      "id": "el:D.RENDER.EXT",
+      "n": "2.5",
+      "designation": "External render",
+      "unit": "m2",
+      "quantity": "84",
+      "unitPrice": "531",
+      "amount": "44604"
+    },
+    "price": [
+      {
+        "item": "D.CEMENT",
+        "qtyPerUnit": "0.2",
+        "unit": "bag",
+        "unitPriceMinor": "1250",
+        "entryId": "pe:div:D.CEMENT",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "D.LAB",
+        "qtyPerUnit": "0.5",
+        "unit": "h",
+        "unitPriceMinor": "380",
+        "entryId": "pe:div:D.LAB",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "D.CEMENT",
+        "label": "Cement bag 40 kg [TEST]",
+        "kind": "material",
+        "unit": "bag"
+      },
+      {
+        "code": "D.LAB",
+        "label": "Labour [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "D.RENDER.EXT",
+      "version": "1.0.0",
+      "hash": "sha256:0a9996bbc8142a4ff1e7a71a20ac3184ab9c5fbddaa08a568aace5e3aeaf21f8",
+      "lot": "B",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:D.RENDER.EXT",
+      "theoretical": "84",
+      "quantity": "84",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:D.SM.3:w-01:1",
+        "mapping": {
+          "id": "D.SM.3",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-01",
+          "code": "W01"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "15 m2",
+        "geo": [
+          {
+            "id": "geo:w-01:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "15",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.3:w-02:1",
+        "mapping": {
+          "id": "D.SM.3",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-02",
+          "code": "W02"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "9 m2",
+        "geo": [
+          {
+            "id": "geo:w-02:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "9",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.3:w-03:1",
+        "mapping": {
+          "id": "D.SM.3",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-03",
+          "code": "W03"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "10.5 m2",
+        "geo": [
+          {
+            "id": "geo:w-03:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "10.5",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.3:w-04:1",
+        "mapping": {
+          "id": "D.SM.3",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-04",
+          "code": "W04"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "7.5 m2",
+        "geo": [
+          {
+            "id": "geo:w-04:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "7.5",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.3:w-05:1",
+        "mapping": {
+          "id": "D.SM.3",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-05",
+          "code": "W05"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "9 m2",
+        "geo": [
+          {
+            "id": "geo:w-05:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "9",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.3:w-06:1",
+        "mapping": {
+          "id": "D.SM.3",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-06",
+          "code": "W06"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "15 m2",
+        "geo": [
+          {
+            "id": "geo:w-06:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "15",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.3:w-07:1",
+        "mapping": {
+          "id": "D.SM.3",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-07",
+          "code": "W07"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "18 m2",
+        "geo": [
+          {
+            "id": "geo:w-07:wall.area.gross",
+            "kind": "wall.area.gross",
+            "value": "18",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:393c19dcfdc75da4420c578232fa01d2dd5792500b79491a3939d7a3baa7ab26"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-01"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.test.divergent:REALM-P1-D1-T1",
+      "rev": "sha256:6ddf0762cb0386533fcdc5452f43f868ec02fd96c11b8fbaa7efd8fef7e69c2f",
+      "packId": "pack.test.divergent",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:1a6c774e8fa377163d4ffe056a4073c0a5b52d0470f4840c05d16c2123b5719e",
+      "zoneId": "REALM-P1-D1-T1"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:e991aea738be",
+      "kind": "BOQ",
+      "number": "BOQ/2026/001",
+      "contentHash": "sha256:264ab73d34641bd86d26b7fdee6539e96128e6be2da4348257ae9708fe5e71e5"
+    },
+    "line": {
+      "id": "el:D.RENDER.INT",
+      "n": "2.6",
+      "designation": "Internal render",
+      "unit": "m2",
+      "quantity": "132.3",
+      "unitPrice": "508",
+      "amount": "67208"
+    },
+    "price": [
+      {
+        "item": "D.CEMENT",
+        "qtyPerUnit": "0.2",
+        "unit": "bag",
+        "unitPriceMinor": "1250",
+        "entryId": "pe:div:D.CEMENT",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "D.LAB",
+        "qtyPerUnit": "0.45",
+        "unit": "h",
+        "unitPriceMinor": "380",
+        "entryId": "pe:div:D.LAB",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "D.CEMENT",
+        "label": "Cement bag 40 kg [TEST]",
+        "kind": "material",
+        "unit": "bag"
+      },
+      {
+        "code": "D.LAB",
+        "label": "Labour [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "D.RENDER.INT",
+      "version": "1.0.0",
+      "hash": "sha256:e7b5fddb3e435db5e4d19d9adfcc869861d073cd1f9854543dfa8a5529abef80",
+      "lot": "B",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:D.RENDER.INT",
+      "theoretical": "132.3",
+      "quantity": "132.3",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:D.SM.4:sp-cha",
+        "mapping": {
+          "id": "D.SM.4",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-cha",
+          "code": "CHA"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "37.2 m2",
+        "geo": [
+          {
+            "id": "geo:sp-cha:space.wall.area.gross",
+            "kind": "space.wall.area.gross",
+            "value": "37.2",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:54c290e8ac99947537a1f8bb2b91998941c2d9f9d93177b38939c258e9998b3a"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.4:sp-sal",
+        "mapping": {
+          "id": "D.SM.4",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sal",
+          "code": "SAL"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "63.9 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sal:space.wall.area.gross",
+            "kind": "space.wall.area.gross",
+            "value": "63.9",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:54c290e8ac99947537a1f8bb2b91998941c2d9f9d93177b38939c258e9998b3a"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.4:sp-sdb",
+        "mapping": {
+          "id": "D.SM.4",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sdb",
+          "code": "SDB"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "31.2 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sdb:space.wall.area.gross",
+            "kind": "space.wall.area.gross",
+            "value": "31.2",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:54c290e8ac99947537a1f8bb2b91998941c2d9f9d93177b38939c258e9998b3a"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-01",
+      "A-03"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.test.divergent:REALM-P1-D1-T1",
+      "rev": "sha256:6ddf0762cb0386533fcdc5452f43f868ec02fd96c11b8fbaa7efd8fef7e69c2f",
+      "packId": "pack.test.divergent",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:1a6c774e8fa377163d4ffe056a4073c0a5b52d0470f4840c05d16c2123b5719e",
+      "zoneId": "REALM-P1-D1-T1"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:e991aea738be",
+      "kind": "BOQ",
+      "number": "BOQ/2026/001",
+      "contentHash": "sha256:264ab73d34641bd86d26b7fdee6539e96128e6be2da4348257ae9708fe5e71e5"
+    },
+    "line": {
+      "id": "el:D.TILE.FLOOR",
+      "n": "2.7",
+      "designation": "Floor tiling",
+      "unit": "m2",
+      "quantity": "44.38",
+      "unitPrice": "6168",
+      "amount": "273736"
+    },
+    "price": [
+      {
+        "item": "D.TILE",
+        "qtyPerUnit": "11.625012",
+        "unit": "sqft",
+        "unitPriceMinor": "410",
+        "entryId": "pe:div:D.TILE",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "D.LAB",
+        "qtyPerUnit": "0.9",
+        "unit": "h",
+        "unitPriceMinor": "380",
+        "entryId": "pe:div:D.LAB",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "D.TILE",
+        "label": "Floor/wall tile per sq ft [TEST]",
+        "kind": "material",
+        "unit": "sqft"
+      },
+      {
+        "code": "D.LAB",
+        "label": "Labour [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "D.TILE.FLOOR",
+      "version": "1.0.0",
+      "hash": "sha256:5441e3046d62bf4e6f6b58ae7193fdbc64bb395aa2acf047a061d5301b0eb872",
+      "lot": "B",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:D.TILE.FLOOR",
+      "theoretical": "44.375",
+      "quantity": "44.38",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:D.SM.8:sp-cha",
+        "mapping": {
+          "id": "D.SM.8",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-cha",
+          "code": "CHA"
+        },
+        "specClass": "floor.tile.ceramic",
+        "quantity": "9.5475 m2",
+        "geo": [
+          {
+            "id": "geo:sp-cha:space.clear.area",
+            "kind": "space.clear.area",
+            "value": "9.5475",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.clear.area",
+              "version": "1.0.0",
+              "hash": "sha256:1524d842b3b937f92e3ae905c68be33a6031c6387346f5ddd4550d14e36a8fc7"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.8:sp-sal",
+        "mapping": {
+          "id": "D.SM.8",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sal",
+          "code": "SAL"
+        },
+        "specClass": "floor.tile.ceramic",
+        "quantity": "28.13 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sal:space.clear.area",
+            "kind": "space.clear.area",
+            "value": "28.13",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.clear.area",
+              "version": "1.0.0",
+              "hash": "sha256:1524d842b3b937f92e3ae905c68be33a6031c6387346f5ddd4550d14e36a8fc7"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.8:sp-sdb",
+        "mapping": {
+          "id": "D.SM.8",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sdb",
+          "code": "SDB"
+        },
+        "specClass": "floor.tile.ceramic",
+        "quantity": "6.6975 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sdb:space.clear.area",
+            "kind": "space.clear.area",
+            "value": "6.6975",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.clear.area",
+              "version": "1.0.0",
+              "hash": "sha256:1524d842b3b937f92e3ae905c68be33a6031c6387346f5ddd4550d14e36a8fc7"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-03"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.test.divergent:REALM-P1-D1-T1",
+      "rev": "sha256:6ddf0762cb0386533fcdc5452f43f868ec02fd96c11b8fbaa7efd8fef7e69c2f",
+      "packId": "pack.test.divergent",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:1a6c774e8fa377163d4ffe056a4073c0a5b52d0470f4840c05d16c2123b5719e",
+      "zoneId": "REALM-P1-D1-T1"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:e991aea738be",
+      "kind": "BOQ",
+      "number": "BOQ/2026/001",
+      "contentHash": "sha256:264ab73d34641bd86d26b7fdee6539e96128e6be2da4348257ae9708fe5e71e5"
+    },
+    "line": {
+      "id": "el:D.TILE.WALL",
+      "n": "2.8",
+      "designation": "Wall tiling",
+      "unit": "m2",
+      "quantity": "31.2",
+      "unitPrice": "6260",
+      "amount": "195312"
+    },
+    "price": [
+      {
+        "item": "D.TILE",
+        "qtyPerUnit": "11.625012",
+        "unit": "sqft",
+        "unitPriceMinor": "410",
+        "entryId": "pe:div:D.TILE",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "D.LAB",
+        "qtyPerUnit": "1.1",
+        "unit": "h",
+        "unitPriceMinor": "380",
+        "entryId": "pe:div:D.LAB",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "D.TILE",
+        "label": "Floor/wall tile per sq ft [TEST]",
+        "kind": "material",
+        "unit": "sqft"
+      },
+      {
+        "code": "D.LAB",
+        "label": "Labour [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "D.TILE.WALL",
+      "version": "1.0.0",
+      "hash": "sha256:3c202b5ec16d001a17b713395dc9a811d22a644996cd6c8447e6e591897fc7a4",
+      "lot": "B",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:D.TILE.WALL",
+      "theoretical": "31.2",
+      "quantity": "31.2",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:D.SM.6:sp-sdb:1",
+        "mapping": {
+          "id": "D.SM.6",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune déduction"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sdb",
+          "code": "SDB"
+        },
+        "specClass": "wall.tile.ceramic",
+        "quantity": "31.2 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sdb:space.wall.area.gross",
+            "kind": "space.wall.area.gross",
+            "value": "31.2",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.wall.area.gross",
+              "version": "1.0.0",
+              "hash": "sha256:54c290e8ac99947537a1f8bb2b91998941c2d9f9d93177b38939c258e9998b3a"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-01",
+      "A-03"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.test.divergent:REALM-P1-D1-T1",
+      "rev": "sha256:6ddf0762cb0386533fcdc5452f43f868ec02fd96c11b8fbaa7efd8fef7e69c2f",
+      "packId": "pack.test.divergent",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:1a6c774e8fa377163d4ffe056a4073c0a5b52d0470f4840c05d16c2123b5719e",
+      "zoneId": "REALM-P1-D1-T1"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:e991aea738be",
+      "kind": "BOQ",
+      "number": "BOQ/2026/001",
+      "contentHash": "sha256:264ab73d34641bd86d26b7fdee6539e96128e6be2da4348257ae9708fe5e71e5"
+    },
+    "line": {
+      "id": "el:D.DOOR",
+      "n": "3.1",
+      "designation": "Door set, fitted",
+      "unit": "u",
+      "quantity": "3",
+      "unitPrice": "26275",
+      "amount": "78825"
+    },
+    "price": [
+      {
+        "item": "D.DOOR",
+        "qtyPerUnit": "1",
+        "unit": "u",
+        "unitPriceMinor": "21000",
+        "entryId": "pe:div:D.DOOR",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "D.LAB",
+        "qtyPerUnit": "2",
+        "unit": "h",
+        "unitPriceMinor": "380",
+        "entryId": "pe:div:D.LAB",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "D.DOOR",
+        "label": "Door set [TEST]",
+        "kind": "material",
+        "unit": "u"
+      },
+      {
+        "code": "D.LAB",
+        "label": "Labour [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "D.DOOR",
+      "version": "1.0.0",
+      "hash": "sha256:ec491376e0fa709fbd0122f8383237d37ba75dd55dd04ef7da7860684bc4883e",
+      "lot": "C",
+      "unit": "u"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:D.DOOR",
+      "theoretical": "3",
+      "quantity": "3",
+      "unit": "u"
+    },
+    "contributions": [
+      {
+        "id": "ctb:D.SM.11:o-d1",
+        "mapping": {
+          "id": "D.SM.11",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "opening",
+          "id": "o-d1",
+          "code": "D-01"
+        },
+        "specClass": "opening.door.single",
+        "quantity": "1 u",
+        "geo": [
+          {
+            "id": "geo:o-d1:opening.count",
+            "kind": "opening.count",
+            "value": "1",
+            "unit": "u",
+            "rule": {
+              "id": "geom.opening.count",
+              "version": "1.0.0",
+              "hash": "sha256:e28c18d7b4a3c5eb7262ccbad8eaa7bc543278dd6cd743f3d769b075d22d65d8"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.11:o-d2",
+        "mapping": {
+          "id": "D.SM.11",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "opening",
+          "id": "o-d2",
+          "code": "D-02"
+        },
+        "specClass": "opening.door.single",
+        "quantity": "1 u",
+        "geo": [
+          {
+            "id": "geo:o-d2:opening.count",
+            "kind": "opening.count",
+            "value": "1",
+            "unit": "u",
+            "rule": {
+              "id": "geom.opening.count",
+              "version": "1.0.0",
+              "hash": "sha256:e28c18d7b4a3c5eb7262ccbad8eaa7bc543278dd6cd743f3d769b075d22d65d8"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.11:o-d3",
+        "mapping": {
+          "id": "D.SM.11",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "opening",
+          "id": "o-d3",
+          "code": "D-03"
+        },
+        "specClass": "opening.door.single",
+        "quantity": "1 u",
+        "geo": [
+          {
+            "id": "geo:o-d3:opening.count",
+            "kind": "opening.count",
+            "value": "1",
+            "unit": "u",
+            "rule": {
+              "id": "geom.opening.count",
+              "version": "1.0.0",
+              "hash": "sha256:e28c18d7b4a3c5eb7262ccbad8eaa7bc543278dd6cd743f3d769b075d22d65d8"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.test.divergent:REALM-P1-D1-T1",
+      "rev": "sha256:6ddf0762cb0386533fcdc5452f43f868ec02fd96c11b8fbaa7efd8fef7e69c2f",
+      "packId": "pack.test.divergent",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:1a6c774e8fa377163d4ffe056a4073c0a5b52d0470f4840c05d16c2123b5719e",
+      "zoneId": "REALM-P1-D1-T1"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:e991aea738be",
+      "kind": "BOQ",
+      "number": "BOQ/2026/001",
+      "contentHash": "sha256:264ab73d34641bd86d26b7fdee6539e96128e6be2da4348257ae9708fe5e71e5"
+    },
+    "line": {
+      "id": "el:D.ROOF",
+      "n": "3.2",
+      "designation": "Roof sheeting",
+      "unit": "m2",
+      "quantity": "53.08",
+      "unitPrice": "2707",
+      "amount": "143688"
+    },
+    "price": [
+      {
+        "item": "D.SHEET",
+        "qtyPerUnit": "1.1",
+        "unit": "m2",
+        "unitPriceMinor": "1900",
+        "entryId": "pe:div:D.SHEET",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "D.LAB",
+        "qtyPerUnit": "0.4",
+        "unit": "h",
+        "unitPriceMinor": "380",
+        "entryId": "pe:div:D.LAB",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "D.SHEET",
+        "label": "Roof sheet [TEST]",
+        "kind": "material",
+        "unit": "m2"
+      },
+      {
+        "code": "D.LAB",
+        "label": "Labour [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "D.ROOF",
+      "version": "1.0.0",
+      "hash": "sha256:8b55481c2872dd8f3b1491bc18274276aaadbc68410d52e9e5782a445c38bbaa",
+      "lot": "C",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:D.ROOF",
+      "theoretical": "53.078518",
+      "quantity": "53.08",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:D.SM.10:rf-1",
+        "mapping": {
+          "id": "D.SM.10",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "roof",
+          "id": "rf-1",
+          "code": "TOI1"
+        },
+        "specClass": "roof.sheet.metal",
+        "quantity": "53.078518 m2",
+        "geo": [
+          {
+            "id": "geo:rf-1:roof.area.developed",
+            "kind": "roof.area.developed",
+            "value": "53.078518",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.roof.area.developed",
+              "version": "1.0.0",
+              "hash": "sha256:06ffcaef6f790f183c38c73bf7d66266f15090cd87150ed5793b00743c81be87"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.test.divergent:REALM-P1-D1-T1",
+      "rev": "sha256:6ddf0762cb0386533fcdc5452f43f868ec02fd96c11b8fbaa7efd8fef7e69c2f",
+      "packId": "pack.test.divergent",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:1a6c774e8fa377163d4ffe056a4073c0a5b52d0470f4840c05d16c2123b5719e",
+      "zoneId": "REALM-P1-D1-T1"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:e991aea738be",
+      "kind": "BOQ",
+      "number": "BOQ/2026/001",
+      "contentHash": "sha256:264ab73d34641bd86d26b7fdee6539e96128e6be2da4348257ae9708fe5e71e5"
+    },
+    "line": {
+      "id": "el:D.WINDOW",
+      "n": "3.3",
+      "designation": "Window set, fitted",
+      "unit": "u",
+      "quantity": "4",
+      "unitPrice": "19405",
+      "amount": "77620"
+    },
+    "price": [
+      {
+        "item": "D.WINDOW",
+        "qtyPerUnit": "1",
+        "unit": "u",
+        "unitPriceMinor": "15500",
+        "entryId": "pe:div:D.WINDOW",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "D.LAB",
+        "qtyPerUnit": "1.5",
+        "unit": "h",
+        "unitPriceMinor": "380",
+        "entryId": "pe:div:D.LAB",
+        "zoneId": "REALM-P1-D1-T1",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-div-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "D.WINDOW",
+        "label": "Window set [TEST]",
+        "kind": "material",
+        "unit": "u"
+      },
+      {
+        "code": "D.LAB",
+        "label": "Labour [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "D.WINDOW",
+      "version": "1.0.0",
+      "hash": "sha256:cf786663e9ba4504fe1b5ae7005368f3f5978bb4abb25a104d0c86b83520fe03",
+      "lot": "C",
+      "unit": "u"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:D.WINDOW",
+      "theoretical": "4",
+      "quantity": "4",
+      "unit": "u"
+    },
+    "contributions": [
+      {
+        "id": "ctb:D.SM.12:o-w1",
+        "mapping": {
+          "id": "D.SM.12",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "opening",
+          "id": "o-w1",
+          "code": "W-01"
+        },
+        "specClass": "opening.window.casement",
+        "quantity": "1 u",
+        "geo": [
+          {
+            "id": "geo:o-w1:opening.count",
+            "kind": "opening.count",
+            "value": "1",
+            "unit": "u",
+            "rule": {
+              "id": "geom.opening.count",
+              "version": "1.0.0",
+              "hash": "sha256:e28c18d7b4a3c5eb7262ccbad8eaa7bc543278dd6cd743f3d769b075d22d65d8"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.12:o-w2",
+        "mapping": {
+          "id": "D.SM.12",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "opening",
+          "id": "o-w2",
+          "code": "W-02"
+        },
+        "specClass": "opening.window.casement",
+        "quantity": "1 u",
+        "geo": [
+          {
+            "id": "geo:o-w2:opening.count",
+            "kind": "opening.count",
+            "value": "1",
+            "unit": "u",
+            "rule": {
+              "id": "geom.opening.count",
+              "version": "1.0.0",
+              "hash": "sha256:e28c18d7b4a3c5eb7262ccbad8eaa7bc543278dd6cd743f3d769b075d22d65d8"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.12:o-w3",
+        "mapping": {
+          "id": "D.SM.12",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "opening",
+          "id": "o-w3",
+          "code": "W-03"
+        },
+        "specClass": "opening.window.casement",
+        "quantity": "1 u",
+        "geo": [
+          {
+            "id": "geo:o-w3:opening.count",
+            "kind": "opening.count",
+            "value": "1",
+            "unit": "u",
+            "rule": {
+              "id": "geom.opening.count",
+              "version": "1.0.0",
+              "hash": "sha256:e28c18d7b4a3c5eb7262ccbad8eaa7bc543278dd6cd743f3d769b075d22d65d8"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:D.SM.12:o-w4",
+        "mapping": {
+          "id": "D.SM.12",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.DIVERGENT.GROSS",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "opening",
+          "id": "o-w4",
+          "code": "W-04"
+        },
+        "specClass": "opening.window.casement",
+        "quantity": "1 u",
+        "geo": [
+          {
+            "id": "geo:o-w4:opening.count",
+            "kind": "opening.count",
+            "value": "1",
+            "unit": "u",
+            "rule": {
+              "id": "geom.opening.count",
+              "version": "1.0.0",
+              "hash": "sha256:e28c18d7b4a3c5eb7262ccbad8eaa7bc543278dd6cd743f3d769b075d22d65d8"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.test.divergent:REALM-P1-D1-T1",
+      "rev": "sha256:6ddf0762cb0386533fcdc5452f43f868ec02fd96c11b8fbaa7efd8fef7e69c2f",
+      "packId": "pack.test.divergent",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:1a6c774e8fa377163d4ffe056a4073c0a5b52d0470f4840c05d16c2123b5719e",
+      "zoneId": "REALM-P1-D1-T1"
+    },
+    "missing": []
+  }
+]

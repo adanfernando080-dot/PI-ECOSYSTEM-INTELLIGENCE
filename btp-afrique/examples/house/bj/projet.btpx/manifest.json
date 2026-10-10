@@ -1,0 +1,59 @@
+{
+  "format": "btpx",
+  "formatVersion": "0.1",
+  "engine": {
+    "version": "0.0.1-m0",
+    "apiVersion": "1",
+    "sourceHash": "sha256:72c4bc6fb5e479002a5823449435b36ddfd27eb4f0dd1368a860ca5c110196cd"
+  },
+  "dataClass": "synthetic/test",
+  "files": {
+    "assumptions.json": {
+      "sha256": "c663435cbd8344e5b3e3a3af6d603001ff2e0bd7fedfbf92feca92552a244e92",
+      "bytes": 782
+    },
+    "binding.json": {
+      "sha256": "e83ef3a0e4f8d2d0f28b801591076ddc9261e7b44eb5785acea0b09292b74545",
+      "bytes": 637
+    },
+    "documents/doc-357309be8b85.json": {
+      "sha256": "0156e5385c3fae27631e44f8b8dc8d4c0fe2ca3b25f8d8e731f3695842a76ba3",
+      "bytes": 9424
+    },
+    "documents/doc-eb07f0dae456.json": {
+      "sha256": "c3ef17011dbd4f7c043407bedfa503d01f8dec569d58a54b675c1ac23deec635",
+      "bytes": 9281
+    },
+    "estimate.json": {
+      "sha256": "82d5196529038153de0ac9633f76a734af39c8b03a42b96eadc7746f18578a24",
+      "bytes": 32159
+    },
+    "model.json": {
+      "sha256": "9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "bytes": 8043
+    },
+    "packs/pack.bj@0.0.1-synthetic.resolved.json": {
+      "sha256": "07191b55070f427e5c28c12517a2baedfc08b42c0b7a31ed89968edc2700df2f",
+      "bytes": 21997
+    },
+    "quantity-set.json": {
+      "sha256": "47a9874f885d4cdd59a792d30537bda29c1fd487d324064701e418dd9025e3de",
+      "bytes": 41971
+    },
+    "takeoff.json": {
+      "sha256": "20c995966744f5786dbda4b92cde827aa6292182373a39623c03398c7be70e9f",
+      "bytes": 56239
+    },
+    "taxonomy.json": {
+      "sha256": "9d65a6a28d3917659b0fa3a6d44ee61fee196001e91500d6584dee2b52796c2d",
+      "bytes": 1040
+    }
+  },
+  "roots": {
+    "modelRev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+    "assumptionSetRev": "sha256:c663435cbd8344e5b3e3a3af6d603001ff2e0bd7fedfbf92feca92552a244e92",
+    "bindingRev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+    "packResolvedHash": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f",
+    "estimateHash": "sha256:303d31e939938efda427568e3b114777b75f83e1c3cbc5f306fa0c9a2afee63d"
+  }
+}

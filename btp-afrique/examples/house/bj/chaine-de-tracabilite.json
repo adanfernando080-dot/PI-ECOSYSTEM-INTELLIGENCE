@@ -1,0 +1,2932 @@
+[
+  {
+    "document": {
+      "id": "doc:eb07f0dae456",
+      "kind": "DQE",
+      "number": "DQE-2026-0001",
+      "contentHash": "sha256:04441b7682cae2bb2a941f904da26e59dac04c223d52db2bf2c114f05595c41a"
+    },
+    "line": {
+      "id": "el:OUV.DALLE.BA",
+      "n": "1.1",
+      "designation": "Dalle en béton armé (estimation paramétrique)",
+      "unit": "m3",
+      "quantity": "6.1",
+      "unitPrice": "184301",
+      "amount": "1124236"
+    },
+    "price": [
+      {
+        "item": "MAT.CIMENT",
+        "qtyPerUnit": "7.21",
+        "unit": "sac",
+        "unitPriceMinor": "6000",
+        "entryId": "pe:bj:MAT.CIMENT:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MAT.SABLE",
+        "qtyPerUnit": "0.4725",
+        "unit": "m3",
+        "unitPriceMinor": "12000",
+        "entryId": "pe:bj:MAT.SABLE:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MAT.GRAVIER",
+        "qtyPerUnit": "0.8925",
+        "unit": "m3",
+        "unitPriceMinor": "18000",
+        "entryId": "pe:bj:MAT.GRAVIER:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MAT.ACIER",
+        "qtyPerUnit": "84",
+        "unit": "kg",
+        "unitPriceMinor": "900",
+        "entryId": "pe:bj:MAT.ACIER:BJ",
+        "zoneId": "BJ",
+        "level": "parent",
+        "date": "2026-02-01",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.40",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MO.MACON",
+        "qtyPerUnit": "6",
+        "unit": "h",
+        "unitPriceMinor": "1500",
+        "entryId": "pe:bj:MO.MACON:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "MAT.CIMENT",
+        "label": "Ciment, sac de 50 kg [TEST]",
+        "kind": "material",
+        "unit": "sac"
+      },
+      {
+        "code": "MAT.SABLE",
+        "label": "Sable [TEST]",
+        "kind": "material",
+        "unit": "m3"
+      },
+      {
+        "code": "MAT.GRAVIER",
+        "label": "Gravier [TEST]",
+        "kind": "material",
+        "unit": "m3"
+      },
+      {
+        "code": "MAT.ACIER",
+        "label": "Acier HA [TEST]",
+        "kind": "material",
+        "unit": "kg"
+      },
+      {
+        "code": "MO.MACON",
+        "label": "Maçon [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "OUV.DALLE.BA",
+      "version": "1.0.0",
+      "hash": "sha256:76469149d0b42fd8b03112361c2646fb21f83d6b564cc386c004e5e6e2343d1e",
+      "lot": "LOT01",
+      "unit": "m3"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:OUV.DALLE.BA",
+      "theoretical": "6.1008",
+      "quantity": "6.1",
+      "unit": "m3"
+    },
+    "contributions": [
+      {
+        "id": "ctb:SM.DALLE:sl-1",
+        "mapping": {
+          "id": "SM.DALLE",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "slab",
+          "id": "sl-1",
+          "code": "DAL1"
+        },
+        "specClass": "slab.reinforced.concrete",
+        "quantity": "6.1008 m3",
+        "geo": [
+          {
+            "id": "geo:sl-1:slab.volume",
+            "kind": "slab.volume",
+            "value": "6.1008",
+            "unit": "m3",
+            "rule": {
+              "id": "geom.slab.volume",
+              "version": "1.0.0",
+              "hash": "sha256:d81e6d691f641b29625b2df28e5d87f3d6ce4ca589b01bc17b943995b3fb70e4"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.bj:BJ-LITTORAL-COTONOU",
+      "rev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+      "packId": "pack.bj",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f",
+      "zoneId": "BJ-LITTORAL-COTONOU"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:eb07f0dae456",
+      "kind": "DQE",
+      "number": "DQE-2026-0001",
+      "contentHash": "sha256:04441b7682cae2bb2a941f904da26e59dac04c223d52db2bf2c114f05595c41a"
+    },
+    "line": {
+      "id": "el:OUV.MAC.BLOC10",
+      "n": "1.2",
+      "designation": "Maçonnerie de blocs creux de 10 cm (cloisons)",
+      "unit": "m2",
+      "quantity": "23.22",
+      "unitPrice": "7657",
+      "amount": "177796"
+    },
+    "price": [
+      {
+        "item": "MAT.BLOC.10",
+        "qtyPerUnit": "13.125",
+        "unit": "u",
+        "unitPriceMinor": "350",
+        "entryId": "pe:bj:MAT.BLOC.10:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MAT.CIMENT",
+        "qtyPerUnit": "0.0721",
+        "unit": "sac",
+        "unitPriceMinor": "6000",
+        "entryId": "pe:bj:MAT.CIMENT:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MAT.SABLE",
+        "qtyPerUnit": "0.01155",
+        "unit": "m3",
+        "unitPriceMinor": "12000",
+        "entryId": "pe:bj:MAT.SABLE:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MO.MACON",
+        "qtyPerUnit": "0.7",
+        "unit": "h",
+        "unitPriceMinor": "1500",
+        "entryId": "pe:bj:MO.MACON:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "MAT.BLOC.10",
+        "label": "Bloc creux 10 cm [TEST]",
+        "kind": "material",
+        "unit": "u"
+      },
+      {
+        "code": "MAT.CIMENT",
+        "label": "Ciment, sac de 50 kg [TEST]",
+        "kind": "material",
+        "unit": "sac"
+      },
+      {
+        "code": "MAT.SABLE",
+        "label": "Sable [TEST]",
+        "kind": "material",
+        "unit": "m3"
+      },
+      {
+        "code": "MO.MACON",
+        "label": "Maçon [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "OUV.MAC.BLOC10",
+      "version": "1.0.0",
+      "hash": "sha256:505591e399a6d6258b965f41c20245c614498fac6c9957931ec726914d8ea1e7",
+      "lot": "LOT01",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:OUV.MAC.BLOC10",
+      "theoretical": "23.22",
+      "quantity": "23.22",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:SM.MAC.BLOC10:w-08",
+        "mapping": {
+          "id": "SM.MAC.BLOC10",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-08",
+          "code": "W08"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "8.61 m2",
+        "geo": [
+          {
+            "id": "geo:w-08:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "8.61",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.MAC.BLOC10:w-09",
+        "mapping": {
+          "id": "SM.MAC.BLOC10",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-09",
+          "code": "W09"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "5.61 m2",
+        "geo": [
+          {
+            "id": "geo:w-09:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "5.61",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.MAC.BLOC10:w-10",
+        "mapping": {
+          "id": "SM.MAC.BLOC10",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-10",
+          "code": "W10"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "9 m2",
+        "geo": [
+          {
+            "id": "geo:w-10:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "9",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-01"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.bj:BJ-LITTORAL-COTONOU",
+      "rev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+      "packId": "pack.bj",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f",
+      "zoneId": "BJ-LITTORAL-COTONOU"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:eb07f0dae456",
+      "kind": "DQE",
+      "number": "DQE-2026-0001",
+      "contentHash": "sha256:04441b7682cae2bb2a941f904da26e59dac04c223d52db2bf2c114f05595c41a"
+    },
+    "line": {
+      "id": "el:OUV.MAC.BLOC20",
+      "n": "1.3",
+      "designation": "Maçonnerie de blocs creux de 20 cm",
+      "unit": "m2",
+      "quantity": "77.22",
+      "unitPrice": "9810",
+      "amount": "757528"
+    },
+    "price": [
+      {
+        "item": "MAT.BLOC.20",
+        "qtyPerUnit": "13.125",
+        "unit": "u",
+        "unitPriceMinor": "450",
+        "entryId": "pe:bj:MAT.BLOC.20:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MAT.CIMENT",
+        "qtyPerUnit": "0.10815",
+        "unit": "sac",
+        "unitPriceMinor": "6000",
+        "entryId": "pe:bj:MAT.CIMENT:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MAT.SABLE",
+        "qtyPerUnit": "0.017325",
+        "unit": "m3",
+        "unitPriceMinor": "12000",
+        "entryId": "pe:bj:MAT.SABLE:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MO.MACON",
+        "qtyPerUnit": "0.8",
+        "unit": "h",
+        "unitPriceMinor": "1500",
+        "entryId": "pe:bj:MO.MACON:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "MAT.BLOC.20",
+        "label": "Bloc creux 20 cm [TEST]",
+        "kind": "material",
+        "unit": "u"
+      },
+      {
+        "code": "MAT.CIMENT",
+        "label": "Ciment, sac de 50 kg [TEST]",
+        "kind": "material",
+        "unit": "sac"
+      },
+      {
+        "code": "MAT.SABLE",
+        "label": "Sable [TEST]",
+        "kind": "material",
+        "unit": "m3"
+      },
+      {
+        "code": "MO.MACON",
+        "label": "Maçon [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "OUV.MAC.BLOC20",
+      "version": "1.0.0",
+      "hash": "sha256:8b4e7e112e1be89e5a6b3deeabff81dfbef30cfde4e3214ad405b7dbc917b187",
+      "lot": "LOT01",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:OUV.MAC.BLOC20",
+      "theoretical": "77.22",
+      "quantity": "77.22",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:SM.MAC.BLOC20:w-01",
+        "mapping": {
+          "id": "SM.MAC.BLOC20",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-01",
+          "code": "W01"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "11.46 m2",
+        "geo": [
+          {
+            "id": "geo:w-01:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "11.46",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.MAC.BLOC20:w-02",
+        "mapping": {
+          "id": "SM.MAC.BLOC20",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-02",
+          "code": "W02"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "9 m2",
+        "geo": [
+          {
+            "id": "geo:w-02:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "9",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.MAC.BLOC20:w-03",
+        "mapping": {
+          "id": "SM.MAC.BLOC20",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-03",
+          "code": "W03"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "9.06 m2",
+        "geo": [
+          {
+            "id": "geo:w-03:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "9.06",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.MAC.BLOC20:w-04",
+        "mapping": {
+          "id": "SM.MAC.BLOC20",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-04",
+          "code": "W04"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "7.14 m2",
+        "geo": [
+          {
+            "id": "geo:w-04:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "7.14",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.MAC.BLOC20:w-05",
+        "mapping": {
+          "id": "SM.MAC.BLOC20",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-05",
+          "code": "W05"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "9 m2",
+        "geo": [
+          {
+            "id": "geo:w-05:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "9",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.MAC.BLOC20:w-06",
+        "mapping": {
+          "id": "SM.MAC.BLOC20",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-06",
+          "code": "W06"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "13.56 m2",
+        "geo": [
+          {
+            "id": "geo:w-06:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "13.56",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.MAC.BLOC20:w-07",
+        "mapping": {
+          "id": "SM.MAC.BLOC20",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-07",
+          "code": "W07"
+        },
+        "specClass": "masonry.block.hollow",
+        "quantity": "18 m2",
+        "geo": [
+          {
+            "id": "geo:w-07:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "18",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-01"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.bj:BJ-LITTORAL-COTONOU",
+      "rev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+      "packId": "pack.bj",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f",
+      "zoneId": "BJ-LITTORAL-COTONOU"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:eb07f0dae456",
+      "kind": "DQE",
+      "number": "DQE-2026-0001",
+      "contentHash": "sha256:04441b7682cae2bb2a941f904da26e59dac04c223d52db2bf2c114f05595c41a"
+    },
+    "line": {
+      "id": "el:OUV.CARRELAGE.MUR",
+      "n": "2.1",
+      "designation": "Faïence murale",
+      "unit": "m2",
+      "quantity": "28.95",
+      "unitPrice": "10965",
+      "amount": "317437"
+    },
+    "price": [
+      {
+        "item": "MAT.CARREAU.MUR",
+        "qtyPerUnit": "1.1",
+        "unit": "m2",
+        "unitPriceMinor": "5500",
+        "entryId": "pe:bj:MAT.CARREAU.MUR:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MAT.COLLE",
+        "qtyPerUnit": "0.21",
+        "unit": "sac25",
+        "unitPriceMinor": "5000",
+        "entryId": "pe:bj:MAT.COLLE:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MO.CARRELEUR",
+        "qtyPerUnit": "1",
+        "unit": "h",
+        "unitPriceMinor": "1800",
+        "entryId": "pe:bj:MO.CARRELEUR:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "MAT.CARREAU.MUR",
+        "label": "Carreau mural [TEST]",
+        "kind": "material",
+        "unit": "m2"
+      },
+      {
+        "code": "MAT.COLLE",
+        "label": "Colle carrelage, sac de 25 kg [TEST]",
+        "kind": "material",
+        "unit": "sac25"
+      },
+      {
+        "code": "MO.CARRELEUR",
+        "label": "Carreleur [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "OUV.CARRELAGE.MUR",
+      "version": "1.0.0",
+      "hash": "sha256:88af1f5b5ffb1cb299bccc442fc1c0fddf3088332e75c3cb00c9d4a32eedb54a",
+      "lot": "LOT02",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:OUV.CARRELAGE.MUR",
+      "theoretical": "28.95",
+      "quantity": "28.95",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:SM.CARR.MUR:sp-sdb:1",
+        "mapping": {
+          "id": "SM.CARR.MUR",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sdb",
+          "code": "SDB"
+        },
+        "specClass": "wall.tile.ceramic",
+        "quantity": "28.95 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sdb:space.wall.area.net",
+            "kind": "space.wall.area.net",
+            "value": "28.95",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:4923a9367c8493f130038c7824ce90139b8df6ee4d64bed4e416ab4107ec44d0"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-01",
+      "A-03"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.bj:BJ-LITTORAL-COTONOU",
+      "rev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+      "packId": "pack.bj",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f",
+      "zoneId": "BJ-LITTORAL-COTONOU"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:eb07f0dae456",
+      "kind": "DQE",
+      "number": "DQE-2026-0001",
+      "contentHash": "sha256:04441b7682cae2bb2a941f904da26e59dac04c223d52db2bf2c114f05595c41a"
+    },
+    "line": {
+      "id": "el:OUV.CARRELAGE.SOL",
+      "n": "2.2",
+      "designation": "Carrelage de sol",
+      "unit": "m2",
+      "quantity": "44.38",
+      "unitPrice": "11876",
+      "amount": "527057"
+    },
+    "price": [
+      {
+        "item": "MAT.CARREAU.SOL",
+        "qtyPerUnit": "1.1",
+        "unit": "m2",
+        "unitPriceMinor": "6500",
+        "entryId": "pe:bj:MAT.CARREAU.SOL:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MAT.COLLE",
+        "qtyPerUnit": "0.21",
+        "unit": "sac25",
+        "unitPriceMinor": "5000",
+        "entryId": "pe:bj:MAT.COLLE:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MO.CARRELEUR",
+        "qtyPerUnit": "0.8",
+        "unit": "h",
+        "unitPriceMinor": "1800",
+        "entryId": "pe:bj:MO.CARRELEUR:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "MAT.CARREAU.SOL",
+        "label": "Carreau de sol [TEST]",
+        "kind": "material",
+        "unit": "m2"
+      },
+      {
+        "code": "MAT.COLLE",
+        "label": "Colle carrelage, sac de 25 kg [TEST]",
+        "kind": "material",
+        "unit": "sac25"
+      },
+      {
+        "code": "MO.CARRELEUR",
+        "label": "Carreleur [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "OUV.CARRELAGE.SOL",
+      "version": "1.0.0",
+      "hash": "sha256:64e612b8c3e7d6863714ddc36894f72b504920501cff5ea40e15a2069d119d58",
+      "lot": "LOT02",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:OUV.CARRELAGE.SOL",
+      "theoretical": "44.375",
+      "quantity": "44.38",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:SM.CARR.SOL:sp-cha",
+        "mapping": {
+          "id": "SM.CARR.SOL",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-cha",
+          "code": "CHA"
+        },
+        "specClass": "floor.tile.ceramic",
+        "quantity": "9.5475 m2",
+        "geo": [
+          {
+            "id": "geo:sp-cha:space.clear.area",
+            "kind": "space.clear.area",
+            "value": "9.5475",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.clear.area",
+              "version": "1.0.0",
+              "hash": "sha256:1524d842b3b937f92e3ae905c68be33a6031c6387346f5ddd4550d14e36a8fc7"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.CARR.SOL:sp-sal",
+        "mapping": {
+          "id": "SM.CARR.SOL",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sal",
+          "code": "SAL"
+        },
+        "specClass": "floor.tile.ceramic",
+        "quantity": "28.13 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sal:space.clear.area",
+            "kind": "space.clear.area",
+            "value": "28.13",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.clear.area",
+              "version": "1.0.0",
+              "hash": "sha256:1524d842b3b937f92e3ae905c68be33a6031c6387346f5ddd4550d14e36a8fc7"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.CARR.SOL:sp-sdb",
+        "mapping": {
+          "id": "SM.CARR.SOL",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sdb",
+          "code": "SDB"
+        },
+        "specClass": "floor.tile.ceramic",
+        "quantity": "6.6975 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sdb:space.clear.area",
+            "kind": "space.clear.area",
+            "value": "6.6975",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.clear.area",
+              "version": "1.0.0",
+              "hash": "sha256:1524d842b3b937f92e3ae905c68be33a6031c6387346f5ddd4550d14e36a8fc7"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-03"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.bj:BJ-LITTORAL-COTONOU",
+      "rev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+      "packId": "pack.bj",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f",
+      "zoneId": "BJ-LITTORAL-COTONOU"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:eb07f0dae456",
+      "kind": "DQE",
+      "number": "DQE-2026-0001",
+      "contentHash": "sha256:04441b7682cae2bb2a941f904da26e59dac04c223d52db2bf2c114f05595c41a"
+    },
+    "line": {
+      "id": "el:OUV.ENDUIT.EXT",
+      "n": "2.3",
+      "designation": "Enduit extérieur au mortier de ciment",
+      "unit": "m2",
+      "quantity": "77.22",
+      "unitPrice": "2590",
+      "amount": "200000"
+    },
+    "price": [
+      {
+        "item": "MAT.CIMENT",
+        "qtyPerUnit": "0.1442",
+        "unit": "sac",
+        "unitPriceMinor": "6000",
+        "entryId": "pe:bj:MAT.CIMENT:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MAT.SABLE",
+        "qtyPerUnit": "0.0231",
+        "unit": "m3",
+        "unitPriceMinor": "12000",
+        "entryId": "pe:bj:MAT.SABLE:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MO.PLATRIER",
+        "qtyPerUnit": "0.6",
+        "unit": "h",
+        "unitPriceMinor": "1600",
+        "entryId": "pe:bj:MO.PLATRIER:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "MAT.CIMENT",
+        "label": "Ciment, sac de 50 kg [TEST]",
+        "kind": "material",
+        "unit": "sac"
+      },
+      {
+        "code": "MAT.SABLE",
+        "label": "Sable [TEST]",
+        "kind": "material",
+        "unit": "m3"
+      },
+      {
+        "code": "MO.PLATRIER",
+        "label": "Plâtrier-enduiseur [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "OUV.ENDUIT.EXT",
+      "version": "1.0.0",
+      "hash": "sha256:1f323b7f91bd562eeae6b369bd265e0a596e4108b5d851dac86553f4d73ff12b",
+      "lot": "LOT02",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:OUV.ENDUIT.EXT",
+      "theoretical": "77.22",
+      "quantity": "77.22",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:SM.ENDUIT.EXT:w-01:1",
+        "mapping": {
+          "id": "SM.ENDUIT.EXT",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-01",
+          "code": "W01"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "11.46 m2",
+        "geo": [
+          {
+            "id": "geo:w-01:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "11.46",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.ENDUIT.EXT:w-02:1",
+        "mapping": {
+          "id": "SM.ENDUIT.EXT",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-02",
+          "code": "W02"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "9 m2",
+        "geo": [
+          {
+            "id": "geo:w-02:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "9",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.ENDUIT.EXT:w-03:1",
+        "mapping": {
+          "id": "SM.ENDUIT.EXT",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-03",
+          "code": "W03"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "9.06 m2",
+        "geo": [
+          {
+            "id": "geo:w-03:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "9.06",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.ENDUIT.EXT:w-04:1",
+        "mapping": {
+          "id": "SM.ENDUIT.EXT",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-04",
+          "code": "W04"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "7.14 m2",
+        "geo": [
+          {
+            "id": "geo:w-04:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "7.14",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.ENDUIT.EXT:w-05:1",
+        "mapping": {
+          "id": "SM.ENDUIT.EXT",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-05",
+          "code": "W05"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "9 m2",
+        "geo": [
+          {
+            "id": "geo:w-05:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "9",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.ENDUIT.EXT:w-06:1",
+        "mapping": {
+          "id": "SM.ENDUIT.EXT",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-06",
+          "code": "W06"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "13.56 m2",
+        "geo": [
+          {
+            "id": "geo:w-06:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "13.56",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.ENDUIT.EXT:w-07:1",
+        "mapping": {
+          "id": "SM.ENDUIT.EXT",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "wall",
+          "id": "w-07",
+          "code": "W07"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "18 m2",
+        "geo": [
+          {
+            "id": "geo:w-07:wall.area.net",
+            "kind": "wall.area.net",
+            "value": "18",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:d55555e650df83b2239624e70986d626408d8e308ff7e9d35092e6da622de353"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-01"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.bj:BJ-LITTORAL-COTONOU",
+      "rev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+      "packId": "pack.bj",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f",
+      "zoneId": "BJ-LITTORAL-COTONOU"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:eb07f0dae456",
+      "kind": "DQE",
+      "number": "DQE-2026-0001",
+      "contentHash": "sha256:04441b7682cae2bb2a941f904da26e59dac04c223d52db2bf2c114f05595c41a"
+    },
+    "line": {
+      "id": "el:OUV.ENDUIT.INT",
+      "n": "2.4",
+      "designation": "Enduit intérieur au mortier de ciment",
+      "unit": "m2",
+      "quantity": "117.96",
+      "unitPrice": "2393",
+      "amount": "282278"
+    },
+    "price": [
+      {
+        "item": "MAT.CIMENT",
+        "qtyPerUnit": "0.1442",
+        "unit": "sac",
+        "unitPriceMinor": "6000",
+        "entryId": "pe:bj:MAT.CIMENT:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MAT.SABLE",
+        "qtyPerUnit": "0.0231",
+        "unit": "m3",
+        "unitPriceMinor": "12000",
+        "entryId": "pe:bj:MAT.SABLE:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MO.PLATRIER",
+        "qtyPerUnit": "0.5",
+        "unit": "h",
+        "unitPriceMinor": "1600",
+        "entryId": "pe:bj:MO.PLATRIER:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "MAT.CIMENT",
+        "label": "Ciment, sac de 50 kg [TEST]",
+        "kind": "material",
+        "unit": "sac"
+      },
+      {
+        "code": "MAT.SABLE",
+        "label": "Sable [TEST]",
+        "kind": "material",
+        "unit": "m3"
+      },
+      {
+        "code": "MO.PLATRIER",
+        "label": "Plâtrier-enduiseur [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "OUV.ENDUIT.INT",
+      "version": "1.0.0",
+      "hash": "sha256:2e02bf797c450a3739bb79c52ff8a177ffd30eea7f22f47670cdb3065087904b",
+      "lot": "LOT02",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:OUV.ENDUIT.INT",
+      "theoretical": "117.96",
+      "quantity": "117.96",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:SM.ENDUIT.INT:sp-cha",
+        "mapping": {
+          "id": "SM.ENDUIT.INT",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-cha",
+          "code": "CHA"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "33.87 m2",
+        "geo": [
+          {
+            "id": "geo:sp-cha:space.wall.area.net",
+            "kind": "space.wall.area.net",
+            "value": "33.87",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:4923a9367c8493f130038c7824ce90139b8df6ee4d64bed4e416ab4107ec44d0"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.ENDUIT.INT:sp-sal",
+        "mapping": {
+          "id": "SM.ENDUIT.INT",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sal",
+          "code": "SAL"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "55.14 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sal:space.wall.area.net",
+            "kind": "space.wall.area.net",
+            "value": "55.14",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:4923a9367c8493f130038c7824ce90139b8df6ee4d64bed4e416ab4107ec44d0"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.ENDUIT.INT:sp-sdb",
+        "mapping": {
+          "id": "SM.ENDUIT.INT",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sdb",
+          "code": "SDB"
+        },
+        "specClass": "render.cementitious",
+        "quantity": "28.95 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sdb:space.wall.area.net",
+            "kind": "space.wall.area.net",
+            "value": "28.95",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:4923a9367c8493f130038c7824ce90139b8df6ee4d64bed4e416ab4107ec44d0"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-01",
+      "A-03"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.bj:BJ-LITTORAL-COTONOU",
+      "rev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+      "packId": "pack.bj",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f",
+      "zoneId": "BJ-LITTORAL-COTONOU"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:eb07f0dae456",
+      "kind": "DQE",
+      "number": "DQE-2026-0001",
+      "contentHash": "sha256:04441b7682cae2bb2a941f904da26e59dac04c223d52db2bf2c114f05595c41a"
+    },
+    "line": {
+      "id": "el:OUV.PEINT.MUR",
+      "n": "2.5",
+      "designation": "Peinture murale en émulsion",
+      "unit": "m2",
+      "quantity": "89.01",
+      "unitPrice": "906",
+      "amount": "80643"
+    },
+    "price": [
+      {
+        "item": "MAT.PEINTURE",
+        "qtyPerUnit": "0.01375",
+        "unit": "pot20",
+        "unitPriceMinor": "28000",
+        "entryId": "pe:bj:MAT.PEINTURE:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MO.PEINTRE",
+        "qtyPerUnit": "0.25",
+        "unit": "h",
+        "unitPriceMinor": "1400",
+        "entryId": "pe:bj:MO.PEINTRE:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "MAT.PEINTURE",
+        "label": "Peinture émulsion, pot de 20 l [TEST]",
+        "kind": "material",
+        "unit": "pot20"
+      },
+      {
+        "code": "MO.PEINTRE",
+        "label": "Peintre [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "OUV.PEINT.MUR",
+      "version": "1.0.0",
+      "hash": "sha256:2aca7c08be4c27ed9e37048694f0264029fa45eac794c6b93f8a59d6a7b6cd40",
+      "lot": "LOT02",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:OUV.PEINT.MUR",
+      "theoretical": "89.01",
+      "quantity": "89.01",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:SM.PEINT.MUR:sp-cha:1",
+        "mapping": {
+          "id": "SM.PEINT.MUR",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-cha",
+          "code": "CHA"
+        },
+        "specClass": "paint.emulsion",
+        "quantity": "33.87 m2",
+        "geo": [
+          {
+            "id": "geo:sp-cha:space.wall.area.net",
+            "kind": "space.wall.area.net",
+            "value": "33.87",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:4923a9367c8493f130038c7824ce90139b8df6ee4d64bed4e416ab4107ec44d0"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.PEINT.MUR:sp-sal:1",
+        "mapping": {
+          "id": "SM.PEINT.MUR",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "toutes les ouvertures déduites"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sal",
+          "code": "SAL"
+        },
+        "specClass": "paint.emulsion",
+        "quantity": "55.14 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sal:space.wall.area.net",
+            "kind": "space.wall.area.net",
+            "value": "55.14",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.wall.area.net",
+              "version": "1.0.0",
+              "hash": "sha256:4923a9367c8493f130038c7824ce90139b8df6ee4d64bed4e416ab4107ec44d0"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-01",
+      "A-03"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.bj:BJ-LITTORAL-COTONOU",
+      "rev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+      "packId": "pack.bj",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f",
+      "zoneId": "BJ-LITTORAL-COTONOU"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:eb07f0dae456",
+      "kind": "DQE",
+      "number": "DQE-2026-0001",
+      "contentHash": "sha256:04441b7682cae2bb2a941f904da26e59dac04c223d52db2bf2c114f05595c41a"
+    },
+    "line": {
+      "id": "el:OUV.PEINT.PLAFOND",
+      "n": "2.6",
+      "designation": "Peinture de plafond en émulsion",
+      "unit": "m2",
+      "quantity": "44.38",
+      "unitPrice": "992",
+      "amount": "44025"
+    },
+    "price": [
+      {
+        "item": "MAT.PEINTURE",
+        "qtyPerUnit": "0.01375",
+        "unit": "pot20",
+        "unitPriceMinor": "28000",
+        "entryId": "pe:bj:MAT.PEINTURE:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MO.PEINTRE",
+        "qtyPerUnit": "0.3",
+        "unit": "h",
+        "unitPriceMinor": "1400",
+        "entryId": "pe:bj:MO.PEINTRE:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "MAT.PEINTURE",
+        "label": "Peinture émulsion, pot de 20 l [TEST]",
+        "kind": "material",
+        "unit": "pot20"
+      },
+      {
+        "code": "MO.PEINTRE",
+        "label": "Peintre [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "OUV.PEINT.PLAFOND",
+      "version": "1.0.0",
+      "hash": "sha256:8615f863dfe85a2034ddba0555e018e1f9254500f164594a5e8531b1b4af5802",
+      "lot": "LOT02",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:OUV.PEINT.PLAFOND",
+      "theoretical": "44.375",
+      "quantity": "44.38",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:SM.PEINT.PLAF:sp-cha",
+        "mapping": {
+          "id": "SM.PEINT.PLAF",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-cha",
+          "code": "CHA"
+        },
+        "specClass": "paint.emulsion",
+        "quantity": "9.5475 m2",
+        "geo": [
+          {
+            "id": "geo:sp-cha:space.ceiling.area",
+            "kind": "space.ceiling.area",
+            "value": "9.5475",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.ceiling.area",
+              "version": "1.0.0",
+              "hash": "sha256:91259c27cac7649d74a28ee0ca90b0e1b61456a6f743b9dfb215c5cdfb40f01f"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.PEINT.PLAF:sp-sal",
+        "mapping": {
+          "id": "SM.PEINT.PLAF",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sal",
+          "code": "SAL"
+        },
+        "specClass": "paint.emulsion",
+        "quantity": "28.13 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sal:space.ceiling.area",
+            "kind": "space.ceiling.area",
+            "value": "28.13",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.ceiling.area",
+              "version": "1.0.0",
+              "hash": "sha256:91259c27cac7649d74a28ee0ca90b0e1b61456a6f743b9dfb215c5cdfb40f01f"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.PEINT.PLAF:sp-sdb",
+        "mapping": {
+          "id": "SM.PEINT.PLAF",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "space",
+          "id": "sp-sdb",
+          "code": "SDB"
+        },
+        "specClass": "paint.emulsion",
+        "quantity": "6.6975 m2",
+        "geo": [
+          {
+            "id": "geo:sp-sdb:space.ceiling.area",
+            "kind": "space.ceiling.area",
+            "value": "6.6975",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.space.ceiling.area",
+              "version": "1.0.0",
+              "hash": "sha256:91259c27cac7649d74a28ee0ca90b0e1b61456a6f743b9dfb215c5cdfb40f01f"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [
+      "A-03"
+    ],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.bj:BJ-LITTORAL-COTONOU",
+      "rev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+      "packId": "pack.bj",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f",
+      "zoneId": "BJ-LITTORAL-COTONOU"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:eb07f0dae456",
+      "kind": "DQE",
+      "number": "DQE-2026-0001",
+      "contentHash": "sha256:04441b7682cae2bb2a941f904da26e59dac04c223d52db2bf2c114f05595c41a"
+    },
+    "line": {
+      "id": "el:OUV.FEN.120",
+      "n": "3.1",
+      "designation": "Fenêtre aluminium 120×120, pose comprise",
+      "unit": "u",
+      "quantity": "3",
+      "unitPrice": "77246",
+      "amount": "231738"
+    },
+    "price": [
+      {
+        "item": "MENU.FEN.120",
+        "qtyPerUnit": "1",
+        "unit": "u",
+        "unitPriceMinor": "60000",
+        "entryId": "pe:bj:MENU.FEN.120:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MO.MENUISIER",
+        "qtyPerUnit": "1.5",
+        "unit": "h",
+        "unitPriceMinor": "1800",
+        "entryId": "pe:bj:MO.MENUISIER:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "MENU.FEN.120",
+        "label": "Fenêtre aluminium 120×120 [TEST]",
+        "kind": "material",
+        "unit": "u"
+      },
+      {
+        "code": "MO.MENUISIER",
+        "label": "Menuisier-poseur [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "OUV.FEN.120",
+      "version": "1.0.0",
+      "hash": "sha256:6e7746c7fa0c20ccaa01b0eb397a7ed678f8484dc14198db9d386e33c8289c79",
+      "lot": "LOT03",
+      "unit": "u"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:OUV.FEN.120",
+      "theoretical": "3",
+      "quantity": "3",
+      "unit": "u"
+    },
+    "contributions": [
+      {
+        "id": "ctb:SM.FEN.120:o-w1",
+        "mapping": {
+          "id": "SM.FEN.120",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "opening",
+          "id": "o-w1",
+          "code": "W-01"
+        },
+        "specClass": "opening.window.casement",
+        "quantity": "1 u",
+        "geo": [
+          {
+            "id": "geo:o-w1:opening.count",
+            "kind": "opening.count",
+            "value": "1",
+            "unit": "u",
+            "rule": {
+              "id": "geom.opening.count",
+              "version": "1.0.0",
+              "hash": "sha256:e28c18d7b4a3c5eb7262ccbad8eaa7bc543278dd6cd743f3d769b075d22d65d8"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.FEN.120:o-w2",
+        "mapping": {
+          "id": "SM.FEN.120",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "opening",
+          "id": "o-w2",
+          "code": "W-02"
+        },
+        "specClass": "opening.window.casement",
+        "quantity": "1 u",
+        "geo": [
+          {
+            "id": "geo:o-w2:opening.count",
+            "kind": "opening.count",
+            "value": "1",
+            "unit": "u",
+            "rule": {
+              "id": "geom.opening.count",
+              "version": "1.0.0",
+              "hash": "sha256:e28c18d7b4a3c5eb7262ccbad8eaa7bc543278dd6cd743f3d769b075d22d65d8"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.FEN.120:o-w3",
+        "mapping": {
+          "id": "SM.FEN.120",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "opening",
+          "id": "o-w3",
+          "code": "W-03"
+        },
+        "specClass": "opening.window.casement",
+        "quantity": "1 u",
+        "geo": [
+          {
+            "id": "geo:o-w3:opening.count",
+            "kind": "opening.count",
+            "value": "1",
+            "unit": "u",
+            "rule": {
+              "id": "geom.opening.count",
+              "version": "1.0.0",
+              "hash": "sha256:e28c18d7b4a3c5eb7262ccbad8eaa7bc543278dd6cd743f3d769b075d22d65d8"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.bj:BJ-LITTORAL-COTONOU",
+      "rev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+      "packId": "pack.bj",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f",
+      "zoneId": "BJ-LITTORAL-COTONOU"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:eb07f0dae456",
+      "kind": "DQE",
+      "number": "DQE-2026-0001",
+      "contentHash": "sha256:04441b7682cae2bb2a941f904da26e59dac04c223d52db2bf2c114f05595c41a"
+    },
+    "line": {
+      "id": "el:OUV.FEN.60",
+      "n": "3.2",
+      "designation": "Fenêtre aluminium 60×60, pose comprise",
+      "unit": "u",
+      "quantity": "1",
+      "unitPrice": "33018",
+      "amount": "33018"
+    },
+    "price": [
+      {
+        "item": "MENU.FEN.60",
+        "qtyPerUnit": "1",
+        "unit": "u",
+        "unitPriceMinor": "25000",
+        "entryId": "pe:bj:MENU.FEN.60:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MO.MENUISIER",
+        "qtyPerUnit": "1",
+        "unit": "h",
+        "unitPriceMinor": "1800",
+        "entryId": "pe:bj:MO.MENUISIER:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "MENU.FEN.60",
+        "label": "Fenêtre aluminium 60×60 [TEST]",
+        "kind": "material",
+        "unit": "u"
+      },
+      {
+        "code": "MO.MENUISIER",
+        "label": "Menuisier-poseur [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "OUV.FEN.60",
+      "version": "1.0.0",
+      "hash": "sha256:b82e7bb19a8145d4f9fff310707143dbec06fe4b4224c041d1108036f11dfb8b",
+      "lot": "LOT03",
+      "unit": "u"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:OUV.FEN.60",
+      "theoretical": "1",
+      "quantity": "1",
+      "unit": "u"
+    },
+    "contributions": [
+      {
+        "id": "ctb:SM.FEN.60:o-w4",
+        "mapping": {
+          "id": "SM.FEN.60",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "opening",
+          "id": "o-w4",
+          "code": "W-04"
+        },
+        "specClass": "opening.window.casement",
+        "quantity": "1 u",
+        "geo": [
+          {
+            "id": "geo:o-w4:opening.count",
+            "kind": "opening.count",
+            "value": "1",
+            "unit": "u",
+            "rule": {
+              "id": "geom.opening.count",
+              "version": "1.0.0",
+              "hash": "sha256:e28c18d7b4a3c5eb7262ccbad8eaa7bc543278dd6cd743f3d769b075d22d65d8"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.bj:BJ-LITTORAL-COTONOU",
+      "rev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+      "packId": "pack.bj",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f",
+      "zoneId": "BJ-LITTORAL-COTONOU"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:eb07f0dae456",
+      "kind": "DQE",
+      "number": "DQE-2026-0001",
+      "contentHash": "sha256:04441b7682cae2bb2a941f904da26e59dac04c223d52db2bf2c114f05595c41a"
+    },
+    "line": {
+      "id": "el:OUV.PORTE.100",
+      "n": "3.3",
+      "designation": "Porte bois 100×210, pose comprise",
+      "unit": "u",
+      "quantity": "1",
+      "unitPrice": "109155",
+      "amount": "109155"
+    },
+    "price": [
+      {
+        "item": "MENU.PORTE.100",
+        "qtyPerUnit": "1",
+        "unit": "u",
+        "unitPriceMinor": "85000",
+        "entryId": "pe:bj:MENU.PORTE.100:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MO.MENUISIER",
+        "qtyPerUnit": "2",
+        "unit": "h",
+        "unitPriceMinor": "1800",
+        "entryId": "pe:bj:MO.MENUISIER:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "MENU.PORTE.100",
+        "label": "Bloc-porte bois 100×210 [TEST]",
+        "kind": "material",
+        "unit": "u"
+      },
+      {
+        "code": "MO.MENUISIER",
+        "label": "Menuisier-poseur [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "OUV.PORTE.100",
+      "version": "1.0.0",
+      "hash": "sha256:90097d591eaa9e71a449df9f666b5979fffe079e18d56418fe70179472ba1b77",
+      "lot": "LOT03",
+      "unit": "u"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:OUV.PORTE.100",
+      "theoretical": "1",
+      "quantity": "1",
+      "unit": "u"
+    },
+    "contributions": [
+      {
+        "id": "ctb:SM.PORTE.100:o-d1",
+        "mapping": {
+          "id": "SM.PORTE.100",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "opening",
+          "id": "o-d1",
+          "code": "D-01"
+        },
+        "specClass": "opening.door.single",
+        "quantity": "1 u",
+        "geo": [
+          {
+            "id": "geo:o-d1:opening.count",
+            "kind": "opening.count",
+            "value": "1",
+            "unit": "u",
+            "rule": {
+              "id": "geom.opening.count",
+              "version": "1.0.0",
+              "hash": "sha256:e28c18d7b4a3c5eb7262ccbad8eaa7bc543278dd6cd743f3d769b075d22d65d8"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.bj:BJ-LITTORAL-COTONOU",
+      "rev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+      "packId": "pack.bj",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f",
+      "zoneId": "BJ-LITTORAL-COTONOU"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:eb07f0dae456",
+      "kind": "DQE",
+      "number": "DQE-2026-0001",
+      "contentHash": "sha256:04441b7682cae2bb2a941f904da26e59dac04c223d52db2bf2c114f05595c41a"
+    },
+    "line": {
+      "id": "el:OUV.PORTE.90",
+      "n": "3.4",
+      "designation": "Porte bois 90×210, pose comprise",
+      "unit": "u",
+      "quantity": "2",
+      "unitPrice": "90675",
+      "amount": "181350"
+    },
+    "price": [
+      {
+        "item": "MENU.PORTE.90",
+        "qtyPerUnit": "1",
+        "unit": "u",
+        "unitPriceMinor": "70000",
+        "entryId": "pe:bj:MENU.PORTE.90:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MO.MENUISIER",
+        "qtyPerUnit": "2",
+        "unit": "h",
+        "unitPriceMinor": "1800",
+        "entryId": "pe:bj:MO.MENUISIER:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "MENU.PORTE.90",
+        "label": "Bloc-porte bois 90×210 [TEST]",
+        "kind": "material",
+        "unit": "u"
+      },
+      {
+        "code": "MO.MENUISIER",
+        "label": "Menuisier-poseur [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "OUV.PORTE.90",
+      "version": "1.0.0",
+      "hash": "sha256:5d6b3a46e899928371514a88b6b3a680ecd523d85bbfbaa88868ac9ea86967bd",
+      "lot": "LOT03",
+      "unit": "u"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:OUV.PORTE.90",
+      "theoretical": "2",
+      "quantity": "2",
+      "unit": "u"
+    },
+    "contributions": [
+      {
+        "id": "ctb:SM.PORTE.90:o-d2",
+        "mapping": {
+          "id": "SM.PORTE.90",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "opening",
+          "id": "o-d2",
+          "code": "D-02"
+        },
+        "specClass": "opening.door.single",
+        "quantity": "1 u",
+        "geo": [
+          {
+            "id": "geo:o-d2:opening.count",
+            "kind": "opening.count",
+            "value": "1",
+            "unit": "u",
+            "rule": {
+              "id": "geom.opening.count",
+              "version": "1.0.0",
+              "hash": "sha256:e28c18d7b4a3c5eb7262ccbad8eaa7bc543278dd6cd743f3d769b075d22d65d8"
+            }
+          }
+        ]
+      },
+      {
+        "id": "ctb:SM.PORTE.90:o-d3",
+        "mapping": {
+          "id": "SM.PORTE.90",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "opening",
+          "id": "o-d3",
+          "code": "D-03"
+        },
+        "specClass": "opening.door.single",
+        "quantity": "1 u",
+        "geo": [
+          {
+            "id": "geo:o-d3:opening.count",
+            "kind": "opening.count",
+            "value": "1",
+            "unit": "u",
+            "rule": {
+              "id": "geom.opening.count",
+              "version": "1.0.0",
+              "hash": "sha256:e28c18d7b4a3c5eb7262ccbad8eaa7bc543278dd6cd743f3d769b075d22d65d8"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.bj:BJ-LITTORAL-COTONOU",
+      "rev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+      "packId": "pack.bj",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f",
+      "zoneId": "BJ-LITTORAL-COTONOU"
+    },
+    "missing": []
+  },
+  {
+    "document": {
+      "id": "doc:eb07f0dae456",
+      "kind": "DQE",
+      "number": "DQE-2026-0001",
+      "contentHash": "sha256:04441b7682cae2bb2a941f904da26e59dac04c223d52db2bf2c114f05595c41a"
+    },
+    "line": {
+      "id": "el:OUV.TOLE",
+      "n": "4.1",
+      "designation": "Couverture en tôle",
+      "unit": "m2",
+      "quantity": "53.08",
+      "unitPrice": "6936",
+      "amount": "368163"
+    },
+    "price": [
+      {
+        "item": "MAT.TOLE",
+        "qtyPerUnit": "1.1",
+        "unit": "m2",
+        "unitPriceMinor": "4500",
+        "entryId": "pe:bj:MAT.TOLE:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      },
+      {
+        "item": "MO.COUVREUR",
+        "qtyPerUnit": "0.4",
+        "unit": "h",
+        "unitPriceMinor": "1700",
+        "entryId": "pe:bj:MO.COUVREUR:BJ-LITTORAL-COTONOU",
+        "zoneId": "BJ-LITTORAL-COTONOU",
+        "level": "zone",
+        "date": "2026-09-15",
+        "source": {
+          "type": "synthetic",
+          "ref": "TEST-DATA-DO-NOT-USE"
+        },
+        "version": "pb-bj-0.0.1",
+        "confidence": "0.80",
+        "dataClass": "synthetic/test"
+      }
+    ],
+    "catalogue": [
+      {
+        "code": "MAT.TOLE",
+        "label": "Tôle de couverture [TEST]",
+        "kind": "material",
+        "unit": "m2"
+      },
+      {
+        "code": "MO.COUVREUR",
+        "label": "Couvreur [TEST]",
+        "kind": "labour",
+        "unit": "h"
+      }
+    ],
+    "assembly": {
+      "code": "OUV.TOLE",
+      "version": "1.0.0",
+      "hash": "sha256:be94061a81b1c5a794a27c340b016c7c64d2df7b020f4c5f0f22cb9ad0b64ead",
+      "lot": "LOT04",
+      "unit": "m2"
+    },
+    "ouvrageQuantity": {
+      "id": "oq:OUV.TOLE",
+      "theoretical": "53.078518",
+      "quantity": "53.08",
+      "unit": "m2"
+    },
+    "contributions": [
+      {
+        "id": "ctb:SM.TOLE:rf-1",
+        "mapping": {
+          "id": "SM.TOLE",
+          "version": "1.0.0"
+        },
+        "method": {
+          "id": "MM.TEST.NET",
+          "version": "1.0.0",
+          "deduction": "aucune"
+        },
+        "entity": {
+          "type": "roof",
+          "id": "rf-1",
+          "code": "TOI1"
+        },
+        "specClass": "roof.sheet.metal",
+        "quantity": "53.078518 m2",
+        "geo": [
+          {
+            "id": "geo:rf-1:roof.area.developed",
+            "kind": "roof.area.developed",
+            "value": "53.078518",
+            "unit": "m2",
+            "rule": {
+              "id": "geom.roof.area.developed",
+              "version": "1.0.0",
+              "hash": "sha256:06ffcaef6f790f183c38c73bf7d66266f15090cd87150ed5793b00743c81be87"
+            }
+          }
+        ]
+      }
+    ],
+    "assumptionIds": [],
+    "model": {
+      "rev": "sha256:9a6034b500aae0d7f963266023a7b1ea639e68954de091b073f78a23aa227db0",
+      "id": "model-house"
+    },
+    "planRevision": {
+      "sourceDocumentHash": "sha256:2fa4df233be47c2b3b6103f1d35a09bb1cfaedafd95ef9df51c9c9ddd83a8a84",
+      "sheetId": "sheet-house",
+      "page": 1,
+      "label": "PLAN SYNTHÉTIQUE « house » — aucun plan réel",
+      "supersedes": null
+    },
+    "binding": {
+      "id": "mb:pack.bj:BJ-LITTORAL-COTONOU",
+      "rev": "sha256:539a654bb5e5228c57a3611e616f2aa4b62b1e182c3b342be3e7c42b8c6ee55e",
+      "packId": "pack.bj",
+      "packVersion": "0.0.1-synthetic",
+      "packResolvedHash": "sha256:dadf57d3e8758d63452d29f5e21e6e3b3f76fd732e5783feab981f1a337d5e2f",
+      "zoneId": "BJ-LITTORAL-COTONOU"
+    },
+    "missing": []
+  }
+]

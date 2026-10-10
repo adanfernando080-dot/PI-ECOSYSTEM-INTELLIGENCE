@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "description": "Taxonomie NEUTRE de spécification de construction (classes génériques, sans produit ni pays). Extensible ; gouvernance : ADR-0019.",
+  "classes": [
+    { "id": "masonry.block.hollow", "label": "Maçonnerie en blocs creux" },
+    { "id": "masonry.brick.fired", "label": "Maçonnerie en briques cuites" },
+    { "id": "render.cementitious", "label": "Enduit à base de liant hydraulique" },
+    { "id": "paint.emulsion", "label": "Peinture en émulsion" },
+    { "id": "floor.tile.ceramic", "label": "Revêtement de sol en carreaux céramiques" },
+    { "id": "wall.tile.ceramic", "label": "Revêtement mural en carreaux céramiques" },
+    { "id": "slab.reinforced.concrete", "label": "Dalle en béton armé" },
+    { "id": "roof.sheet.metal", "label": "Couverture en tôle métallique" },
+    { "id": "roof.tile.clay", "label": "Couverture en tuiles terre cuite" },
+    { "id": "opening.door.single", "label": "Porte simple vantail" },
+    { "id": "opening.window.casement", "label": "Fenêtre à battant" },
+    { "id": "joinery.timber", "label": "Menuiserie bois" },
+    { "id": "joinery.aluminium", "label": "Menuiserie aluminium" }
+  ]
+}

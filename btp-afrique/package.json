@@ -1,0 +1,22 @@
+{
+  "name": "btp-platform-core",
+  "version": "0.0.1-m0",
+  "private": true,
+  "description": "Noyau exécutable M0 de la plateforme BTP (sans interface). Aucune dépendance d'exécution.",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "demo": "tsx src/cli.ts",
+    "sign-packs": "tsx tools/sign-packs.ts",
+    "check-docs": "python3 -I tools/check_traceability.py",
+    "check-isolation": "tsx tools/check-pack-isolation.ts"
+  },
+  "engines": { "node": ">=20" },
+  "devDependencies": {
+    "@types/node": "^22.18.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vitest": "^4.1.11"
+  }
+}
