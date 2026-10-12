@@ -11,12 +11,12 @@
 | [0007](ADR-0007-chaine-de-tracabilite-et-manifeste.md) | Chaîne de traçabilité et manifeste de provenance | Rédigé (proposé, v0.3) | REQ-21, REQ-11, REQ-13 |
 | [0008](ADR-0008-genericite-des-packs.md) | Généricité des packs : zones, structure de coût, documents | Rédigé (proposé, v0.3) | REQ-22, REQ-09, REQ-07 |
 | [0009](ADR-0009-oplog-et-revisions.md) | Journal d'opérations (oplog), révisions et annulation | Accepté pour M0 (implémenté) | REQ-13, REQ-15, REQ-26 |
-| 0010 | Tauri vs Electron | À rédiger (M1, avant l'application) | REQ-01 |
+| [0010](ADR-0010-shell-desktop-tauri-electron.md) | Shell desktop : Tauri ou Electron | Recommandé (Electron derrière `HostApi`), à confirmer | REQ-01 |
 | [0011](ADR-0011-nombres-unites-arrondis.md) | Unités, décimaux, arrondis et ordre de calcul | Accepté pour M0 (implémenté) | REQ-05, REQ-07, REQ-09 |
 | [0012](ADR-0012-format-declaratif-des-packs.md) | Format déclaratif des packs : vocabulaire fermé « declarative-1 » | Accepté pour M0 (implémenté) | REQ-05, REQ-08, REQ-22 |
 | 0013 | Séparation Quantités / Prix | Absorbé par ADR-0002, ADR-0007 et le test T-PRC-03 (pas d'ADR distinct) | REQ-06 |
 | 0014 | Schéma de provenance / confiance et calibration | À rédiger (M1) | REQ-11 |
-| 0015 | Contrat `AiProposal` et ports IA | À rédiger (M1) | REQ-03, REQ-20 |
+| [0015](ADR-0015-contrat-aiproposal-et-ports-ia.md) | Contrat `AiProposal` et ports IA | Accepté (contrats implémentés ; aucun détecteur) | REQ-03, REQ-20, REQ-25 |
 | [0016](ADR-0016-format-projet-btpx.md) | Format de projet `.btpx` (paquets embarqués) | Accepté pour M0 (conteneur logique) | REQ-13, REQ-21 |
 | [0017](ADR-0017-politique-ia-local-cloud-consentement.md) | Politique IA : essentiel hors ligne, IA locale ou cloud optionnelle, consentement | Accepté (principe) ; IA : M1/M2 | REQ-01, REQ-14, REQ-20, REQ-28 |
 | 0018 | Licence hors ligne | À rédiger (M3) | REQ-23 |

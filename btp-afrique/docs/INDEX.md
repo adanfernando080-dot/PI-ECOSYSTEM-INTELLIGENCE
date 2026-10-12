@@ -56,8 +56,8 @@ Sources : « brief » = description initiale du produit ; « v0.2 » = correctio
 | Exigence | Architecture | ADR | Modèle / composants | Tests | Couverture |
 |---|---|---|---|---|---|
 | REQ-01 | §1.2, §2, §14 | ADR-0009 | Storage SQLite, PackStore, oplog | T-OFF-01, T-ENG-05 | planifiée M1 |
-| REQ-02 | §6.1, §1.2 | ADR-0015 (à rédiger) | SourceDocument, PlanSheet, DrawingConventions | T-IMP-01 | planifiée M1 |
-| REQ-03 | §6.1, §6.2 | ADR-0015 (à rédiger) | AiProposal, ModelArtifact | T-AI-01, T-AI-08, T-C-02 | planifiée M2 |
+| REQ-02 | §6.1, §1.2 | ADR-0015 | SourceDocument, PlanSheet, DrawingConventions | T-IMP-01 | planifiée M1 |
+| REQ-03 | §6.1, §6.2 | ADR-0015 | AiProposal, ModelArtifact | T-AI-01, T-AI-08, T-C-02 | planifiée M2 |
 | REQ-04 | §3.2, §3.4 | ADR-0002 | ArchitecturalModel, Wall, Opening, Space | T-GEO-02, T-ENG-05, T-PUR-03 | planifiée M0 |
 | REQ-05 | §4 | ADR-0002, ADR-0006, ADR-0012 | GeometricTakeoff, QuantitySet, Assembly | T-ENG-01, T-ENG-02, T-ENG-03, T-ENG-04, T-GEO-01, T-SYN-01, T-C-01 | planifiée M0 |
 | REQ-06 | §5.1, §4.1 | ADR-0002, ADR-0002 | QuantityLine, EstimateLine | T-PRC-03, T-MKT-05 | planifiée M0 |
@@ -71,10 +71,10 @@ Sources : « brief » = description initiale du produit ; « v0.2 » = correctio
 | REQ-14 | §11 | ADR-0017 | blobs chiffrés, consentement | T-SEC-01, T-SEC-03 | planifiée M1–M2 |
 | REQ-15 | §14 | ADR-0009, ADR-0017 | oplog, HLC, SyncTransport | T-SYNC-01, T-OFF-01 | planifiée V1 |
 | REQ-16 | §15 | — (V1) | ArchitecturalModel, vues | T-3D-01, T-MOD-01 | planifiée V1 |
-| REQ-17 | §6.6 | ADR-0015 (à rédiger) | outils de l'assistant | T-AST-01 | planifiée V1 |
+| REQ-17 | §6.6 | ADR-0015 | outils de l'assistant | T-AST-01 | planifiée V1 |
 | REQ-18 | §0.1, §9.4 | ADR-0001, ADR-0002, ADR-0005, ADR-0019 | core-model, core-geometry, AssumptionSet | T-PUR-01, T-PUR-02, T-PUR-03, T-PUR-04, T-PUR-05, T-MKT-02 | planifiée M0 |
 | REQ-19 | §6.4, `DATASET-STRATEGY.md` | ADR-0003 | datasets, ai-eval | T-AI-01, T-AI-02, T-DAT-01, T-DAT-02, T-DAT-03 | planifiée M2 |
-| REQ-20 | §6.0, §6.2 | ADR-0003, ADR-0015 (à rédiger) | ModelArtifact, AiProposal | T-AI-03, T-AI-04, T-AI-05, T-AI-06 | planifiée M2 |
+| REQ-20 | §6.0, §6.2 | ADR-0003, ADR-0015 | ModelArtifact, AiProposal | T-AI-03, T-AI-04, T-AI-05, T-AI-06 | planifiée M2 |
 | REQ-21 | §4.5, §8.1, §10.4 | ADR-0006, ADR-0007, ADR-0016 | core-trace, ProvenanceManifest | T-TRC-01, T-TRC-02, T-TRC-03, T-DOC-03, T-ENG-03 | planifiée M0 |
 | REQ-22 | §9.6 | ADR-0004, ADR-0008 | market-packs/sn, market-packs/test | T-MKT-01, T-MKT-03, T-MKT-04 | planifiée M0 |
 | REQ-23 | §11.3 | ADR-0018 (à rédiger) | LicenseVerifier | T-SEC-02 | planifiée M3 |
@@ -82,7 +82,7 @@ Sources : « brief » = description initiale du produit ; « v0.2 » = correctio
 | REQ-25 | §3.3, §6.2 | ADR-0005 | AiProposal, ManualLine, QuantityAdjustment | T-AI-07, T-TRC-03, T-C-02 | planifiée M1 |
 | REQ-26 | §4.6, §15 | — (V1) | recalcul incrémental, Command | T-MOD-01, T-ENG-04 | planifiée V1 |
 | REQ-27 | §6.6 | — (V2) | moteur de scénarios | T-OPT-01 | planifiée V2 |
-| REQ-28 | §2.4, §6.1 | ADR-0010 (à rédiger) | ONNX, modèles quantifiés | T-PERF-01 | planifiée M2 |
+| REQ-28 | §2.4, §6.1 | ADR-0010 (recommandé, à confirmer) | ONNX, modèles quantifiés | T-PERF-01 | planifiée M2 |
 
 *Statut de couverture* : « planifiée » = test **défini** (§13 d'`ARCHITECTURE.md`) mais **pas encore implémenté** (aucun code n'existe). Le contrôle automatique garantit l'absence d'exigence « seulement décrite ».
 
@@ -92,7 +92,7 @@ Sources : « brief » = description initiale du produit ; « v0.2 » = correctio
 |---|---|---|
 | D1–D4 | Noyau TS pur, desktop d'abord, SQLite local, oplog | §2, ADR-0009/0010 (à rédiger) |
 | D5–D6 | Quantités ≠ prix, deux étages, métré déterministe | ADR-0002, ADR-0002, §4 |
-| D7 | IA = propositions | ADR-0005, ADR-0015 (à rédiger), §6.2 |
+| D7 | IA = propositions | ADR-0005, ADR-0015, §6.2 |
 | D8 | Packs marché | ADR-0004, ADR-0008, §9 |
 | D9 | LLM = outils | §6.6 |
 | D10 | Essentiel hors ligne, IA locale/cloud optionnelle, consentement | §11.4, ADR-0017 |
@@ -233,5 +233,6 @@ Contrôles : chaque exigence a ≥ 1 test défini ; tout test cité existe dans 
 | T-OPS-01 | ◐ | rejeu, annulation, comparaison ✅ ; révisions nommées ✖ |
 | T-C-01 | ◐ | référence = calcul à la main sur données synthétiques, **pas** un métré de professionnel |
 | T-OFF-01 | ◐ | noyau sans API réseau (vérifié statiquement) ; scénario réseau coupé avec l'application ✖ |
-| T-SEC-*, T-IMP-01, T-PKG-01, T-AI-*, T-DAT-*, T-PERF-01, T-SCN-01, T-SYNC-01, T-AST-01, T-MOD-01, T-OPT-01, T-3D-01, T-C-02 | ✖ | jalons M1 et suivants |
+| T-AI-07 | ◐ | `tests/ai` — contrats, porte de validation humaine, aucune entrée automatique dans le modèle ; **aucune reconnaissance implémentée** |
+| T-SEC-*, T-IMP-01, T-PKG-01, T-AI-01…06/08, T-DAT-*, T-PERF-01, T-SCN-01, T-SYNC-01, T-AST-01, T-MOD-01, T-OPT-01, T-3D-01, T-C-02 | ✖ | jalons M1 et suivants |
 
