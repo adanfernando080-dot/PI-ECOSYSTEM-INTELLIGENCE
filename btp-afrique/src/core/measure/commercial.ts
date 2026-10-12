@@ -14,6 +14,7 @@ import type { ConfidenceFloor, EntityRef, TraceStep } from '../trace/types.js';
 import type { MarketBinding } from '../pack/binding.js';
 import type { Assembly, Basis, CatalogueItem, MappingTarget, ResolvedPack, Rounding, SpecMapping } from '../pack/types.js';
 import { GeoIndex, resolveBasis } from './basis.js';
+import { NO_MANUAL, type ManualEntries, type QuantityAdjustment } from '../manual/manual.js';
 
 export interface Contribution {
   id: string; mapping: { id: string; version: string; hash: string };
@@ -22,9 +23,15 @@ export interface Contribution {
   quantity: { value: string; unit: string }; geoRefs: string[]; steps: TraceStep[];
   confidenceFloor: ConfidenceFloor | null;
 }
+export interface AppliedAdjustment extends QuantityAdjustment { before: string; after: string }
 export interface OuvrageLine {
   id: string; assembly: { code: string; version: string; hash: string; label: string; lot: string; unit: string; estimateFlag: string | null };
-  theoretical: string; quantity: string; rounding: Rounding;
+  theoretical: string;
+  /** quantité calculée par le moteur (arrondie), AVANT ajustements manuels */
+  engineQuantity: string;
+  /** quantité retenue (= engineQuantity si aucun ajustement) : base de tout l'aval */
+  quantity: string; rounding: Rounding;
+  adjustments: AppliedAdjustment[];
   contributions: Contribution[]; confidenceFloor: ConfidenceFloor | null;
 }
 export interface RequirementContribution { ouvrage: string; path: string[]; component: string; theoretical: string; ordered: string; unit: string }
@@ -36,6 +43,9 @@ export interface Unmapped { entity: EntityRef; target: MappingTarget; class: str
 export interface QuantitySet {
   bindingRev: string; geoTakeoffHash: string; modelRev: string; assumptionSetRev: string;
   ouvrages: OuvrageLine[]; requirements: Requirement[];
+  /** ajustements qui ne s'appliquent plus (ouvrage disparu après modification, résultat négatif…) : signalés, jamais perdus */
+  orphanAdjustments: Array<{ adjustment: QuantityAdjustment; reason: string }>;
+  manualHash: string;
   unmapped: Unmapped[]; blocked: Array<{ entity: EntityRef; target: MappingTarget; reason: string }>;
   coverage: { mapped: number; total: number };
   contentHash: string;
@@ -126,7 +136,7 @@ function matches(m: SpecMapping, t: Target): boolean {
 }
 
 export function computeQuantitySet(model: ArchitecturalModel, assumptions: AssumptionSet, takeoff: GeometricTakeoff,
-  pack: ResolvedPack, binding: MarketBinding): QuantitySet {
+  pack: ResolvedPack, binding: MarketBinding, manual: ManualEntries = NO_MANUAL): QuantitySet {
   const reg = packUnits(pack);
   const A = new AssumptionIndex(assumptions);
   const idx = new GeoIndex(takeoff);
@@ -171,12 +181,26 @@ export function computeQuantitySet(model: ArchitecturalModel, assumptions: Assum
     return {
       id: `oq:${code}`,
       assembly: { code, version: asm.version, hash: hashOf(asm), label: asm.label, lot: asm.lot, unit: asm.unit, estimateFlag: asm.estimateFlag ?? null },
-      theoretical: theo.toString(), quantity: q.toString(), rounding: asm.quantityRounding, contributions: cs, confidenceFloor: floor,
+      theoretical: theo.toString(), engineQuantity: q.toString(), quantity: q.toString(), rounding: asm.quantityRounding, adjustments: [],
+      contributions: cs, confidenceFloor: floor,
     };
   }).sort((a, b) => {
     const la = lotOrder.get(a.assembly.lot) ?? 0; const lb = lotOrder.get(b.assembly.lot) ?? 0;
     return la !== lb ? la - lb : a.assembly.code < b.assembly.code ? -1 : 1;
   });
+
+  // ---- ajustements manuels : appliqués à la quantité d'OUVRAGE (jamais à la géométrie), dans l'ordre de saisie
+  const orphanAdjustments: QuantitySet['orphanAdjustments'] = [];
+  for (const a of manual.adjustments) {
+    const o = ouvrages.find((x) => x.id === a.target);
+    if (!o) { orphanAdjustments.push({ adjustment: a, reason: `ouvrage ${a.target} absent du métré actuel` }); continue; }
+    const before = Dec.parse(o.quantity);
+    const raw = a.mode === 'delta' ? before.add(Dec.parse(a.value)) : Dec.parse(a.value);
+    const after = raw.round(o.rounding.scale, o.rounding.mode);
+    if (after.isNeg()) { orphanAdjustments.push({ adjustment: a, reason: `quantité résultante négative (${after})` }); continue; }
+    o.adjustments.push({ ...a, before: before.toString(), after: after.toString() });
+    o.quantity = after.toString();
+  }
 
   // ---- besoins en articles (liste de commande), à partir des quantités d'ouvrage ARRONDIES (ce que le DQE affiche)
   const acc = new Map<string, { theo: Dec; ord: Dec; item: CatalogueItem; cs: RequirementContribution[] }>();
@@ -202,7 +226,14 @@ export function computeQuantitySet(model: ArchitecturalModel, assumptions: Assum
   blocked.sort((a, b) => (a.entity.id + a.target < b.entity.id + b.target ? -1 : 1));
   const core = {
     bindingRev: binding.rev, geoTakeoffHash: takeoff.contentHash, modelRev: takeoff.modelRev, assumptionSetRev: takeoff.assumptionSetRev,
-    ouvrages, requirements, unmapped, blocked, coverage: { mapped: mappedCount, total: mappedCount + unmapped.length },
+    ouvrages, requirements, orphanAdjustments, manualHash: hashOf(manual), unmapped, blocked, coverage: { mapped: mappedCount, total: mappedCount + unmapped.length },
   };
   return { ...core, contentHash: hashOf(core) };
+}
+
+/** Rattache un QuantitySet existant à une autre révision de MarketBinding sans recalcul (le métré commercial ne dépend pas des prix). */
+export function rebindQuantitySet(qs: QuantitySet, bindingRev: string): QuantitySet {
+  const { contentHash: _h, ...core } = qs;
+  const next = { ...core, bindingRev };
+  return { ...next, contentHash: hashOf(next) };
 }

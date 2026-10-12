@@ -5,21 +5,27 @@
 import type { ArchitecturalModel } from '../model/types.js';
 import type { AssumptionSet } from '../assumptions/assumptions.js';
 import { hashOf } from '../trace/canonical.js';
+import { NO_MANUAL, type ManualEntries, type ManualLine, type QuantityAdjustment } from '../manual/manual.js';
 
 export type Operation =
   | { type: 'moveNode'; nodeId: string; x: number; y: number }
   | { type: 'setOpeningSize'; openingId: string; width: string; height: string }
-  | { type: 'setAssumptionValue'; assumptionId: string; value: string };
+  | { type: 'setAssumptionValue'; assumptionId: string; value: string }
+  | { type: 'addManualLine'; line: ManualLine }
+  | { type: 'removeManualLine'; id: string }
+  | { type: 'setAdjustment'; adjustment: QuantityAdjustment }
+  | { type: 'removeAdjustment'; id: string };
 
 export interface Hlc { wall: number; counter: number; node: string }
-export interface ProjectState { model: ArchitecturalModel; assumptions: AssumptionSet }
+export interface ProjectState { model: ArchitecturalModel; assumptions: AssumptionSet; manual?: ManualEntries }
 export interface OpRecord { opId: string; parentRev: string | null; resultRev: string; op: Operation; inverse: Operation; hlc: Hlc; actor: string }
 
-export const stateRev = (s: ProjectState): string => hashOf({ model: hashOf(s.model), assumptions: hashOf(s.assumptions) });
+export const stateRev = (s: ProjectState): string => hashOf({ model: hashOf(s.model), assumptions: hashOf(s.assumptions), manual: hashOf(s.manual ?? NO_MANUAL) });
 const clone = <T>(v: T): T => JSON.parse(JSON.stringify(v)) as T;
 
 export function applyOperation(state: ProjectState, op: Operation, meta: { hlc: Hlc; actor: string }): { state: ProjectState; record: OpRecord } {
   const next = clone(state);
+  next.manual = next.manual ?? clone(NO_MANUAL);
   let inverse: Operation;
   switch (op.type) {
     case 'moveNode': {
@@ -41,6 +47,26 @@ export function applyOperation(state: ProjectState, op: Operation, meta: { hlc: 
       if (!it) throw new Error(`Hypothèse inconnue : ${op.assumptionId}`);
       inverse = { type: 'setAssumptionValue', assumptionId: op.assumptionId, value: it.value.value };
       it.value = { ...it.value, value: op.value }; break;
+    }
+    case 'addManualLine': {
+      if (next.manual!.lines.some((l) => l.id === op.line.id)) throw new Error(`Ligne manuelle déjà existante : ${op.line.id}`);
+      next.manual!.lines.push(clone(op.line)); inverse = { type: 'removeManualLine', id: op.line.id }; break;
+    }
+    case 'removeManualLine': {
+      const i = next.manual!.lines.findIndex((l) => l.id === op.id);
+      if (i < 0) throw new Error(`Ligne manuelle inconnue : ${op.id}`);
+      inverse = { type: 'addManualLine', line: clone(next.manual!.lines[i]!) }; next.manual!.lines.splice(i, 1); break;
+    }
+    case 'setAdjustment': {
+      const i = next.manual!.adjustments.findIndex((a) => a.id === op.adjustment.id);
+      if (i < 0) { next.manual!.adjustments.push(clone(op.adjustment)); inverse = { type: 'removeAdjustment', id: op.adjustment.id }; }
+      else { inverse = { type: 'setAdjustment', adjustment: clone(next.manual!.adjustments[i]!) }; next.manual!.adjustments[i] = clone(op.adjustment); }
+      break;
+    }
+    case 'removeAdjustment': {
+      const i = next.manual!.adjustments.findIndex((a) => a.id === op.id);
+      if (i < 0) throw new Error(`Ajustement inconnu : ${op.id}`);
+      inverse = { type: 'setAdjustment', adjustment: clone(next.manual!.adjustments[i]!) }; next.manual!.adjustments.splice(i, 1); break;
     }
   }
   const parentRev = stateRev(state); const resultRev = stateRev(next);

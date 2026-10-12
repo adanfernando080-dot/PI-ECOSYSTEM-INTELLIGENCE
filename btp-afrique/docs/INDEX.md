@@ -216,7 +216,7 @@ Contrôles : chaque exigence a ≥ 1 test défini ; tout test cité existe dans 
 | T-ENG-01 | ◐ | `tests/units` — unités/décimal ; pas de langage d'expressions (ADR-0012) |
 | T-ENG-02 | ✅ | `tests/units`, `tests/pricing` |
 | T-ENG-03 | ◐ | inter-processus Node (`tests/reproducibility`) ; Windows/macOS/WASM à ajouter en CI |
-| T-ENG-04 | ✖ | pas de recalcul incrémental en M0 (recalcul complet, déterministe) |
+| T-ENG-04 | ✅ | `tests/recompute` — recalcul avec réutilisation ≡ recalcul complet (40 modifications aléatoires, graine fixe) |
 | T-ENG-05 | ◐ | sérialisation canonique ✅ (modèle, bundle) ; migrations de schéma ✖ |
 | T-GEO-01, T-GEO-02 | ◐ | `tests/geometry` ; limites : pièces rectangulaires orthogonales, murs à épaisseur uniforme par côté |
 | T-SYN-01 | ◐ | calcul analytique indépendant d'une maison (`tests/support/analytic-house.ts`) ; pas encore de générateur de projets |
@@ -229,7 +229,7 @@ Contrôles : chaque exigence a ≥ 1 test défini ; tout test cité existe dans 
 | T-DOC-02, T-DOC-03 | ✅ | `tests/documents`, `tests/trace`, `tests/reproducibility` |
 | T-DOC-04 | ◐ | avis « estimation paramétrique » ✅ ; contenu métier de l'estimation structurelle à valider |
 | T-TRC-01, T-TRC-02 | ✅ | `tests/trace`, `tests/golden`, `tests/reproducibility` |
-| T-TRC-03 | ✖ | `ManualLine` / `QuantityAdjustment` non implémentés en M0 |
+| T-TRC-03 | ✅ | `tests/manual` — lignes manuelles et ajustements : justification/auteur/date obligatoires, annexe, manifeste, chaîne |
 | T-OPS-01 | ◐ | rejeu, annulation, comparaison ✅ ; révisions nommées ✖ |
 | T-C-01 | ◐ | référence = calcul à la main sur données synthétiques, **pas** un métré de professionnel |
 | T-OFF-01 | ◐ | noyau sans API réseau (vérifié statiquement) ; scénario réseau coupé avec l'application ✖ |

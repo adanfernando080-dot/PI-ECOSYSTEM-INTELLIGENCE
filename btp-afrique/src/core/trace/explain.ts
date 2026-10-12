@@ -22,17 +22,24 @@ function explainGeo(run: Run, id: string, indent: string, seen: Set<string>, out
 export function explainLine(run: Run, lineId: string): string[] {
   const el = run.estimate.lines.find((l) => l.id === lineId);
   if (!el) throw new Error(`Ligne inconnue : ${lineId}`);
+  if (el.source === 'manual') {
+    const ml = run.manual.lines.find((l) => `ml:${l.id}` === el.id)!;
+    return [`Pourquoi ${el.quantity} ${el.unit} pour « ${el.assembly.label} » ?`,
+      `Ligne MANUELLE (hors modèle) saisie par ${ml.author} le ${ml.date} : ${ml.justification}`,
+      `Quantité saisie : ${ml.quantity} ${ml.unit} (arrondie à ${run.pack.rounding.quantity.scale} décimale(s) : ${el.quantity}) ; prix unitaire de vente saisi : ${ml.unitPrice} (unité mineure). Aucune quantité géométrique n'est associée à cette ligne.`];
+  }
   const oq = run.quantitySet.ouvrages.find((o) => o.id === el.ouvrageId)!;
   const out: string[] = [];
   out.push(`Pourquoi ${oq.quantity} ${el.unit} pour « ${el.assembly.label} » (${el.assembly.code}@${el.assembly.version}) ?`);
-  out.push(`1. La quantité d'ouvrage est la somme de ${oq.contributions.length} contribution(s) = ${oq.theoretical} ${el.unit}, arrondie à ${oq.rounding.scale} décimale(s) (${oq.rounding.mode}) : ${oq.quantity} ${el.unit}.`);
+  out.push(`1. La quantité d'ouvrage est la somme de ${oq.contributions.length} contribution(s) = ${oq.theoretical} ${el.unit}, arrondie à ${oq.rounding.scale} décimale(s) (${oq.rounding.mode}) : ${oq.engineQuantity} ${el.unit}${oq.adjustments.length ? ' (quantité du moteur, avant ajustements)' : ''}.`);
   oq.contributions.forEach((c, i) => {
     out.push(`2.${i + 1} ${c.entity.type} ${c.entity.code} (classe ${c.specClass}) → correspondance ${c.mapping.id}@${c.mapping.version} ; base « ${c.basis} » ; méthode ${c.method.id}@${c.method.version} (${c.method.deduction}) : ${c.quantity.value} ${c.quantity.unit}.`);
     const seen = new Set<string>();
     for (const g of c.geoRefs) explainGeo(run, g, '      ', seen, out);
     for (const s of c.steps.filter((x) => x.op === 'deduct' || x.op === 'keep')) out.push(`      ${s.expr}`);
   });
-  if (oq.confidenceFloor) out.push(`3. Attention : plancher de confiance ${oq.confidenceFloor.value} (limité par ${oq.confidenceFloor.limitedBy}).`);
+  oq.adjustments.forEach((a, i) => out.push(`3.${i + 1} AJUSTEMENT MANUEL ${a.id} (${a.mode === 'delta' ? 'ajout de ' : 'remplacement par '}${a.value} ${el.unit}) par ${a.author} le ${a.date} : ${a.justification} — quantité du moteur ${a.before} → quantité retenue ${a.after} ${el.unit}.`));
+  if (oq.confidenceFloor) out.push(`4. Attention : plancher de confiance ${oq.confidenceFloor.value} (limité par ${oq.confidenceFloor.limitedBy}).`);
   return out;
 }
 

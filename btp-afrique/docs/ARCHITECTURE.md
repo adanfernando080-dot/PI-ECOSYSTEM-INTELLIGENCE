@@ -1,6 +1,6 @@
 # Plateforme BTP mondiale adaptable aux marchés africains — Architecture de référence (v0.3 — post‑audit de cohérence)
 
-> Statut : proposition à valider. Aucun code n'est écrit. Ce document fixe les fondations, les frontières
+> Statut : proposition à valider. **Ce document décrit la cible ; l'état réellement implémenté est dans `ETAT-REEL.md`** (le noyau M0 existe dans `../src`). Ce document fixe les fondations, les frontières
 > (déterministe / IA locale / IA cloud) et le découpage MVP → V3.
 > Les valeurs métier (taxes, coefficients, prix) citées en exemple sont **illustratives** et doivent être
 > validées par des professionnels du marché concerné (d'abord le Bénin) avant d'entrer dans une base de production.
@@ -381,12 +381,12 @@ Les règles de l'étage 2 sont des **données** (JSON/YAML) livrées par le pack
 Les composants de type `material | labour | equipment | transport | subcontract` reçoivent leur prix **plus tard** (§5) ; un composant `assembly` référence un sous‑ouvrage (récursion bornée, cycles interdits à la validation du pack).
 Le métré ne produit que `(item, quantité, unité, trace)`.
 
-### 4.4 Évaluateur d'expressions
+### 4.4 Règles déclaratives (pas de langage d'expressions en M0)
 
-- Langage d'expression **restreint et sûr** (arithmétique décimale, fonctions `sum`, `min`, `max`, `ceil`, `round`, accès aux propriétés) — **pas d'`eval`**, pas d'accès I/O.
-- Arithmétique **décimale** ; arrondi **uniquement** aux points déclarés (`roundingOrder`, présentation).
+- Les règles de l'étage 2 sont des **objets structurés** à vocabulaire fermé `declarative-1` (ADR-0012) ; il n'existe **aucun évaluateur d'expressions** (décision M0 : aucun besoin réel ne le justifie). Un langage d'expressions ne sera introduit que par ADR dédié si deux marchés réels l'exigent.
+- Arithmétique **décimale exacte** ; arrondi **uniquement** aux points déclarés (ADR-0011).
 - Unités vérifiées : `m² × blocs/m²` → `blocs` ; une incohérence dimensionnelle est une **erreur**, pas un avertissement.
-- Chaque évaluation enregistre `engine.version` + `engine.hash` et le hash de la règle (`ruleHash`) : le même hash de règle + les mêmes entrées doivent redonner la même sortie (T-ENG-03).
+- Chaque évaluation enregistre le hash de la règle, des paramètres et de l'assemblage ; le hash du code du moteur (`engine.sourceHash`) est consigné à part, hors empreintes de contenu (ADR-0006, addendum).
 
 ### 4.5 Trace (l'« explication » de chaque chiffre) — deux niveaux liés
 
@@ -958,7 +958,7 @@ Niveaux d'exécution : unitaires et propriétés en continu ; étalons synthéti
 
 ---
 
-## 16. Structure de dépôt proposée
+## 16. Structure de dépôt proposée (CIBLE — la structure réelle est `src/core/<module>/` dans un seul paquet ; voir `ETAT-REEL.md` E1)
 
 ```
 btp-platform/

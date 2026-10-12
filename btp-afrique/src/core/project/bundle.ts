@@ -8,14 +8,14 @@ import type { Run } from './run.js';
 import { verifyRun } from '../trace/chain.js';
 
 export interface BundleManifest {
-  format: 'btpx'; formatVersion: '0.1'; engine: { version: string; apiVersion: string; sourceHash?: string };
+  format: 'btpx'; formatVersion: '0.2'; engine: { version: string; apiVersion: string; sourceHash?: string };
   dataClass: string; files: Record<string, { sha256: string; bytes: number }>; roots: Record<string, string>;
 }
 export interface Bundle { manifest: BundleManifest; files: Record<string, string> }
 
 export function createBundle(run: Run): Bundle {
   const files: Record<string, string> = {
-    'model.json': canonicalize(run.model), 'assumptions.json': canonicalize(run.assumptions), 'taxonomy.json': canonicalize(run.taxonomy),
+    'model.json': canonicalize(run.model), 'assumptions.json': canonicalize(run.assumptions), 'manual.json': canonicalize(run.manual), 'taxonomy.json': canonicalize(run.taxonomy),
     'binding.json': canonicalize(run.binding), [`packs/${run.pack.id}@${run.pack.version}.resolved.json`]: canonicalize(run.pack),
     'takeoff.json': canonicalize(run.takeoff), 'quantity-set.json': canonicalize(run.quantitySet), 'estimate.json': canonicalize(run.estimate),
   };
@@ -23,13 +23,13 @@ export function createBundle(run: Run): Bundle {
   const idx: BundleManifest['files'] = {};
   for (const [p, c] of Object.entries(files).sort(([a], [b]) => (a < b ? -1 : 1))) idx[p] = { sha256: sha256Hex(c), bytes: new TextEncoder().encode(c).length };
   const manifest: BundleManifest = {
-    format: 'btpx', formatVersion: '0.1', engine: run.engine, dataClass: run.pack.dataClass, files: idx,
+    format: 'btpx', formatVersion: '0.2', engine: run.engine, dataClass: run.pack.dataClass, files: idx,
     roots: { modelRev: run.takeoff.modelRev, assumptionSetRev: run.takeoff.assumptionSetRev, bindingRev: run.binding.rev, packResolvedHash: run.pack.resolution.resolvedHash, estimateHash: run.estimate.contentHash },
   };
   return { manifest, files };
 }
 
-const REQUIRED = ['model.json', 'assumptions.json', 'taxonomy.json', 'binding.json', 'takeoff.json', 'quantity-set.json', 'estimate.json'];
+const REQUIRED = ['model.json', 'assumptions.json', 'manual.json', 'taxonomy.json', 'binding.json', 'takeoff.json', 'quantity-set.json', 'estimate.json'];
 
 export function readBundle(b: Bundle): { run: Run | null; problems: string[] } {
   const problems: string[] = [];
@@ -46,7 +46,7 @@ export function readBundle(b: Bundle): { run: Run | null; problems: string[] } {
   try {
     const j = (p: string): any => JSON.parse(b.files[p]!);
     run = {
-      taxonomy: j('taxonomy.json'), model: j('model.json'), assumptions: j('assumptions.json'), pack: j(packFile!), binding: j('binding.json'),
+      taxonomy: j('taxonomy.json'), model: j('model.json'), assumptions: j('assumptions.json'), manual: j('manual.json'), pack: j(packFile!), binding: j('binding.json'),
       takeoff: j('takeoff.json'), quantitySet: j('quantity-set.json'), estimate: j('estimate.json'),
       documents: Object.keys(b.files).filter((p) => p.startsWith('documents/')).sort().map((p) => j(p)), engine: b.manifest.engine,
     };

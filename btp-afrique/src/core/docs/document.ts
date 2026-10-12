@@ -27,12 +27,18 @@ export interface DocumentContent {
     unmapped: Array<{ entity: string; class: string; reason: string }>;
     unpriced: Array<{ line: string; items: string[] }>;
     priceAlerts: Array<{ line: string; item: string; alert: string }>;
+    /** ajustements et lignes manuelles : auteur, date et justification toujours visibles */
+    manual: {
+      adjustments: Array<{ id: string; target: string; mode: string; value: string; before: string; after: string; author: string; date: string; justification: string }>;
+      lines: Array<{ id: string; designation: string; lot: string; quantity: string; unit: string; unitPrice: string; author: string; date: string; justification: string }>;
+      orphans: Array<{ id: string; target: string; reason: string; justification: string }>;
+    };
   };
 }
 export interface ProvenanceManifest {
   format: 'btp-provenance'; version: '1'; documentKind: string; templateId: string;
   engine: { version: string; apiVersion: string }; dataClass: string; taxonomyVersion: string;
-  planRevision: PlanRevision; modelRev: string; assumptionSetRev: string; geoTakeoffHash: string;
+  planRevision: PlanRevision; modelRev: string; assumptionSetRev: string; manualEntriesHash: string; geoTakeoffHash: string;
   geometryRules: RuleRef[];
   binding: { id: string; rev: string; revision: number; packId: string; packVersion: string; packResolvedHash: string; zoneId: string; priceBookId: string; priceBookHash: string; asOf: string; priceStatistic: string };
   packChain: Array<{ id: string; version: string; contentHash: string }>;
@@ -115,6 +121,9 @@ export function buildDocument(run: Omit<Run, 'documents'>, req: DocumentRequest)
   if (estimate.lines.some((l) => l.flags.includes('parametric_structural'))) notices.push(PARAMETRIC_NOTICE);
   if (unpriced.length) notices.push(`${unpriced.length} poste(s) non chiffré(s) (prix manquant) — total incomplet.`);
   if (quantitySetUnmapped(run)) notices.push(`${quantitySet.unmapped.length} élément(s) sans correspondance dans le pack — non chiffrés.`);
+  const nAdj = quantitySet.ouvrages.reduce((n, o) => n + o.adjustments.length, 0);
+  if (nAdj || run.manual.lines.length) notices.push(`${nAdj} ajustement(s) manuel(s) de quantité et ${run.manual.lines.length} ligne(s) manuelle(s) — auteur et justification en annexe.`);
+  if (quantitySet.orphanAdjustments.length) notices.push(`${quantitySet.orphanAdjustments.length} ajustement(s) manuel(s) NON appliqué(s) (ouvrage disparu ou résultat invalide) — voir annexe.`);
   const unreviewed = listUnreviewed(run);
   if (unreviewed.length) notices.push(`${unreviewed.length} valeur(s) détectée(s) par IA non revue(s) individuellement (voir annexe).`);
 
@@ -144,13 +153,18 @@ export function buildDocument(run: Omit<Run, 'documents'>, req: DocumentRequest)
       unmapped: quantitySet.unmapped.map((u) => ({ entity: u.entity.code, class: u.class, reason: u.reason })),
       unpriced: unpriced.map((l) => ({ line: l.id, items: l.unpricedItems })),
       priceAlerts: alerts,
+      manual: {
+        adjustments: quantitySet.ouvrages.flatMap((o) => o.adjustments.map((a) => ({ id: a.id, target: a.target, mode: a.mode, value: a.value, before: a.before, after: a.after, author: a.author, date: a.date, justification: a.justification }))),
+        lines: run.manual.lines.map((l) => ({ id: l.id, designation: l.designation, lot: l.lot, quantity: l.quantity, unit: l.unit, unitPrice: l.unitPrice, author: l.author, date: l.date, justification: l.justification })),
+        orphans: quantitySet.orphanAdjustments.map((o) => ({ id: o.adjustment.id, target: o.adjustment.target, reason: o.reason, justification: o.adjustment.justification })),
+      },
     },
   };
   const contentHash = hashOf(content);
   const manifestCore: Omit<ProvenanceManifest, 'contentHash'> = {
     format: 'btp-provenance', version: '1', documentKind: tpl.kind, templateId: tpl.id,
     engine: { version: run.engine.version, apiVersion: run.engine.apiVersion }, dataClass: pack.dataClass, taxonomyVersion: run.taxonomy.version,
-    planRevision: run.model.planRevision, modelRev: takeoff.modelRev, assumptionSetRev: takeoff.assumptionSetRev, geoTakeoffHash: takeoff.contentHash,
+    planRevision: run.model.planRevision, modelRev: takeoff.modelRev, assumptionSetRev: takeoff.assumptionSetRev, manualEntriesHash: hashOf(run.manual), geoTakeoffHash: takeoff.contentHash,
     geometryRules: allGeometryRules().sort((a, b) => (a.id < b.id ? -1 : 1)),
     binding: { id: binding.id, rev: binding.rev, revision: binding.revision, packId: binding.packId, packVersion: binding.packVersion, packResolvedHash: binding.packResolvedHash,
       zoneId: binding.zoneId, priceBookId: binding.priceBookId, priceBookHash: binding.priceBookHash, asOf: binding.asOf, priceStatistic: binding.priceStatistic },

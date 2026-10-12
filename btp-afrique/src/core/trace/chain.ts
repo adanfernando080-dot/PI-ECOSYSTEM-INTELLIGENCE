@@ -11,6 +11,8 @@ import { computeTakeoff } from '../geometry/takeoff.js';
 import { computeQuantitySet } from '../measure/commercial.js';
 import { computeEstimate } from '../pricing/estimate.js';
 import type { RuleRef } from './types.js';
+import type { ManualLine } from '../manual/manual.js';
+import type { AppliedAdjustment } from '../measure/commercial.js';
 
 export interface Chain {
   document: { id: string; kind: string; number: string; contentHash: string };
@@ -26,6 +28,8 @@ export interface Chain {
     geo: Array<{ id: string; kind: string; value: string; unit: string; rule: RuleRef }>;
   }>;
   assumptionIds: string[];
+  /** ligne manuelle (si la ligne en est une) et ajustements appliqués à la quantité d'ouvrage — avec auteur et justification */
+  manual: { line: ManualLine | null; engineQuantity: string | null; adjustments: AppliedAdjustment[] };
   model: { rev: string; id: string };
   planRevision: PlanRevision;
   binding: { id: string; rev: string; packId: string; packVersion: string; packResolvedHash: string; zoneId: string };
@@ -58,8 +62,16 @@ export function resolveChain(run: Run, doc: Document, lineId: string): Chain {
   const el = run.estimate.lines.find((l) => l.id === lineId);
   if (!dl) miss(`ligne ${lineId} absente du document ${doc.id}`);
   if (!el) miss(`ligne ${lineId} absente de l'estimation`);
-  const oq = el ? run.quantitySet.ouvrages.find((o) => o.id === el.ouvrageId) : undefined;
-  if (el && !oq) miss(`quantité d'ouvrage ${el.ouvrageId} introuvable`);
+  const isManual = el?.source === 'manual';
+  const oq = el && !isManual ? run.quantitySet.ouvrages.find((o) => o.id === el.ouvrageId) : undefined;
+  if (el && !isManual && !oq) miss(`quantité d'ouvrage ${el.ouvrageId} introuvable`);
+  const manualLine = isManual ? run.manual.lines.find((l) => `ml:${l.id}` === el!.id) ?? null : null;
+  if (isManual && (!manualLine || hashOf(manualLine) !== el!.assembly.hash)) miss(`ligne manuelle ${el!.id} introuvable ou modifiée`);
+  if (manualLine && (!manualLine.justification.trim() || !manualLine.author.trim())) miss(`ligne manuelle ${manualLine.id} sans justification ou auteur`);
+  for (const a of oq?.adjustments ?? []) {
+    const rec = run.manual.adjustments.find((x) => x.id === a.id);
+    if (!rec || rec.justification !== a.justification || rec.value !== a.value || rec.target !== a.target || rec.author !== a.author) miss(`ajustement ${a.id} introuvable ou modifié`);
+  }
 
   // empreintes de bout en bout
   const m = doc.manifest;
@@ -70,6 +82,7 @@ export function resolveChain(run: Run, doc: Document, lineId: string): Chain {
   if (m.geoTakeoffHash !== run.takeoff.contentHash) miss('métré géométrique différent de celui du manifeste');
   if (m.modelRev !== hashOf(run.model)) miss('révision du modèle différente de celle du manifeste');
   if (m.assumptionSetRev !== hashOf(run.assumptions)) miss('révision des hypothèses différente de celle du manifeste');
+  if (m.manualEntriesHash !== hashOf(run.manual)) miss('entrées manuelles différentes de celles du manifeste');
   if (m.binding.rev !== run.binding.rev) miss('MarketBinding différent de celui du manifeste');
   if (run.binding.packResolvedHash !== run.pack.resolution.resolvedHash) miss('pack résolu différent de celui du MarketBinding');
   const book = run.pack.priceBooks.find((b) => b.id === run.binding.priceBookId);
@@ -116,9 +129,10 @@ export function resolveChain(run: Run, doc: Document, lineId: string): Chain {
     document: { id: doc.id, kind: doc.content.kind, number: doc.content.number, contentHash: doc.contentHash },
     line: { id: lineId, n: dl?.n ?? '', designation: dl?.designation ?? '', unit: dl?.unit ?? '', quantity: dl?.quantity ?? '', unitPrice: dl?.unitPrice ?? null, amount: dl?.amount ?? null },
     price, catalogue,
-    assembly: { code: oq?.assembly.code ?? '', version: oq?.assembly.version ?? '', hash: oq?.assembly.hash ?? '', lot: oq?.assembly.lot ?? '', unit: oq?.assembly.unit ?? '' },
-    ouvrageQuantity: { id: oq?.id ?? '', theoretical: oq?.theoretical ?? '', quantity: oq?.quantity ?? '', unit: oq?.assembly.unit ?? '' },
+    assembly: isManual ? { code: el!.assembly.code, version: el!.assembly.version, hash: el!.assembly.hash, lot: el!.assembly.lot, unit: el!.unit } : { code: oq?.assembly.code ?? '', version: oq?.assembly.version ?? '', hash: oq?.assembly.hash ?? '', lot: oq?.assembly.lot ?? '', unit: oq?.assembly.unit ?? '' },
+    ouvrageQuantity: isManual ? { id: el!.ouvrageId, theoretical: el!.quantity, quantity: el!.quantity, unit: el!.unit } : { id: oq?.id ?? '', theoretical: oq?.theoretical ?? '', quantity: oq?.quantity ?? '', unit: oq?.assembly.unit ?? '' },
     contributions, assumptionIds: [...ids].sort(),
+    manual: { line: manualLine, engineQuantity: oq?.engineQuantity ?? null, adjustments: oq?.adjustments ?? [] },
     model: { rev: m.modelRev, id: run.model.id }, planRevision: run.model.planRevision,
     binding: { id: run.binding.id, rev: run.binding.rev, packId: run.binding.packId, packVersion: run.binding.packVersion, packResolvedHash: run.binding.packResolvedHash, zoneId: run.binding.zoneId },
     missing,
@@ -130,9 +144,9 @@ export function verifyRun(run: Run): { ok: boolean; problems: string[] } {
   const problems: string[] = [...integrityProblems(run)];
   const takeoff = computeTakeoff(run.model, run.assumptions);
   if (takeoff.contentHash !== run.takeoff.contentHash) problems.push('métré géométrique non reproductible');
-  const qs = computeQuantitySet(run.model, run.assumptions, takeoff, run.pack, run.binding);
+  const qs = computeQuantitySet(run.model, run.assumptions, takeoff, run.pack, run.binding, run.manual);
   if (qs.contentHash !== run.quantitySet.contentHash) problems.push('métré commercial non reproductible');
-  const est = computeEstimate(run.pack, run.binding, qs);
+  const est = computeEstimate(run.pack, run.binding, qs, run.manual);
   if (est.contentHash !== run.estimate.contentHash) problems.push('estimation non reproductible');
   for (const d of run.documents) {
     if (hashOf(d.content) !== d.contentHash) problems.push(`document ${d.id} : contenu altéré`);

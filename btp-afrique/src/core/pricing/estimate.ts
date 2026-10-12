@@ -8,6 +8,7 @@ import type { MarketBinding } from '../pack/binding.js';
 import type { CostKind, CostLayer, PriceEntry, ResolvedPack, Rounding } from '../pack/types.js';
 import { expandAssembly, packUnits, type QuantitySet } from '../measure/commercial.js';
 import { daysBetween } from './dates.js';
+import { NO_MANUAL, type ManualEntries } from '../manual/manual.js';
 
 export interface PricedComponent {
   item: string; label: string; kind: CostKind; path: string[]; qtyPerUnit: string; unit: string;
@@ -19,13 +20,15 @@ export interface PricedComponent {
 }
 export interface LayerAmount { id: string; label: string; base: string[]; rate: string | null; amount: string; effect: 'add' | 'tax' }
 export interface EstimateLine {
+  /** 'engine' : issue du métré ; 'manual' : ligne manuelle (prix de vente saisi, justification obligatoire) */
+  source: 'engine' | 'manual';
   id: string; n: number; ouvrageId: string; assembly: { code: string; version: string; hash: string; label: string; lot: string };
   unit: string; quantity: string; components: PricedComponent[]; directByKind: Record<string, string>;
   layers: LayerAmount[]; sellingUnitExact: string | null; unitPrice: string | null; amount: string | null;
   status: 'priced' | 'unpriced'; flags: string[]; unpricedItems: string[];
 }
 export interface Estimate {
-  id: string; bindingRev: string; quantitySetHash: string; priceBookHash: string; currency: { code: string; minorUnits: number };
+  id: string; bindingRev: string; quantitySetHash: string; manualHash: string; priceBookHash: string; currency: { code: string; minorUnits: number };
   lines: EstimateLine[]; linesTotal: string; totalLayers: LayerAmount[]; total: string; subtotalBeforeTax: string;
   flags: string[]; contentHash: string;
 }
@@ -49,7 +52,7 @@ export function resolvePrice(pack: ResolvedPack, binding: MarketBinding, item: s
   return null;
 }
 
-export function computeEstimate(pack: ResolvedPack, binding: MarketBinding, qs: QuantitySet): Estimate {
+export function computeEstimate(pack: ResolvedPack, binding: MarketBinding, qs: QuantitySet, manual: ManualEntries = NO_MANUAL): Estimate {
   const reg = packUnits(pack);
   const stale = Number(binding.params.staleAfterDays!); const lowConf = Dec.parse(binding.params.lowConfidenceBelow!);
   const cur = pack.currency; const minor = pow10(cur.minorUnits);
@@ -83,6 +86,7 @@ export function computeEstimate(pack: ResolvedPack, binding: MarketBinding, qs: 
       });
     }
     if (o.assembly.estimateFlag) flags.push(o.assembly.estimateFlag);
+    if (o.adjustments.length) flags.push('manual_adjustment');
     if (o.confidenceFloor && Dec.parse(o.confidenceFloor.value).lt(lowConf)) flags.push('input_low_confidence');
 
     let layers: LayerAmount[] = []; let selling: Dec | null = null; let unitPrice: Dec | null = null; let amount: Dec | null = null;
@@ -102,11 +106,24 @@ export function computeEstimate(pack: ResolvedPack, binding: MarketBinding, qs: 
     } else flags.push('unpriced');
 
     lines.push({
-      id: `el:${o.assembly.code}`, n: i + 1, ouvrageId: o.id, assembly: { code: o.assembly.code, version: o.assembly.version, hash: o.assembly.hash, label: o.assembly.label, lot: o.assembly.lot },
+      source: 'engine', id: `el:${o.assembly.code}`, n: i + 1, ouvrageId: o.id, assembly: { code: o.assembly.code, version: o.assembly.version, hash: o.assembly.hash, label: o.assembly.label, lot: o.assembly.lot },
       unit: o.assembly.unit, quantity: o.quantity, components: comps,
       directByKind: Object.fromEntries(Object.entries(direct).map(([k, v]) => [k, v.toString()])),
       layers, sellingUnitExact: selling?.toString() ?? null, unitPrice: unitPrice?.toString() ?? null, amount: amount?.toString() ?? null,
       status: unpriced.length ? 'unpriced' : 'priced', flags: [...new Set(flags)].sort(), unpricedItems: unpriced,
+    });
+  });
+
+  // ---- lignes manuelles : prix de vente saisi (unité mineure), sans structure de coût ; traçables par leur enregistrement
+  const nEngine = lines.length;
+  manual.lines.forEach((ml, i) => {
+    const q = Dec.parse(ml.quantity).round(pack.rounding.quantity.scale, pack.rounding.quantity.mode);
+    const pu = rnd(Dec.parse(ml.unitPrice), pack.rounding.unitPrice);
+    lines.push({
+      source: 'manual', id: `ml:${ml.id}`, n: nEngine + i + 1, ouvrageId: `ml:${ml.id}`,
+      assembly: { code: `MANUAL:${ml.id}`, version: '1', hash: hashOf(ml), label: ml.designation, lot: ml.lot },
+      unit: ml.unit, quantity: q.toString(), components: [], directByKind: {}, layers: [], sellingUnitExact: ml.unitPrice,
+      unitPrice: pu.toString(), amount: rnd(q.mul(pu), pack.rounding.lineAmount).toString(), status: 'priced', flags: ['manual_line'], unpricedItems: [],
     });
   });
 
@@ -124,7 +141,7 @@ export function computeEstimate(pack: ResolvedPack, binding: MarketBinding, qs: 
   }
   const flags = [...new Set(lines.flatMap((l) => l.flags))].sort();
   const core = {
-    bindingRev: binding.rev, quantitySetHash: qs.contentHash, priceBookHash: binding.priceBookHash, currency: { code: cur.code, minorUnits: cur.minorUnits },
+    bindingRev: binding.rev, quantitySetHash: qs.contentHash, manualHash: hashOf(manual), priceBookHash: binding.priceBookHash, currency: { code: cur.code, minorUnits: cur.minorUnits },
     lines, linesTotal: linesTotal.toString(), totalLayers: tl, total: total.toString(), subtotalBeforeTax: beforeTax.toString(), flags,
   };
   const contentHash = hashOf(core);

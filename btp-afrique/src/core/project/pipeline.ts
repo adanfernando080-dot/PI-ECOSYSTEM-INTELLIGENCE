@@ -10,9 +10,10 @@ import { computeQuantitySet } from '../measure/commercial.js';
 import { computeEstimate } from '../pricing/estimate.js';
 import { buildDocument, type Document, type DocumentRequest } from '../docs/document.js';
 import type { EngineInfo, Run } from './run.js';
+import { NO_MANUAL, validateManual, type ManualEntries } from '../manual/manual.js';
 
 export interface PipelineInput {
-  taxonomy: Taxonomy; model: ArchitecturalModel; assumptions: AssumptionSet; pack: ResolvedPack; binding: BindingRequest; engine?: EngineInfo;
+  taxonomy: Taxonomy; model: ArchitecturalModel; assumptions: AssumptionSet; pack: ResolvedPack; binding: BindingRequest; manual?: ManualEntries; engine?: EngineInfo;
 }
 export const DEFAULT_ENGINE: EngineInfo = { version: ENGINE_VERSION, apiVersion: ENGINE_API };
 
@@ -20,11 +21,14 @@ export function runEstimate(input: PipelineInput): Run {
   assertValidModel(input.model, input.taxonomy);
   const packErrors = validateResolved(input.pack, input.taxonomy);
   if (packErrors.length) throw new Error('Pack invalide :\n - ' + packErrors.join('\n - '));
+  const manual = input.manual ?? NO_MANUAL;
+  const manualErrors = validateManual(manual, input.pack);
+  if (manualErrors.length) throw new Error('Entrées manuelles invalides :\n - ' + manualErrors.join('\n - '));
   const binding = createBinding(input.pack, input.binding);
   const takeoff = computeTakeoff(input.model, input.assumptions);
-  const quantitySet = computeQuantitySet(input.model, input.assumptions, takeoff, input.pack, binding);
-  const estimate = computeEstimate(input.pack, binding, quantitySet);
-  return { taxonomy: input.taxonomy, model: input.model, assumptions: input.assumptions, pack: input.pack, binding, takeoff, quantitySet, estimate, documents: [], engine: input.engine ?? DEFAULT_ENGINE };
+  const quantitySet = computeQuantitySet(input.model, input.assumptions, takeoff, input.pack, binding, manual);
+  const estimate = computeEstimate(input.pack, binding, quantitySet, manual);
+  return { taxonomy: input.taxonomy, model: input.model, assumptions: input.assumptions, pack: input.pack, binding, manual, takeoff, quantitySet, estimate, documents: [], engine: input.engine ?? DEFAULT_ENGINE };
 }
 
 export function emitDocument(run: Run, req: DocumentRequest): Document {
