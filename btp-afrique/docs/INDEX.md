@@ -233,6 +233,7 @@ Contrôles : chaque exigence a ≥ 1 test défini ; tout test cité existe dans 
 | T-OPS-01 | ◐ | rejeu, annulation, comparaison ✅ ; révisions nommées ✖ |
 | T-C-01 | ◐ | référence = calcul à la main sur données synthétiques, **pas** un métré de professionnel |
 | T-OFF-01 | ◐ | noyau sans API réseau (vérifié statiquement) ; scénario réseau coupé avec l'application ✖ |
+| Application de bureau (hors catalogue T-*) | ◐ | `tests/desktop`, `desktop:e2e` (dev + empaqueté, Linux), `desktop:verify-win` ; **Windows réel non testé** |
 | Interface (hors catalogue T-*) | ✅ | `tests/ui` (vues, session, étanchéité de l'interface) + `npm run e2e` (Chromium, 46 vérifications) — interface minimale ; pas de test sur un parc de postes réels |
 | T-AI-07 | ◐ | `tests/ai` — contrats, porte de validation humaine, aucune entrée automatique dans le modèle ; **aucune reconnaissance implémentée** |
 | T-SEC-*, T-IMP-01, T-PKG-01, T-AI-01…06/08, T-DAT-*, T-PERF-01, T-SCN-01, T-SYNC-01, T-AST-01, T-MOD-01, T-OPT-01, T-3D-01, T-C-02 | ✖ | jalons M1 et suivants |

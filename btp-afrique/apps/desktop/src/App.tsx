@@ -11,9 +11,16 @@ import type { HostApi } from './host.js';
 import { addDocument, apply, openSession, rebind, TAXONOMY, undo, type Session } from './session.js';
 import { demoHouse, newRoomProject } from './projects.js';
 import { defaultZone, isSynthetic } from './viewmodel.js';
+import type { FileKind } from '../shared/ipc.js';
 import { AssumptionsTab, DocumentsTab, EstimateTab, HistoryTab, MarketTab, MetreTab, ModelTab, PricesTab, SourcesTab } from './tabs.js';
 
 export type Dispatch = (op: Operation) => void;
+export interface Picked { name: string; bytes: Uint8Array }
+/** Sélecteur de fichier : natif via l'hôte (desktop) ou <input type=file> (navigateur de développement). */
+export function FilePick({ host, kind, accept, testid, label, onFile, fail }: { host: HostApi; kind: FileKind; accept: string; testid: string; label: string; onFile(f: Picked): void; fail(e: unknown): void }) {
+  if (host.pickFile) return <button data-testid={testid} onClick={() => { host.pickFile!(kind).then((f) => f && onFile(f)).catch(fail); }}>{label}</button>;
+  return <input type="file" accept={accept} data-testid={testid} onChange={(e) => { const f = e.target.files?.[0]; if (f) void f.arrayBuffer().then((b) => onFile({ name: f.name, bytes: new Uint8Array(b) })); }} />;
+}
 const TABS = [['market', 'Marché'], ['model', 'Modèle'], ['assumptions', 'Hypothèses'], ['metre', 'Métré'], ['prices', 'Prix'], ['estimate', 'Chiffrage'], ['docs', 'Documents'], ['sources', 'Plans & IA'], ['history', 'Historique']] as const;
 type TabId = (typeof TABS)[number][0];
 const defaultBinding = (p: ResolvedPack, asOf: string): BindingRequest => ({ zoneId: defaultZone(p), asOf });
@@ -35,9 +42,9 @@ export function App({ host }: { host: HostApi }) {
     try { setSession(openSession({ name, state, pack, binding: defaultBinding(pack, host.today()) })); setError(null); setNotice(`Projet « ${name} » ouvert`); setTab('model'); } catch (e) { fail(e); }
   };
 
-  const openFile = async (f: File): Promise<void> => {
+  const openFile = (f: Picked): void => {
     try {
-      const r = readBtpx(new Uint8Array(await f.arrayBuffer()));
+      const r = readBtpx(f.bytes);
       if (!r.ok || !r.run || !r.project) { setError(`Fichier .btpx refusé (${r.problems.length} anomalie(s)) : ${r.problems.slice(0, 3).join(' ; ')}${r.problems.length > 3 ? ' …' : ''}`); return; }
       const run = r.run; const sources: Session['sources'] = {};
       for (const [id, m] of Object.entries(r.project.meta.sources)) sources[id] = { bytes: r.project.sources[id]!, mediaType: m.mediaType, originalName: m.originalName };
@@ -58,11 +65,12 @@ export function App({ host }: { host: HostApi }) {
     } catch (e) { fail(e); }
   };
   const doRebind = (p: ResolvedPack, b: BindingRequest): void => { if (!session) return; const r = rebind(session, p, b); setSession(r.session); setError(r.error); if (!r.error) setNotice(`Marché appliqué : ${p.id} — le modèle et les hypothèses sont inchangés`); };
-  const addSource = async (f: File): Promise<void> => {
-    if (!session) return; const bytes = new Uint8Array(await f.arrayBuffer()); const r = registerSource(bytes, f.name);
+  const addSource = (f: Picked): void => {
+    if (!session) return; const bytes = f.bytes; const r = registerSource(bytes, f.name);
     if (!r.ok) return fail(new Error(`Import refusé : ${r.reason}`));
     setSession({ ...session, sources: { ...session.sources, [r.source.id.slice(7, 23)]: { bytes, mediaType: r.source.mediaType, originalName: f.name } }, dirty: true }); setError(null);
   };
+  useEffect(() => { host.setDirty?.(!!session?.dirty); }, [host, session?.dirty]);
   const verification = useMemo(() => (session ? verifyRun(session.run) : null), [session]);
   const run = session?.run;
 
@@ -82,7 +90,7 @@ export function App({ host }: { host: HostApi }) {
       {error && <div className="error" role="alert" data-testid="error">{error}</div>}
       {notice && <div className="notice" data-testid="notice">{notice}</div>}
       {!session ? <Home packs={packs} packId={packId} setPackId={setPackId} onDemo={() => { const d = demoHouse(); open(d.name, d.state); }}
-        onRoom={(f) => { try { const p = newRoomProject(f); open(p.name, p.state); } catch (e) { fail(e); } }} onFile={(f) => void openFile(f)} today={host.today()} /> : (
+        onRoom={(f) => { try { const p = newRoomProject(f); open(p.name, p.state); } catch (e) { fail(e); } }} host={host} fail={fail} onFile={openFile} today={host.today()} /> : (
         <>
           <nav>{TABS.map(([id, label]) => <button key={id} className={tab === id ? 'active' : ''} onClick={() => setTab(id)} data-testid={`tab-${id}`}>{label}</button>)}</nav>
           <main>
@@ -93,7 +101,7 @@ export function App({ host }: { host: HostApi }) {
             {tab === 'prices' && <PricesTab run={run!} />}
             {tab === 'estimate' && <EstimateTab run={run!} dispatch={dispatch} today={host.today()} actor={session.actor} />}
             {tab === 'docs' && <DocumentsTab session={session} host={host} onDoc={(d) => setSession(addDocument(session, d))} fail={fail} />}
-            {tab === 'sources' && <SourcesTab session={session} onFile={(f) => void addSource(f)} />}
+            {tab === 'sources' && <SourcesTab session={session} host={host} fail={fail} onFile={addSource} />}
             {tab === 'history' && <HistoryTab session={session} onUndo={() => { const r = undo(session, host.nowMs()); setSession(r.session); setError(r.error); }} />}
           </main>
         </>)}
@@ -102,7 +110,7 @@ export function App({ host }: { host: HostApi }) {
   );
 }
 
-function Home(p: { packs: ResolvedPack[]; packId: string; setPackId(id: string): void; onDemo(): void; onRoom(f: Parameters<typeof newRoomProject>[0]): void; onFile(f: File): void; today: string }) {
+function Home(p: { host: HostApi; fail(e: unknown): void; packs: ResolvedPack[]; packId: string; setPackId(id: string): void; onDemo(): void; onRoom(f: Parameters<typeof newRoomProject>[0]): void; onFile(f: Picked): void; today: string }) {
   const [f, setF] = useState({ name: 'Ma pièce', lengthM: '5.00', widthM: '4.00', thicknessM: '0.20', wallClass: 'masonry.block.hollow', heightM: '3.00', author: 'user:local', date: p.today });
   const wallClasses = TAXONOMY.classes.filter((c) => c.id.startsWith('masonry.')).map((c) => c.id);
   const set = (k: keyof typeof f) => (e: { target: { value: string } }): void => setF({ ...f, [k]: e.target.value });
@@ -123,7 +131,7 @@ function Home(p: { packs: ResolvedPack[]; packId: string; setPackId(id: string):
           <label>Type de mur<select value={f.wallClass} onChange={set('wallClass')}>{wallClasses.map((c) => <option key={c}>{c}</option>)}</select></label>
           <button onClick={() => p.onRoom(f)} data-testid="create-room">Créer le projet</button></div>
         <div className="card"><h3>Ouvrir un fichier .btpx</h3><p>Le fichier est vérifié (empreintes) puis recalculé à froid avec les packs qu'il embarque.</p>
-          <input type="file" accept=".btpx" onChange={(e) => e.target.files?.[0] && p.onFile(e.target.files[0])} data-testid="open-file" /></div>
+          <FilePick host={p.host} kind="btpx" accept=".btpx" testid="open-file" label="Choisir un fichier .btpx…" onFile={p.onFile} fail={p.fail} /></div>
       </div>
     </section>
   );

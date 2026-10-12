@@ -38,3 +38,6 @@ Le moteur n'importe rien du shell ; l'UI (`apps/desktop`) ne dépend que de `Hos
 ## Décisions à prendre par le porteur de projet (non bloquantes pour M1)
 1. Confirmer Electron (recommandé) ou demander Tauri malgré le coût Rust.
 2. Fournir un parc de postes cibles représentatif (OS, RAM) pour la mesure de M3.
+
+## Mise en œuvre (étape 8)
+Electron 33 + electron-builder 25 : `apps/desktop/electron/` (main, preload, CSP, aides fichiers), contrat IPC fermé `apps/desktop/shared/ipc.ts` (5 canaux), hôte renderer `electronHost` dans `host.ts`. Le renderer reste identique en navigateur (`DevHttpHost`) et en bureau. Détails, commandes et limites : `docs/DESKTOP.md`.

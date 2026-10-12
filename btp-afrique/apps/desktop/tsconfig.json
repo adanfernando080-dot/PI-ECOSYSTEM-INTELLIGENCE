@@ -1,5 +1,25 @@
 {
   "extends": "../../tsconfig.json",
-  "compilerOptions": { "jsx": "react-jsx", "lib": ["ES2022", "DOM", "DOM.Iterable"], "types": ["vite/client"], "noEmit": true },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts", "e2e/**/*.ts"]
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "types": [
+      "vite/client",
+      "node"
+    ],
+    "noEmit": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "vite.config.ts",
+    "e2e/**/*.ts",
+    "electron/**/*.ts",
+    "shared/**/*.ts",
+    "scripts/**/*.ts"
+  ]
 }

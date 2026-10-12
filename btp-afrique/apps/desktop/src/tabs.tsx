@@ -8,7 +8,7 @@ import { verifyRun } from '../../../src/core/trace/chain.js';
 import { renderMarkdown, fmtQty } from '../../../src/adapters/render-text.js';
 import { renderPdf, verifyPdfDocument } from '../../../src/adapters/export-pdf.js';
 import { renderXlsx } from '../../../src/adapters/export-xlsx.js';
-import type { Dispatch } from './App.js';
+import { FilePick, type Dispatch, type Picked } from './App.js';
 import type { HostApi } from './host.js';
 import { TAXONOMY, type Session } from './session.js';
 import { assumptionRows, defaultZone, estimateRows, geoRows, modelView, ouvrageRows, priceRows, type AttrView } from './viewmodel.js';
@@ -251,12 +251,12 @@ export function DocumentsTab({ session, host, onDoc, fail }: { session: Session;
 }
 
 // ───────────────────────────── Plans sources & IA
-export function SourcesTab({ session, onFile }: { session: Session; onFile(f: File): void }) {
+export function SourcesTab({ session, host, fail, onFile }: { session: Session; host: HostApi; fail(e: unknown): void; onFile(f: Picked): void }) {
   return (
     <section>
       <h2>Plans sources & assistance IA</h2>
       <div className="notice" data-testid="ai-status"><b>Aucun module de reconnaissance n'est installé.</b> La détection automatique des murs, pièces et ouvertures n'existe pas encore : tout le modèle se saisit manuellement. Les contrats (import, calibration d'échelle, propositions à valider, porte de validation humaine) sont définis et testés (ADR-0015) ; une proposition n'entrerait jamais dans le modèle sans validation explicite.</div>
-      <label>Importer un plan (PDF, PNG, JPEG) — conservé dans le fichier projet<input type="file" accept=".pdf,.png,.jpg,.jpeg" onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])} data-testid="source-file" /></label>
+      <div>Importer un plan (PDF, PNG, JPEG) — conservé dans le fichier projet<br /><FilePick host={host} kind="plan" accept=".pdf,.png,.jpg,.jpeg" testid="source-file" label="Choisir un plan…" onFile={onFile} fail={fail} /></div>
       <table data-testid="sources"><thead><tr><th>Empreinte</th><th>Nom</th><th>Type</th><th>Taille</th></tr></thead>
         <tbody>{Object.entries(session.sources).map(([id, s]) => <tr key={id}><td><code>{id}</code></td><td>{s.originalName}</td><td>{s.mediaType}</td><td>{s.bytes.length} o</td></tr>)}</tbody></table>
     </section>

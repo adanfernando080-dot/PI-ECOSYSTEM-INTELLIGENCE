@@ -2,7 +2,7 @@
   "name": "btp-platform-core",
   "version": "0.0.1-m0",
   "private": true,
-  "description": "Noyau exécutable M0 de la plateforme BTP (sans interface). Aucune dépendance d'exécution.",
+  "description": "BTP Afrique — poste de métré (noyau universel + packs marché), application de bureau",
   "type": "module",
   "scripts": {
     "typecheck": "tsc -p tsconfig.json --noEmit",
@@ -14,7 +14,16 @@
     "ui:dev": "vite apps/desktop --config apps/desktop/vite.config.ts",
     "ui:build": "vite build --config apps/desktop/vite.config.ts",
     "ui:typecheck": "tsc -p apps/desktop/tsconfig.json --noEmit",
-    "e2e": "tsx apps/desktop/e2e/e2e.ts"
+    "e2e": "tsx apps/desktop/e2e/e2e.ts",
+    "desktop:build:main": "tsx apps/desktop/scripts/build-main.ts",
+    "desktop:build": "npm run ui:build && npm run desktop:build:main",
+    "desktop:dev": "tsx apps/desktop/scripts/dev.ts",
+    "desktop:start": "npm run desktop:build && electron .",
+    "desktop:pack": "npm run desktop:build && electron-builder --linux dir --publish never",
+    "desktop:dist:win": "npm run desktop:build && electron-builder --win nsis --x64 --publish never",
+    "desktop:dist:win-dir": "npm run desktop:build && electron-builder --win dir --x64 --publish never",
+    "desktop:e2e": "tsx apps/desktop/e2e/desktop.ts",
+    "desktop:verify-win": "tsx tools/verify-win-package.ts"
   },
   "engines": {
     "node": ">=20"
@@ -24,16 +33,87 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^5.0.4",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "esbuild": "^0.28.2",
+    "exceljs": "^4.4.0",
+    "pdf-lib": "^1.17.1",
     "playwright-core": "^1.49.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2",
     "vite": "^7.1.12",
     "vitest": "^4.1.11"
   },
-  "dependencies": {
-    "exceljs": "^4.4.0",
-    "pdf-lib": "^1.17.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+  "main": "apps/desktop/electron/dist/main.cjs",
+  "author": "BTP Afrique",
+  "homepage": "https://example.invalid/btp-afrique",
+  "build": {
+    "appId": "africa.btp.metre",
+    "productName": "BTP Afrique",
+    "copyright": "BTP Afrique",
+    "directories": {
+      "output": "release",
+      "buildResources": "apps/desktop/build"
+    },
+    "files": [
+      "package.json",
+      "apps/desktop/dist/**",
+      "apps/desktop/electron/dist/**"
+    ],
+    "extraResources": [
+      {
+        "from": "market-packs",
+        "to": "market-packs",
+        "filter": [
+          "**/pack.json"
+        ]
+      }
+    ],
+    "asar": true,
+    "electronLanguages": [
+      "fr",
+      "en-US"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "BTP-Afrique-Setup-${version}-${arch}.${ext}",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false,
+      "differentialPackage": false
+    },
+    "linux": {
+      "target": [
+        "dir"
+      ],
+      "category": "Office"
+    },
+    "fileAssociations": [
+      {
+        "ext": "btpx",
+        "name": "Projet BTP Afrique",
+        "description": "Projet BTP Afrique (.btpx)",
+        "role": "Editor"
+      }
+    ],
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "https://updates.invalid/btp-afrique"
+      }
+    ]
   }
 }
