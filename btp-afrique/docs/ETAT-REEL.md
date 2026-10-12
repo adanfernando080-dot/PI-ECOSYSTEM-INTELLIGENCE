@@ -16,7 +16,7 @@
 | E6 | §5.5 : taux de change versionnés | Non implémenté (un PriceBook = une devise) | Hors périmètre actuel |
 | E7 | §6 : pipeline d'analyse de plan | **Aucune IA, aucune vision, aucun OCR.** Seule la taxonomie existe | Contrats seulement (étape 5) |
 | E8 | §8.4 : `.btpx` = archive | Dossier de fichiers JSON (pas un fichier unique) | Étape 4 |
-| E9 | §10 : exports PDF et Excel | Rendu Markdown seulement | Étape 3 |
+| E9 | §10 : exports PDF et Excel | Résolu : PDF + XLSX (adaptateurs `src/adapters/export-*.ts`), vérifiables hors ligne ; limite : poppler n'extrait pas les pièces jointes pdf-lib (extraction testée via `readPdfAttachments`) | Étape 3 ✅ |
 | E10 | §11 : chiffrement, licences | Rien d'implémenté | Hors périmètre actuel |
 | E11 | §3.2 : `SourceDocument`, `PlanSheet`, `Location`, `AiProposal`, `ManualLine` | `ManualLine`/`QuantityAdjustment` ✅ **implémentés (étape 2)** ; `SourceDocument`, `PlanSheet`, `AiProposal` : contrats à l'étape 5 ; `Location` : non implémenté | partiel |
 | E12 | §9.1 : `TaxRuleSet`, `ComplianceRuleSet`, `Supplier`, `LabourRate` distincts | Taxes = couches de `CostBuildUp` ; main‑d'œuvre = articles du catalogue ; pas de fournisseurs ni de règles de conformité | Assumé : à scinder quand un marché réel l'exigera |

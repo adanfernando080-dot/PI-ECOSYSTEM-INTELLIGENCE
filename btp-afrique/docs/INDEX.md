@@ -225,7 +225,7 @@ Contrôles : chaque exigence a ≥ 1 test défini ; tout test cité existe dans 
 | T-MKT-03 | ◐ | pack Sénégal **complet synthétique** (au-delà du squelette prévu) |
 | T-PRC-01, 02, 03, 05 | ✅ | `tests/pricing` |
 | T-PRC-04 | ◐ | pas de conversion de devise en M0 (un `PriceBook` = une devise) ; le document porte devise et unités mineures |
-| T-DOC-01 | ◐ | DocumentModel + rendu Markdown ; PDF et XLSX ✖ |
+| T-DOC-01 | ✅ | DocumentModel + rendu Markdown, PDF (pdf-lib, pièces jointes de provenance) et XLSX (formules recalculées par LibreOffice) — `tests/exports` ; mise en page PDF non validée par un professionnel |
 | T-DOC-02, T-DOC-03 | ✅ | `tests/documents`, `tests/trace`, `tests/reproducibility` |
 | T-DOC-04 | ◐ | avis « estimation paramétrique » ✅ ; contenu métier de l'estimation structurelle à valider |
 | T-TRC-01, T-TRC-02 | ✅ | `tests/trace`, `tests/golden`, `tests/reproducibility` |
