@@ -10,19 +10,30 @@
     "demo": "tsx src/cli.ts",
     "sign-packs": "tsx tools/sign-packs.ts",
     "check-docs": "python3 -I tools/check_traceability.py",
-    "check-isolation": "tsx tools/check-pack-isolation.ts"
+    "check-isolation": "tsx tools/check-pack-isolation.ts",
+    "ui:dev": "vite apps/desktop --config apps/desktop/vite.config.ts",
+    "ui:build": "vite build --config apps/desktop/vite.config.ts",
+    "ui:typecheck": "tsc -p apps/desktop/tsconfig.json --noEmit",
+    "e2e": "tsx apps/desktop/e2e/e2e.ts"
   },
   "engines": {
     "node": ">=20"
   },
   "devDependencies": {
     "@types/node": "^22.18.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^5.0.4",
+    "playwright-core": "^1.49.1",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2",
+    "vite": "^7.1.12",
     "vitest": "^4.1.11"
   },
   "dependencies": {
     "exceljs": "^4.4.0",
-    "pdf-lib": "^1.17.1"
+    "pdf-lib": "^1.17.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   }
 }

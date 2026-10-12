@@ -5,12 +5,12 @@
 import type { ArchitecturalModel } from '../model/types.js';
 import type { AssumptionSet } from '../assumptions/assumptions.js';
 import { hashOf } from '../trace/canonical.js';
-import type { NodeRef, Opening, Wall } from '../model/types.js';
+import type { Attr, NodeRef, Opening, Wall } from '../model/types.js';
 import { NO_MANUAL, type ManualEntries, type ManualLine, type QuantityAdjustment } from '../manual/manual.js';
 
 export type Operation =
   | { type: 'moveNode'; nodeId: string; x: number; y: number }
-  | { type: 'setOpeningSize'; openingId: string; width: string; height: string }
+  | { type: 'setOpeningSize'; openingId: string; width: string; height: string; /** inverse seulement : attributs exacts à rétablir (provenance comprise) */ restore?: { width: Attr; height: Attr } }
   | { type: 'setAssumptionValue'; assumptionId: string; value: string }
   | { type: 'addNode'; levelId: string; node: NodeRef }
   | { type: 'removeNode'; nodeId: string }
@@ -18,6 +18,8 @@ export type Operation =
   | { type: 'removeWall'; wallId: string }
   | { type: 'addOpening'; levelId: string; opening: Opening }
   | { type: 'removeOpening'; openingId: string }
+  | { type: 'confirmAssumption'; assumptionId: string; by: string; at: string }
+  | { type: 'unconfirmAssumption'; assumptionId: string }
   | { type: 'addManualLine'; line: ManualLine }
   | { type: 'removeManualLine'; id: string }
   | { type: 'setAdjustment'; adjustment: QuantityAdjustment }
@@ -48,9 +50,10 @@ export function applyOperation(state: ProjectState, op: Operation, meta: { hlc: 
       const o = next.model.buildings.flatMap((b) => b.levels.flatMap((l) => l.openings)).find((x) => x.id === op.openingId);
       if (!o) throw new Error(`Ouverture inconnue : ${op.openingId}`);
       if (o.width.origin === 'assumption' || o.height.origin === 'assumption') throw new Error('setOpeningSize : dimension issue d\'une hypothèse — modifier l\'hypothèse');
-      inverse = { type: 'setOpeningSize', openingId: op.openingId, width: o.width.value!, height: o.height.value! };
-      o.width = { ...o.width, value: op.width, origin: 'user_corrected', validation: 'edited', confidence: null };
-      o.height = { ...o.height, value: op.height, origin: 'user_corrected', validation: 'edited', confidence: null }; break;
+      inverse = { type: 'setOpeningSize', openingId: op.openingId, width: o.width.value!, height: o.height.value!, restore: { width: clone(o.width), height: clone(o.height) } };
+      if (op.restore) { o.width = clone(op.restore.width); o.height = clone(op.restore.height); }
+      else { o.width = { ...o.width, value: op.width, origin: 'user_corrected', validation: 'edited', confidence: null }; o.height = { ...o.height, value: op.height, origin: 'user_corrected', validation: 'edited', confidence: null }; }
+      break;
     }
     case 'setAssumptionValue': {
       const it = next.assumptions.items.find((i) => i.id === op.assumptionId);
@@ -85,6 +88,16 @@ export function applyOperation(state: ProjectState, op: Operation, meta: { hlc: 
     case 'removeOpening': {
       const lv = next.model.buildings.flatMap((b) => b.levels).find((l) => l.openings.some((o) => o.id === op.openingId)); if (!lv) throw new Error(`Ouverture inconnue : ${op.openingId}`);
       const i = lv.openings.findIndex((o) => o.id === op.openingId); inverse = { type: 'addOpening', levelId: lv.id, opening: clone(lv.openings[i]!) }; lv.openings.splice(i, 1); break;
+    }
+    case 'confirmAssumption': {
+      const it = next.assumptions.items.find((i) => i.id === op.assumptionId); if (!it) throw new Error(`Hypothèse inconnue : ${op.assumptionId}`);
+      if (it.status === 'confirmed') throw new Error(`Hypothèse ${op.assumptionId} déjà confirmée`);
+      if (!op.by || !/^\d{4}-\d{2}-\d{2}$/.test(op.at)) throw new Error('Confirmation : auteur et date AAAA-MM-JJ obligatoires');
+      inverse = { type: 'unconfirmAssumption', assumptionId: op.assumptionId }; it.status = 'confirmed'; it.confirmedBy = op.by; it.confirmedAt = op.at; break;
+    }
+    case 'unconfirmAssumption': {
+      const it = next.assumptions.items.find((i) => i.id === op.assumptionId); if (!it || it.status !== 'confirmed') throw new Error(`Hypothèse ${op.assumptionId} non confirmée`);
+      inverse = { type: 'confirmAssumption', assumptionId: op.assumptionId, by: it.confirmedBy!, at: it.confirmedAt! }; it.status = 'proposed'; delete it.confirmedBy; delete it.confirmedAt; break;
     }
     case 'addManualLine': {
       if (next.manual!.lines.some((l) => l.id === op.line.id)) throw new Error(`Ligne manuelle déjà existante : ${op.line.id}`);

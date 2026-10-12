@@ -1,4 +1,4 @@
-# Plateforme BTP — noyau exécutable M0 (sans interface)
+# Plateforme BTP — noyau exécutable + poste de métré (interface minimale)
 
 > ⚠ **Toutes les données de ce dossier sont SYNTHÉTIQUES** (`synthetic/test`) : plans, quantités, prix, taux, taxes, consommations, noms de zones. Elles ne reflètent **aucune réalité de marché** et ne doivent jamais être utilisées comme prix ou quantités réels. Tout document produit porte une bannière qui le rappelle.
 
@@ -6,8 +6,11 @@ Prouve que le cœur métier — modèle architectural neutre, hypothèses, métr
 
 ## Démarrage
 ```bash
-npm install --legacy-peer-deps   # outils de dev uniquement (TypeScript, Vitest, tsx)
-npm test                         # 150 tests
+npm install --legacy-peer-deps   # moteur : aucune dépendance d'exécution ; adaptateurs : pdf-lib, exceljs ; interface : React, Vite
+npm test                         # 230+ tests (moteur, exports, .btpx, IA-contrats, vues de l'interface)
+npm run ui:dev                   # interface sur http://localhost:5173 (moteur réel dans le navigateur ; packs vérifiés servis par l'hôte de dev)
+npm run ui:build                 # build statique de l'interface (apps/desktop/dist)
+npm run e2e                      # test de bout en bout Chromium de l'interface RÉELLE (46 vérifications ; captures dans apps/desktop/e2e/screenshots)
 npm run typecheck
 npm run demo                     # chiffre l'habitation avec 3 packs ; écrit out/ (voir examples/house/)
 npm run check-docs               # cohérence exigences ↔ tests ↔ ADR (docs/INDEX.md)
@@ -34,12 +37,14 @@ src/core/            MOTEUR UNIVERSEL — pur : aucun import hors du moteur, auc
   trace/             sha256, JSON canonique, chaîne de traçabilité, explications déterministes
   ops/               journal d'opérations, révisions, annulation
   project/           pipeline, run, bundle .btpx
-src/adapters/        Node : fs, signature Ed25519 (clé de TEST), chargement des packs, rendu Markdown
+src/core/ai/         CONTRATS IA seulement (sources, calibration, ports, propositions, porte de validation humaine) — aucun détecteur
+src/adapters/        fs, signature Ed25519 (clé de TEST), packs, rendu Markdown, export PDF (pdf-lib) et XLSX (exceljs), fichier .btpx (ZIP déterministe)
+apps/desktop/        interface minimale React/Vite câblée sur le moteur réel (port `HostApi`, hôte de dev) + e2e Playwright
 src/cli.ts           démonstration en ligne de commande
 market-packs/        DONNÉES : base-xof, bj, sn, test-divergent (signés, générés par tools/gen-packs.ts)
 taxonomy/            taxonomie neutre de spécification v1.0.0
 fixtures/synthetic/  cellule golden (1 pièce, 4 murs, 1 porte) et petite habitation (3 pièces, 10 murs, 7 ouvertures, dalle, toiture)
-tests/               150 tests (16 fichiers) ; golden épinglés dans tests/golden/hashes.json
+tests/               230+ tests (22 fichiers) ; golden épinglés dans tests/golden/hashes.json
 tools/               gen-packs, check-pack-isolation (garde-fou CI), check_traceability.py (docs)
 examples/house/      livrables générés (DQE, devis, explications, chaîne de traçabilité, bundle) pour les 3 marchés
 docs/                ARCHITECTURE, DATASET-STRATEGY, ADR (0001–0020), AUDIT, INDEX
@@ -50,5 +55,5 @@ docs/                ARCHITECTURE, DATASET-STRATEGY, ADR (0001–0020), AUDIT, I
 - **R2 contenu** : les rendus affichent exactement les chiffres du `DocumentModel` ; les octets d'un futur PDF pourront différer.
 - **R3 enregistrée** : les sorties d'IA ne sont pas rejouables ; la garantie commence au modèle accepté.
 
-## Limites connues (M0)
-Pièces rectangulaires orthogonales à épaisseur uniforme par côté ; longueur de mur mesurée à l'axe ; pas de recalcul incrémental ; pas de conversion de devise ; pas de PDF/XLSX (Markdown seulement) ; pas de `ManualLine` ; pas d'IA ; pas de chiffrement ni de plans sources ; bundle = dossier (pas encore ZIP) ; migrations de schéma non testées. Détail et état de chaque test : `docs/INDEX.md` §12.
+## Limites connues
+Pièces rectangulaires orthogonales à épaisseur uniforme par côté ; longueur de mur mesurée à l'axe ; pas de conversion de devise ; **aucune reconnaissance de plan (IA) : le modèle se saisit à la main** ; pas de chiffrement au repos ; shell desktop (Electron) non encore emballé — l'interface tourne dans un navigateur via un hôte de développement ; pas d'édition graphique du plan (tableaux + plan SVG en lecture) ; mise en page PDF non validée par un professionnel ; migrations de schéma non testées. Détail et état de chaque test : `docs/INDEX.md` §12 et `docs/ETAT-REEL.md`.

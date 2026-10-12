@@ -25,5 +25,10 @@
 | E15 | §3.4 : pièce = cycle fermé de murs | Pièces **rectangulaires orthogonales** seulement ; sinon bloquées avec raison | Limite documentée |
 | E16 | INDEX §3 : colonne « Couverture » = « planifiée » pour tout | Les états réels sont dans INDEX §12 | §12 fait foi |
 
-## Ce qui est réellement opérationnel (hors interface)
+## Ce qui est réellement opérationnel (noyau ; voir la mise à jour en bas pour l'interface)
 Décimal exact · unités · modèle neutre validé (schéma fermé, taxonomie) · hypothèses explicites · métré géométrique avec traces · métré commercial par pack (correspondances, méthode de mesurage, ouvrages récursifs, articles à commander) · `MarketBinding` immuable · prix (cascade de zones, péremption, confiance) · structure de coût déclarative · DQE et devis (modèle de document + rendu Markdown) · manifeste de provenance · chaîne de traçabilité et explications · oplog (3 opérations) · bundle (dossier) vérifiable hors ligne · packs signés (clé de test) · garde‑fous d'étanchéité.
+
+## Mise à jour 2026-10-12 (étapes 3 à 7 du plan « vers un produit utilisable »)
+- **Exports** PDF/XLSX ✅ ; **`.btpx` fichier unique** ✅ ; **ADR-0010** (Electron recommandé derrière `HostApi`, à confirmer) ; **contrats IA + porte de validation** ✅ (ADR-0015) — **aucun détecteur, aucun OCR n'existe** ; **interface minimale** `apps/desktop` ✅ (création/ouverture/enregistrement, modèle, hypothèses, métré, prix, chiffrage, lignes manuelles/ajustements, DQE/devis, exports, changement de marché, historique/annulation), validée par `npm run e2e` (Chromium, 46 vérifications).
+- Défauts du noyau trouvés par l'interface et corrigés : (1) l'annulation de `setOpeningSize` ne restituait pas la provenance exacte (origine/validation) → l'inverse porte désormais les attributs exacts ; (2) le recalcul à froid d'un projet dont le marché a été changé différait (révision de liaison) → l'historique des liaisons est enregistré dans `project.json` (`bindingHistory`) ; (3) le sélecteur de marché proposait un pack parent (base commune) et une zone sans prix → packs parents exclus, zone la plus fine par défaut.
+- Limites assumées de l'interface : pas d'édition graphique du plan ; pas d'import de géométrie depuis un plan ; un document émis est invalidé par toute modification (à régénérer) ; hôte Electron non écrit ; aucune validation par un professionnel du BTP.

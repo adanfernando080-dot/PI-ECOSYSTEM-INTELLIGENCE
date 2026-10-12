@@ -10,10 +10,11 @@ import type { Bundle } from '../core/project/bundle.js';
 import { readBundle, verifyBundle } from '../core/project/bundle.js';
 import type { Run } from '../core/project/run.js';
 import type { OpRecord } from '../core/ops/oplog.js';
+import type { MarketBinding } from '../core/pack/binding.js';
 import { sha256Bytes } from '../core/trace/sha256.js';
 const sha256Hex = (b: Uint8Array): string => Array.from(sha256Bytes(b), (x) => x.toString(16).padStart(2, '0')).join('');
 
-export interface ProjectMeta { schema: 'btpx-project-1'; name: string; oplog: OpRecord[]; sources: Record<string, { sha256: string; bytes: number; mediaType: string; originalName: string }> }
+export interface ProjectMeta { schema: 'btpx-project-1'; name: string; oplog: OpRecord[]; /** toutes les révisions de liaison marché, de la première à l'actuelle (nécessaire au recalcul à froid identique) */ bindingHistory: MarketBinding[]; sources: Record<string, { sha256: string; bytes: number; mediaType: string; originalName: string }> }
 export interface BtpxProject { bundle: Bundle; meta: ProjectMeta; sources: Record<string, Uint8Array>; extra: Record<string, Uint8Array> }
 
 const enc = new TextEncoder(); const dec = new TextDecoder('utf-8', { fatal: true });
@@ -62,13 +63,13 @@ export function zipRead(bytes: Uint8Array): { entries: Record<string, Uint8Array
   return { entries, problems };
 }
 
-export function writeBtpx(run: Run, bundle: Bundle, opts: { name: string; oplog?: OpRecord[]; sources?: Record<string, { bytes: Uint8Array; mediaType: string; originalName: string }> }): Uint8Array {
+export function writeBtpx(run: Run, bundle: Bundle, opts: { name: string; oplog?: OpRecord[]; bindingHistory?: MarketBinding[]; sources?: Record<string, { bytes: Uint8Array; mediaType: string; originalName: string }> }): Uint8Array {
   const entries: Record<string, Uint8Array> = {};
   for (const [p, c] of Object.entries(bundle.files)) entries[p] = enc.encode(c);
   entries['manifest.json'] = enc.encode(JSON.stringify(bundle.manifest, null, 2));
   const srcMeta: ProjectMeta['sources'] = {};
   for (const [id, s] of Object.entries(opts.sources ?? {})) { entries[`sources/${id}`] = s.bytes; srcMeta[id] = { sha256: sha256Hex(s.bytes), bytes: s.bytes.length, mediaType: s.mediaType, originalName: s.originalName }; }
-  const meta: ProjectMeta = { schema: 'btpx-project-1', name: opts.name, oplog: opts.oplog ?? [], sources: srcMeta };
+  const meta: ProjectMeta = { schema: 'btpx-project-1', name: opts.name, oplog: opts.oplog ?? [], bindingHistory: opts.bindingHistory ?? [run.binding], sources: srcMeta };
   entries['project.json'] = enc.encode(JSON.stringify(meta));
   void run; return zipStore(entries);
 }
