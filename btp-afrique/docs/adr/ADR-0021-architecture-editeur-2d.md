@@ -1,6 +1,6 @@
 # ADR-0021 — Architecture de l'éditeur 2D (proposition, non implémenté)
 
-- Statut : **Proposé** — seule la brique de liens (`apps/desktop/src/editor/links.ts`) est implémentée. Liens : ADR-0005, ADR-0009, ADR-0015, ADR-0017 · REQ-03, REQ-13, REQ-25
+- Statut : **Partiellement implémenté (incréments 1 à 4)** — voir « État d'implémentation » en fin de document. Liens : ADR-0005, ADR-0009, ADR-0015, ADR-0017 · REQ-03, REQ-13, REQ-25
 
 ## Principe
 L'éditeur est une **vue-contrôleur** du modèle architectural : il ne possède aucun état métier. Il lit le `Run`, propose des **commandes**, et celles-ci deviennent des **opérations de l'oplog** (ADR-0009) appliquées par `session.apply`. Le moteur recalcule ; l'éditeur n'a ni calcul de quantité, ni arrondi, ni prix.
@@ -47,3 +47,20 @@ Bibliothèque de rendu (SVG natif suffit pour M1) · gestion des niveaux multipl
 
 ## Ordre d'implémentation proposé
 1. Rétablir + lots d'opérations (noyau/session, testés). 2. Outil sélection + panneau de liens (lecture). 3. Création/déplacement de murs sur grille avec Draft et validation. 4. Ouvertures. 5. Plan importé + calibration manuelle. 6. Propositions IA (quand un détecteur existera).
+
+## État d'implémentation (étape 10)
+| Élément | État | Où |
+|---|---|---|
+| Groupes d'opérations atomiques, annuler/rétablir, vérification d'intégrité | ✅ | `src/core/ops/history.ts` (+ `oplog.ts`, inverses exacts avec position et provenance) |
+| Commandes geste → opérations (mur, déplacement, propriétés, pièce rectangulaire, pièce depuis murs, ouverture, suppression en cascade) | ✅ | `src/core/ops/commands.ts` |
+| Contrôles géométriques de brouillon (largeur > mur, doublons, épaisseur ≥ longueur…) | ✅ | `src/core/model/checks.ts` |
+| Historique enregistré dans `.btpx` (`project.json` : `oplog` complet + `history`), restauré et vérifié à la réouverture | ✅ | `src/adapters/btpx.ts`, `apps/desktop/src/session.ts` |
+| Brouillon → aperçu sur copie (validation + recalcul + comparaison) → validation → recalcul | ✅ | `session.preview/commit`, `editor/PlanEditor.tsx` |
+| Grille, aimantation, échelle, zoom/panoramique, coordonnées en mètres | ✅ | `editor/viewport.ts` |
+| Sélection, création (mur, pièce rectangulaire, ouverture), déplacement de point, suppression, dimensions saisies | ✅ | `PlanEditor.tsx` |
+| Liens objet → quantités → ouvrages → lignes + « Pourquoi ? » | ✅ | `editor/links.ts` |
+| Plan importé + calibration manuelle dans l'éditeur | ✖ | contrats seulement (ADR-0015) |
+| Pièces non rectangulaires, niveaux multiples, dalles/toitures dans l'éditeur | ✖ | limite du moteur |
+| Position des ouvertures sur le mur | ✖ | le modèle n'a pas de position : marqueur schématique au milieu du mur |
+| Rétablissement persistant (pile « rétablir » après réouverture) | ✅ restaurée si cohérente ; sinon écartée avec avertissement | `restoreHistory` |
+**Décisions simples prises** : SVG (pas de Canvas) ; un seul niveau affiché (le premier) ; un brouillon est perdu quand on change d'onglet (il n'est pas persistant) ; supprimer un mur supprime les pièces dont il est un côté (annulable) ; l'épaisseur d'un nouveau mur est **obligatoire** (jamais de défaut caché), la hauteur vient du niveau (hypothèse référencée) ou de la saisie.

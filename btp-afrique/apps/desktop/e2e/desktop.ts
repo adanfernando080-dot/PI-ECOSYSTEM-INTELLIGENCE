@@ -124,6 +124,21 @@ try {
   check('annulation de la boîte « Enregistrer » : pas d\'erreur', (await page.getByTestId('error').count()) === 0);
   await shot('03-documents');
 
+  console.log('6b. Éditeur 2D dans l\'application de bureau : modifier, enregistrer, rouvrir');
+  await page.getByTestId('tab-plan').click(); await page.getByTestId('ed-canvas').waitFor();
+  const wallsN = (): Promise<number> => page.locator('svg [data-testid^="ed-wall-"]').count(); const w0 = await wallsN();
+  await page.getByTestId('ed-tool-wall').click(); for (const [k, v] of [['x1', '0'], ['y1', '-1.00'], ['x2', '3'], ['y2', '-1.00']] as const) await page.getByTestId(`ed-c-${k}`).fill(v);
+  await page.getByTestId('ed-c-apply').click(); check('brouillon proposé (rien d\'appliqué)', (await page.getByTestId('ed-draft').count()) === 1 && (await wallsN()) === w0);
+  await page.getByTestId('ed-draft-validate').click(); check('mur créé après validation', (await wallsN()) === w0 + 1);
+  const edFile = join(tmp, 'editeur.btpx'); await mockSave(app, edFile); await page.getByTestId('save').click(); await page.waitForTimeout(800);
+  await page.getByTestId('tab-estimate').click(); const edTotal = digits(await txt(page, 'total')); check('chiffrage recalculé après modification graphique', edTotal !== digits(refTotal));
+  await page.getByTestId('close').click(); await mockOpen(app, edFile); await page.getByTestId('open-file').click(); await page.getByTestId('notice').filter({ hasText: 'rouvert' }).waitFor({ timeout: 15000 });
+  check('réouverture du projet édité : recalcul à froid IDENTIQUE', /IDENTIQUE/.test(await txt(page, 'notice')));
+  await page.getByTestId('tab-plan').click(); check('même plan et annulation disponible après réouverture', (await wallsN()) === w0 + 1 && (await page.getByTestId('ed-undo').isEnabled()));
+  await page.getByTestId('tab-estimate').click(); check('même total après réouverture', digits(await txt(page, 'total')) === edTotal);
+  await page.getByTestId('tab-plan').click(); await page.getByTestId('ed-undo').click(); await page.getByTestId('tab-estimate').click(); check('annuler après réouverture : retour au total de référence du moteur', digits(await txt(page, 'total')) === digits(refTotal));
+  await page.getByTestId('tab-plan').click(); await shot('04-editeur');
+
   console.log('7. Fermeture avec modifications non enregistrées');
   await page.getByTestId('tab-assumptions').click(); const hid = (await page.locator('[data-testid^="as-val-"]').first().getAttribute('data-testid'))!.replace('as-val-', '');
   const h0 = await page.getByTestId(`as-val-${hid}`).inputValue(); await page.getByTestId(`as-val-${hid}`).fill(String(Number(h0) + 0.1)); await page.getByTestId(`as-set-${hid}`).click();

@@ -16,7 +16,7 @@ import { assumptionRows, defaultZone, estimateRows, geoRows, modelView, ouvrageR
 const Attr = ({ a }: { a: AttrView }) => a.unspecified
   ? <span className="chip bad" title="valeur non spécifiée : bloque le calcul">non spécifié</span>
   : <span>{a.value ?? '—'} {a.value ? a.unit : ''} <span className="chip" title={a.assumptionId ? `hypothèse ${a.assumptionId}` : 'attribut du modèle'}>{a.assumptionId ? `hyp. ${a.assumptionId}` : a.origin}{a.validation ? ` · ${a.validation}` : ''}</span></span>;
-const Explain = ({ lines, onClose }: { lines: string[]; onClose(): void }) => <div className="explain" data-testid="explain"><button onClick={onClose}>Fermer</button><pre>{lines.join('\n')}</pre></div>;
+export const Explain = ({ lines, onClose }: { lines: string[]; onClose(): void }) => <div className="explain" data-testid="explain"><button onClick={onClose}>Fermer</button><pre>{lines.join('\n')}</pre></div>;
 
 // ───────────────────────────── Marché
 export function MarketTab({ session, packs, onRebind }: { session: Session; packs: ResolvedPack[]; onRebind(p: ResolvedPack, b: BindingRequest): void }) {
@@ -264,11 +264,16 @@ export function SourcesTab({ session, host, fail, onFile }: { session: Session; 
 }
 
 // ───────────────────────────── Historique
-export function HistoryTab({ session, onUndo }: { session: Session; onUndo(): void }) {
+export function HistoryTab({ session, onUndo, onRedo }: { session: Session; onUndo(): void; onRedo(): void }) {
   return (
     <section>
       <h2>Historique des opérations</h2>
-      <button onClick={onUndo} disabled={!session.oplog.length} data-testid="undo">Annuler la dernière opération</button>
+      <button onClick={onUndo} disabled={!session.history.undo.length} data-testid="undo">Annuler le dernier groupe</button> <button onClick={onRedo} disabled={!session.history.redo.length} data-testid="redo">Rétablir</button>
+      {session.historyWarnings.length > 0 && <div className="error" data-testid="history-warnings">Historique non restauré (incohérence détectée à la réouverture) : {session.historyWarnings.slice(0, 3).join(' ; ')}</div>}
+      <h3>Groupes annulables ({session.history.undo.length}) — du plus ancien au plus récent</h3>
+      <ol data-testid="groups">{session.history.undo.map((g) => <li key={g.id}>{g.label} <span className="muted">({g.opIds.length} opération(s), {g.actor})</span></li>)}</ol>
+      {session.history.redo.length > 0 && <p className="muted">À rétablir : {session.history.redo.map((g) => g.label).join(', ')}</p>}
+      <h3>Journal complet (audit)</h3>
       <p className="muted">L'annulation ajoute une opération inverse : l'historique n'est jamais réécrit.</p>
       <ol data-testid="oplog">{session.oplog.map((r) => <li key={r.opId}><code>{r.op.type}</code> · {r.actor} · <small>{r.resultRev.slice(0, 18)}…</small></li>)}</ol>
     </section>

@@ -23,7 +23,8 @@
     "desktop:dist:win": "npm run desktop:build && electron-builder --win nsis --x64 --publish never",
     "desktop:dist:win-dir": "npm run desktop:build && electron-builder --win dir --x64 --publish never",
     "desktop:e2e": "tsx apps/desktop/e2e/desktop.ts",
-    "desktop:verify-win": "tsx tools/verify-win-package.ts"
+    "desktop:verify-win": "tsx tools/verify-win-package.ts",
+    "desktop:release-manifest": "tsx tools/release-manifest.ts"
   },
   "engines": {
     "node": ">=20"

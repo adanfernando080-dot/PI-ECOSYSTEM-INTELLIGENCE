@@ -230,10 +230,11 @@ Contrôles : chaque exigence a ≥ 1 test défini ; tout test cité existe dans 
 | T-DOC-04 | ◐ | avis « estimation paramétrique » ✅ ; contenu métier de l'estimation structurelle à valider |
 | T-TRC-01, T-TRC-02 | ✅ | `tests/trace`, `tests/golden`, `tests/reproducibility` |
 | T-TRC-03 | ✅ | `tests/manual` — lignes manuelles et ajustements : justification/auteur/date obligatoires, annexe, manifeste, chaîne |
-| T-OPS-01 | ◐ | rejeu, annulation, comparaison ✅ ; révisions nommées ✖ |
+| T-OPS-01 | ◐ | rejeu, annulation/rétablissement, groupes atomiques, historique persistant (`tests/ops/history.test.ts`, `tests/ui/editor.test.ts`), comparaison ✅ ; révisions nommées ✖ |
 | T-C-01 | ◐ | référence = calcul à la main sur données synthétiques, **pas** un métré de professionnel |
 | T-OFF-01 | ◐ | noyau sans API réseau (vérifié statiquement) ; scénario réseau coupé avec l'application ✖ |
 | Application de bureau (hors catalogue T-*) | ◐ | `tests/desktop`, `desktop:e2e` (dev + empaqueté, Linux), `desktop:verify-win` ; **Windows réel non testé** |
+| Éditeur 2D (hors catalogue T-*) | ◐ | `tests/ui/editor.test.ts`, `tests/ops/history.test.ts`, `npm run e2e` § 10b–10c (souris, clavier, brouillon, undo/redo, réouverture) ; limites : ADR-0021 |
 | Interface (hors catalogue T-*) | ✅ | `tests/ui` (vues, session, étanchéité de l'interface) + `npm run e2e` (Chromium, 46 vérifications) — interface minimale ; pas de test sur un parc de postes réels |
 | T-AI-07 | ◐ | `tests/ai` — contrats, porte de validation humaine, aucune entrée automatique dans le modèle ; **aucune reconnaissance implémentée** |
 | T-SEC-*, T-IMP-01, T-PKG-01, T-AI-01…06/08, T-DAT-*, T-PERF-01, T-SCN-01, T-SYNC-01, T-AST-01, T-MOD-01, T-OPT-01, T-3D-01, T-C-02 | ✖ | jalons M1 et suivants |

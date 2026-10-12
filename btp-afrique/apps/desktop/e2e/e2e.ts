@@ -10,6 +10,8 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { zipRead, zipStore } from '../../../src/adapters/btpx.js';
+import { fitView, toScreen } from '../src/editor/viewport.js';
+import { newRoomProject } from '../src/projects.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url)); const SHOTS = join(HERE, 'screenshots'); mkdirSync(SHOTS, { recursive: true });
 const tmp = mkdtempSync(join(tmpdir(), 'btp-e2e-'));
@@ -133,6 +135,78 @@ try {
   await page.getByTestId('tab-model').click(); check('plus de blocage', (await page.getByTestId('blocked').count()) === 0);
   await page.getByTestId('new-op-add').click(); check('ouverture ajoutée par l\'utilisateur (1 ouverture)', (await page.getByTestId('openings').locator('tbody tr').count()) === 1);
   await page.getByTestId('tab-estimate').click(); check('chiffrage non nul', digits(await txt(page, 'total')).length > 4 && digits(await txt(page, 'total')) !== '0');
+
+  console.log('10b. Éditeur 2D : brouillon → validation → opérations → recalcul');
+  await page.getByTestId('close').click(); await page.getByTestId('pack-select').selectOption('pack.bj');
+  await page.getByTestId('room-name').fill('Salle éditeur'); await page.getByTestId('create-room').click();
+  await page.getByTestId('tab-assumptions').click(); await page.getByTestId('as-confirm-A-01').click();
+  await page.getByTestId('tab-plan').click(); await page.getByTestId('ed-canvas').waitFor();
+  const room = newRoomProject({ name: 'Salle éditeur', lengthM: '5.00', widthM: '4.00', thicknessM: '0.20', wallClass: 'masonry.block.hollow', heightM: '3.00', author: 'u', date: '2026-10-12' });
+  const lv0 = room.state.model.buildings[0]!.levels[0]!; const view0 = fitView(lv0, 900, 560);
+  const box = (await page.getByTestId('ed-canvas').boundingBox())!;
+  const at = (xm: number, ym: number): { x: number; y: number } => { const s = toScreen(view0, Math.round(xm * 10000), Math.round(ym * 10000)); return { x: box.x + (s.x / 900) * box.width, y: box.y + (s.y / 560) * box.height }; };
+  const clickAt = async (xm: number, ym: number): Promise<void> => { const p = at(xm, ym); await page.mouse.move(p.x, p.y); await page.mouse.click(p.x, p.y); };
+  const edTotal = async (): Promise<string> => { await page.getByTestId('tab-estimate').click(); const t = digits(await txt(page, 'total')); await page.getByTestId('tab-plan').click(); return t; };
+  check('plan : grille et barre d\'échelle affichées avec unité', (await page.locator('.ed-canvas line.g').count()) > 10 && /\d+(\.\d+)? m/.test(await txt(page, 'ed-scale')), await txt(page, 'ed-scale'));
+  const p0 = at(2.5, 1); await page.mouse.move(p0.x, p0.y); check('lecture des coordonnées à l\'unité explicite (m) avec aimantation à la grille', /x = 2\.50 m · y = 1\.00 m \(grille 0\.10 m\)/.test(await txt(page, 'ed-status')), await txt(page, 'ed-status'));
+  const wallsBefore = await page.locator('svg [data-testid^="ed-wall-"]').count(); const edTotal0 = await edTotal();
+  await page.getByTestId('ed-tool-wall').click(); await clickAt(2.5, 0); await clickAt(2.5, 4);
+  check('geste de souris → BROUILLON (aperçu fantôme), modèle inchangé', (await page.getByTestId('ed-draft').count()) === 1 && (await page.locator('svg [data-testid^="ed-wall-"]').count()) === wallsBefore && (await page.getByTestId('ed-ghost-wall').count()) === 1);
+  check('le brouillon liste les opérations et les conséquences chiffrées (recalcul sur copie)', /Créer le mur W1/.test(await txt(page, 'ed-draft-ops')) && /Total/.test(await txt(page, 'ed-impact')), await txt(page, 'ed-impact').catch(() => '(pas d\'impact)'));
+  await page.getByTestId('ed-draft-validate').click();
+  check('validation → mur créé et métrés recalculés (total modifié)', (await page.locator('svg [data-testid^="ed-wall-"]').count()) === wallsBefore + 1 && (await edTotal()) !== edTotal0);
+  const edTotal1 = await edTotal();
+  await page.getByTestId('ed-undo').click(); check('annuler : mur retiré, total d\'origine', (await page.locator('svg [data-testid^="ed-wall-"]').count()) === wallsBefore && (await edTotal()) === edTotal0);
+  await page.getByTestId('ed-redo').click(); check('rétablir : mur de retour, même total', (await page.locator('svg [data-testid^="ed-wall-"]').count()) === wallsBefore + 1 && (await edTotal()) === edTotal1);
+  await page.getByTestId('ed-focus').focus(); await page.keyboard.press('Control+z'); check('Ctrl+Z annule', (await page.locator('svg [data-testid^="ed-wall-"]').count()) === wallsBefore);
+  await page.keyboard.press('Control+y'); check('Ctrl+Y rétablit', (await page.locator('svg [data-testid^="ed-wall-"]').count()) === wallsBefore + 1);
+
+  await page.getByTestId('ed-tool-select').click(); const wp = at(2.5, 2); await page.mouse.click(wp.x, wp.y);
+  check('sélection d\'un mur : longueur du MOTEUR (4 m) et liens traçables vers quantités, ouvrages et lignes', /4(\.0+)? m/.test(await txt(page, 'ed-selection')) && (await page.getByTestId('ed-links').count()) === 1 && (await page.locator('[data-testid^="ed-why-"]').count()) > 0, (await txt(page, 'ed-selection')).slice(0, 160));
+  await shot('08-editeur-selection-liens');
+  await page.locator('[data-testid^="ed-why-"]').first().click(); check('« Pourquoi ? » : explication déterministe depuis l\'objet graphique', /Pourquoi/.test(await txt(page, 'explain')));
+  await page.getByTestId('explain').getByRole('button', { name: 'Fermer' }).click();
+  await page.getByTestId('ed-sel-thickness').fill('0.10'); await page.getByTestId('ed-wall-apply').click(); const t10 = await txt(page, 'ed-draft-ops'); check('dimension saisie en mètres → brouillon explicite', /épaisseur 0\.10 m/.test(t10), t10);
+  await page.getByTestId('ed-draft-validate').click(); const edTotal2 = await edTotal(); check('épaisseur modifiée : total recalculé', edTotal2 !== edTotal1);
+
+  await page.getByTestId('ed-tool-opening').click(); const mid = at(2.5, 2); await page.mouse.click(mid.x, mid.y);
+  check('outil Ouverture : clic sur un mur → brouillon', /Ajouter l'ouverture/.test(await txt(page, 'ed-draft-ops'))); await page.getByTestId('ed-draft-validate').click();
+  check('ouverture créée et reliée', (await page.locator('[data-testid^="ed-opening-"]').count()) === 1);
+  await page.getByTestId('ed-tool-select').click(); const op = await page.locator('[data-testid^="ed-opening-"]').first().boundingBox(); await page.mouse.click(op!.x + op!.width / 2, op!.y + op!.height / 2);
+  await page.getByTestId('ed-op-w').fill('9.00'); await page.getByTestId('ed-op-apply').click();
+  check('ouverture plus large que son mur : brouillon REFUSÉ par la validation, bouton Valider désactivé', /largeur supérieure/.test(await txt(page, 'ed-draft-errors')) && (await page.getByTestId('ed-draft-validate').isDisabled()), await txt(page, 'ed-draft-errors').catch(() => '(pas d\'erreur)'));
+  await page.getByTestId('ed-draft-cancel').click(); check('annuler le brouillon : rien n\'est appliqué', (await page.getByTestId('ed-draft').count()) === 0);
+
+  await page.getByTestId('ed-tool-room').click(); await page.getByTestId('ed-room-name').fill('Annexe'); await clickAt(5.5, 0); await clickAt(6.8, 1.8);
+  check('outil Pièce : 2 clics → brouillon (4 points, 4 murs, 1 pièce)', /Créer la pièce « Annexe »/.test(await txt(page, 'ed-draft-ops')) && (await page.locator('[data-testid="ed-draft-ops"] li').count()) === 9, String(await page.locator('[data-testid="ed-draft-ops"] li').count()));
+  await shot('09-editeur-brouillon-piece');
+  await page.getByTestId('ed-draft-validate').click(); check('pièce créée', (await page.locator('[data-testid^="ed-space-S"]').count()) === 1);
+  await page.getByTestId('tab-model').click(); check('le tableau « Modèle » voit la pièce, avec sa surface calculée par le moteur', /Annexe[\s\S]*\d+\.\d+/.test(await txt(page, 'spaces'))); await page.getByTestId('tab-plan').click();
+
+  await page.getByTestId('ed-tool-select').click(); const nodeBox = await page.getByTestId('ed-node-N2').boundingBox(); const nx = nodeBox!.x + nodeBox!.width / 2, ny = nodeBox!.y + nodeBox!.height / 2;
+  await page.mouse.move(nx, ny); await page.mouse.down(); const dest = at(5.5, 1); await page.mouse.move(dest.x, dest.y, { steps: 4 }); await page.mouse.up();
+  check('glisser un point → brouillon « Déplacer » (non appliqué)', /Déplacer le point N2 en \(5\.50 m ; 1\.00 m\)/.test(await txt(page, 'ed-draft-ops')), await txt(page, 'ed-draft-ops').catch(() => ''));
+  await page.getByTestId('ed-draft-cancel').click();
+  await page.getByTestId('ed-c-x1').fill('0'); await page.getByTestId('ed-c-y1').fill('-2.00'); await page.getByTestId('ed-c-x2').fill('3'); await page.getByTestId('ed-c-y2').fill('-2.00'); await page.getByTestId('ed-tool-wall').click(); await page.getByTestId('ed-wall-thickness').fill('');
+  await page.getByTestId('ed-c-apply').click(); check('épaisseur absente : erreur contrôlée, aucun brouillon', /Épaisseur/.test(await txt(page, 'ed-error')) && (await page.getByTestId('ed-draft').count()) === 0, await txt(page, 'ed-error').catch(() => ''));
+  await page.getByTestId('ed-wall-thickness').fill('0.15'); await page.getByTestId('ed-c-apply').click(); await page.getByTestId('ed-draft-validate').click(); check('mur créé par coordonnées saisies (unités explicites)', (await page.locator('svg [data-testid^="ed-wall-"]').count()) >= wallsBefore + 1 + 4 + 1);
+
+  await page.getByTestId('ed-tool-select').click(); const wDel = at(2.5, 3.3); await page.mouse.click(wDel.x, wDel.y);
+  await page.getByTestId('ed-focus').focus(); await page.keyboard.press('Delete');
+  check('Suppr : suppression en cascade proposée (ouverture retirée avec le mur) en un brouillon', /Supprimer l'ouverture/.test(await txt(page, 'ed-draft-ops')) && /Supprimer le mur/.test(await txt(page, 'ed-draft-ops')));
+  await page.keyboard.press('Enter'); check('Entrée valide le brouillon : mur et ouverture supprimés', (await page.getByTestId('ed-wall-W1').count()) === 0 && (await page.locator('[data-testid^="ed-opening-"]').count()) === 0);
+  await page.getByTestId('ed-undo').click(); check('annuler la suppression en cascade : mur ET ouverture restitués', (await page.getByTestId('ed-wall-W1').count()) === 1 && (await page.locator('[data-testid^="ed-opening-"]').count()) === 1);
+  const walls2 = await page.locator('svg [data-testid^="ed-wall-"]').count(); const totalEd = await edTotal();
+  await page.getByTestId('tab-history').click(); const groups = await page.locator('[data-testid="groups"] li').count(); check('historique : un groupe par geste (pas une entrée par opération)', groups >= 5 && groups < (await page.getByTestId('oplog').locator('li').count()), `${groups} groupes`);
+
+  await shot('10-editeur-plan-complet');
+  console.log('10c. Éditeur : sauvegarde, réouverture, historique et métrés identiques');
+  const edFile = join(tmp, 'editeur.btpx'); const dl = await download(() => page.getByTestId('save').click(), 'editeur.btpx'); void dl; void edFile;
+  await page.getByTestId('close').click(); await page.getByTestId('open-file').setInputFiles(join(tmp, 'editeur.btpx'));
+  await page.getByTestId('notice').filter({ hasText: 'rouvert' }).waitFor({ timeout: 15000 }); check('réouverture : recalcul à froid IDENTIQUE', /IDENTIQUE/.test(await txt(page, 'notice')));
+  await page.getByTestId('tab-plan').click(); check('même plan après réouverture', (await page.locator('svg [data-testid^="ed-wall-"]').count()) === walls2 && (await edTotal()) === totalEd);
+  check('annuler/rétablir disponibles après réouverture (historique restauré depuis le .btpx)', await page.getByTestId('ed-undo').isEnabled());
+  await page.getByTestId('ed-undo').click(); await page.getByTestId('ed-redo').click(); check('annuler puis rétablir après réouverture : même total', (await edTotal()) === totalEd);
 
   console.log('11. Plans & IA : honnêteté');
   await page.getByTestId('tab-sources').click(); check('l\'absence de reconnaissance est affichée', /Aucun module de reconnaissance/.test(await txt(page, 'ai-status')));

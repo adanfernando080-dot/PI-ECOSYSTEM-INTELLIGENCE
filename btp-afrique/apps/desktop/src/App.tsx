@@ -8,11 +8,12 @@ import { readBtpx, writeBtpx } from '../../../src/adapters/btpx.js';
 import { registerSource } from '../../../src/core/ai/contracts.js';
 import { SYNTHETIC_BANNER } from '../../../src/core/docs/document.js';
 import type { HostApi } from './host.js';
-import { addDocument, apply, openSession, rebind, TAXONOMY, undo, type Session } from './session.js';
+import { addDocument, apply, commit, openSession, rebind, redo, TAXONOMY, undo, type Session } from './session.js';
+import { PlanEditor } from './editor/PlanEditor.js';
 import { demoHouse, newRoomProject } from './projects.js';
 import { defaultZone, isSynthetic } from './viewmodel.js';
 import type { FileKind } from '../shared/ipc.js';
-import { AssumptionsTab, DocumentsTab, EstimateTab, HistoryTab, MarketTab, MetreTab, ModelTab, PricesTab, SourcesTab } from './tabs.js';
+import { AssumptionsTab, DocumentsTab, EstimateTab, HistoryTab, Explain, MarketTab, MetreTab, ModelTab, PricesTab, SourcesTab } from './tabs.js';
 
 export type Dispatch = (op: Operation) => void;
 export interface Picked { name: string; bytes: Uint8Array }
@@ -21,7 +22,7 @@ export function FilePick({ host, kind, accept, testid, label, onFile, fail }: { 
   if (host.pickFile) return <button data-testid={testid} onClick={() => { host.pickFile!(kind).then((f) => f && onFile(f)).catch(fail); }}>{label}</button>;
   return <input type="file" accept={accept} data-testid={testid} onChange={(e) => { const f = e.target.files?.[0]; if (f) void f.arrayBuffer().then((b) => onFile({ name: f.name, bytes: new Uint8Array(b) })); }} />;
 }
-const TABS = [['market', 'Marché'], ['model', 'Modèle'], ['assumptions', 'Hypothèses'], ['metre', 'Métré'], ['prices', 'Prix'], ['estimate', 'Chiffrage'], ['docs', 'Documents'], ['sources', 'Plans & IA'], ['history', 'Historique']] as const;
+const TABS = [['market', 'Marché'], ['plan', 'Plan (éditeur)'], ['model', 'Modèle'], ['assumptions', 'Hypothèses'], ['metre', 'Métré'], ['prices', 'Prix'], ['estimate', 'Chiffrage'], ['docs', 'Documents'], ['sources', 'Plans & IA'], ['history', 'Historique']] as const;
 type TabId = (typeof TABS)[number][0];
 const defaultBinding = (p: ResolvedPack, asOf: string): BindingRequest => ({ zoneId: defaultZone(p), asOf });
 
@@ -32,6 +33,7 @@ export function App({ host }: { host: HostApi }) {
   const [notice, setNotice] = useState<string | null>(null);
   const [tab, setTab] = useState<TabId>('market');
   const [packId, setPackId] = useState<string>('');
+  const [explain, setExplain] = useState<string[] | null>(null);
   useEffect(() => { host.listPacks().then((p) => { setPacks(p); setPackId(p[0]?.id ?? ''); }).catch((e: Error) => setError(e.message)); }, [host]);
   const pack = packs.find((p) => p.id === packId);
   const fail = (e: unknown): void => { setError((e as Error).message); setNotice(null); };
@@ -49,7 +51,7 @@ export function App({ host }: { host: HostApi }) {
       const run = r.run; const sources: Session['sources'] = {};
       for (const [id, m] of Object.entries(r.project.meta.sources)) sources[id] = { bytes: r.project.sources[id]!, mediaType: m.mediaType, originalName: m.originalName };
       const s = openSession({ name: r.project.meta.name, state: { model: run.model, assumptions: run.assumptions, manual: run.manual }, pack: run.pack,
-        binding: { zoneId: run.binding.zoneId, asOf: run.binding.asOf, priceBookId: run.binding.priceBookId, priceStatistic: run.binding.priceStatistic, paramOverrides: run.binding.params }, oplog: r.project.meta.oplog, sources,
+        binding: { zoneId: run.binding.zoneId, asOf: run.binding.asOf, priceBookId: run.binding.priceBookId, priceStatistic: run.binding.priceStatistic, paramOverrides: run.binding.params }, oplog: r.project.meta.oplog, ...(r.project.meta.history ? { history: r.project.meta.history } : {}), sources,
         bindingHistory: r.project.meta.bindingHistory, parentBinding: r.project.meta.bindingHistory.find((b) => b.rev === run.binding.parentRev) ?? null });
       const same = s.run.estimate.contentHash === run.estimate.contentHash && s.run.takeoff.contentHash === run.takeoff.contentHash;
       setSession(s); setError(same ? null : 'ATTENTION : le recalcul à froid ne redonne pas les empreintes enregistrées');
@@ -59,7 +61,7 @@ export function App({ host }: { host: HostApi }) {
   const save = async (): Promise<void> => {
     if (!session) return;
     try {
-      const bytes = writeBtpx(session.run, createBundle(session.run), { name: session.name, oplog: session.oplog, bindingHistory: session.bindingHistory, sources: session.sources });
+      const bytes = writeBtpx(session.run, createBundle(session.run), { name: session.name, oplog: session.oplog, history: session.history, bindingHistory: session.bindingHistory, sources: session.sources });
       await host.saveFile(`${session.name.replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '') || 'projet'}.btpx`, bytes, 'application/zip');
       setSession({ ...session, dirty: false }); setNotice('Projet enregistré (fichier .btpx autonome)');
     } catch (e) { fail(e); }
@@ -95,6 +97,10 @@ export function App({ host }: { host: HostApi }) {
           <nav>{TABS.map(([id, label]) => <button key={id} className={tab === id ? 'active' : ''} onClick={() => setTab(id)} data-testid={`tab-${id}`}>{label}</button>)}</nav>
           <main>
             {tab === 'market' && <MarketTab session={session} packs={packs} onRebind={doRebind} />}
+            {tab === 'plan' && <>{explain && <Explain lines={explain} onClose={() => setExplain(null)} />}<PlanEditor session={session} api={{
+              onCommit: (ops, label) => { const r = commit(session, ops, label, host.nowMs()); setSession(r.session); setError(r.error); if (!r.error) setNotice(`« ${label} » appliqué — métrés recalculés`); },
+              onUndo: () => { const r = undo(session, host.nowMs()); setSession(r.session); setError(r.error); },
+              onRedo: () => { const r = redo(session, host.nowMs()); setSession(r.session); setError(r.error); }, onExplain: setExplain }} /></>}
             {tab === 'model' && <ModelTab run={run!} dispatch={dispatch} today={host.today()} />}
             {tab === 'assumptions' && <AssumptionsTab run={run!} dispatch={dispatch} today={host.today()} actor={session.actor} />}
             {tab === 'metre' && <MetreTab run={run!} />}
@@ -102,7 +108,7 @@ export function App({ host }: { host: HostApi }) {
             {tab === 'estimate' && <EstimateTab run={run!} dispatch={dispatch} today={host.today()} actor={session.actor} />}
             {tab === 'docs' && <DocumentsTab session={session} host={host} onDoc={(d) => setSession(addDocument(session, d))} fail={fail} />}
             {tab === 'sources' && <SourcesTab session={session} host={host} fail={fail} onFile={addSource} />}
-            {tab === 'history' && <HistoryTab session={session} onUndo={() => { const r = undo(session, host.nowMs()); setSession(r.session); setError(r.error); }} />}
+            {tab === 'history' && <HistoryTab session={session} onUndo={() => { const r = undo(session, host.nowMs()); setSession(r.session); setError(r.error); }} onRedo={() => { const r = redo(session, host.nowMs()); setSession(r.session); setError(r.error); }} />}
           </main>
         </>)}
       <footer>Moteur {run?.engine.version ?? ''} · taxonomie {TAXONOMY.version} · calculs 100 % locaux, aucune donnée envoyée</footer>

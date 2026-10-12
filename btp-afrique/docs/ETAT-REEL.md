@@ -39,3 +39,9 @@ Décimal exact · unités · modèle neutre validé (schéma fermé, taxonomie) 
 - ⚠ **Non vérifié** : installation et exécution sur Windows réel ; signature de code ; icône ; coupure réseau physique.
 - Éditeur 2D : ADR-0021 (proposition) + `editor/links.ts` (liens entité → quantités → lignes, testé). Aucun éditeur graphique, aucune reconnaissance IA.
 - Dépendances d'exécution (react, pdf-lib, exceljs) déplacées en `devDependencies` : elles sont empaquetées dans les bundles (asar sans `node_modules`).
+
+## Mise à jour — étapes 9 à 10 (validation Windows documentée, historique, éditeur 2D)
+- ✅ `docs/WINDOWS-VALIDATION.md` (procédure + fiche de résultats, **non exécutée**), `npm run desktop:release-manifest` (empreintes, commit, signature absente).
+- ✅ Noyau : `history.ts` (groupes atomiques, annuler/rétablir exacts), `commands.ts`, `checks.ts`, nouvelles opérations (`setWallProps`, `addSpace`, `removeSpace`, `setSpace`), inverses avec position (restitution exacte). Historique persistant dans `.btpx` (rétro-compatible : anciens fichiers sans `history` s'ouvrent sans pile).
+- ✅ Éditeur 2D (onglet « Plan (éditeur) ») : voir ADR-0021 § « État d'implémentation ».
+- Limites : pas de plan importé dans l'éditeur ; pièces rectangulaires ; ouvertures sans position ; un seul niveau ; brouillon non persistant ; aucune reconnaissance IA ; aucune conception structurelle ni ferraillage.

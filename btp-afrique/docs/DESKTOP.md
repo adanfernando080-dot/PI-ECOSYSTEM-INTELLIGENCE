@@ -20,6 +20,7 @@ renderer (React, sandbox, CSP)  ──IPC explicite (5 canaux)──►  main (N
 | Paquet Linux décompressé (tests) | `npm run desktop:pack` → `release/linux-unpacked/` |
 | **Installateur Windows (NSIS x64)** | `npm run desktop:dist:win` → `release/BTP-Afrique-Setup-<version>-x64.exe` ; sous Linux exige `wine` + `wine32:i386` (`apt-get install wine wine64 wine32:i386`) et `xvfb-run` |
 | Vérification statique de l'installateur | `npm run desktop:verify-win` |
+| Manifeste + empreintes pour le testeur | `npm run desktop:release-manifest` |
 | Acceptation Electron | `xvfb-run -a npm run desktop:e2e -- dev` puis `... -- packaged` (après `desktop:pack`) |
 | Acceptation interface navigateur | `npm run e2e` |
 
@@ -31,3 +32,6 @@ renderer (React, sandbox, CSP)  ──IPC explicite (5 canaux)──►  main (N
 - « Hors ligne » : aucune requête sortante n'est émise ni possible (bloquées et testées) ; non testé en coupant réellement le réseau d'une machine Windows.
 - Pas de mise à jour automatique (aucun code d'updater ; l'URL `updates.invalid` du `publish` n'est jamais appelée, elle ne sert qu'à générer le manifeste).
 - Hôte de développement (`npm run ui:dev`) conservé ; il n'est pas utilisé en production.
+
+## Validation Windows réel
+Procédure et fiche de résultats : `docs/WINDOWS-VALIDATION.md` (statut : non exécutée).

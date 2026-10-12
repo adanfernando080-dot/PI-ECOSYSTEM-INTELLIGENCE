@@ -7,12 +7,12 @@ Prouve que le cœur métier — modèle architectural neutre, hypothèses, métr
 ## Démarrage
 ```bash
 npm install --legacy-peer-deps   # moteur : aucune dépendance d'exécution ; adaptateurs : pdf-lib, exceljs ; interface : React, Vite
-npm test                         # 230+ tests (moteur, exports, .btpx, IA-contrats, vues de l'interface)
+npm test                         # 270 tests (moteur, exports, .btpx, IA-contrats, vues de l'interface)
 npm run ui:dev                   # interface sur http://localhost:5173 (moteur réel dans le navigateur ; packs vérifiés servis par l'hôte de dev)
 npm run ui:build                 # build statique de l'interface (apps/desktop/dist)
 npm run desktop:dev              # application de bureau Electron en développement (voir docs/DESKTOP.md)
 npm run desktop:dist:win         # installateur Windows (release/*.exe) ; npm run desktop:verify-win pour le contrôler
-npm run e2e                      # test de bout en bout Chromium de l'interface RÉELLE (46 vérifications ; captures dans apps/desktop/e2e/screenshots)
+npm run e2e                      # test de bout en bout Chromium de l'interface RÉELLE (77 vérifications ; captures dans apps/desktop/e2e/screenshots)
 npm run typecheck
 npm run demo                     # chiffre l'habitation avec 3 packs ; écrit out/ (voir examples/house/)
 npm run check-docs               # cohérence exigences ↔ tests ↔ ADR (docs/INDEX.md)
@@ -58,4 +58,4 @@ docs/                ARCHITECTURE, DATASET-STRATEGY, ADR (0001–0020), AUDIT, I
 - **R3 enregistrée** : les sorties d'IA ne sont pas rejouables ; la garantie commence au modèle accepté.
 
 ## Limites connues
-Pièces rectangulaires orthogonales à épaisseur uniforme par côté ; longueur de mur mesurée à l'axe ; pas de conversion de devise ; **aucune reconnaissance de plan (IA) : le modèle se saisit à la main** ; pas de chiffrement au repos ; installateur Windows produit mais non testé sous Windows réel, non signé (voir docs/DESKTOP.md) ; pas d'édition graphique du plan (tableaux + plan SVG en lecture) ; mise en page PDF non validée par un professionnel ; migrations de schéma non testées. Détail et état de chaque test : `docs/INDEX.md` §12 et `docs/ETAT-REEL.md`.
+Pièces rectangulaires orthogonales à épaisseur uniforme par côté ; longueur de mur mesurée à l'axe ; pas de conversion de devise ; **aucune reconnaissance de plan (IA) : le modèle se saisit à la main** ; pas de chiffrement au repos ; installateur Windows produit mais non testé sous Windows réel, non signé (voir docs/DESKTOP.md) ; éditeur 2D de base (murs, pièces rectangulaires, ouvertures ; pas de plan importé ni de pièces non rectangulaires, voir ADR-0021) ; mise en page PDF non validée par un professionnel ; migrations de schéma non testées. Détail et état de chaque test : `docs/INDEX.md` §12 et `docs/ETAT-REEL.md`.
