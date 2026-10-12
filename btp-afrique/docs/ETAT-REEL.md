@@ -15,7 +15,7 @@
 | E5 | §4.6 : recalcul incrémental | ✅ **Corrigé (étape 2)** : `project/recompute.ts` (réutilisation par étape, équivalence démontrée par test de propriété) | fait |
 | E6 | §5.5 : taux de change versionnés | Non implémenté (un PriceBook = une devise) | Hors périmètre actuel |
 | E7 | §6 : pipeline d'analyse de plan | **Aucune IA, aucune vision, aucun OCR.** Seule la taxonomie existe | Contrats seulement (étape 5) |
-| E8 | §8.4 : `.btpx` = archive | Dossier de fichiers JSON (pas un fichier unique) | Étape 4 |
+| E8 | §8.4 : `.btpx` = archive | Résolu : fichier unique ZIP déterministe (`src/adapters/btpx.ts`, `tests/btpx`), sources de plans et journal inclus | Étape 4 ✅ |
 | E9 | §10 : exports PDF et Excel | Résolu : PDF + XLSX (adaptateurs `src/adapters/export-*.ts`), vérifiables hors ligne ; limite : poppler n'extrait pas les pièces jointes pdf-lib (extraction testée via `readPdfAttachments`) | Étape 3 ✅ |
 | E10 | §11 : chiffrement, licences | Rien d'implémenté | Hors périmètre actuel |
 | E11 | §3.2 : `SourceDocument`, `PlanSheet`, `Location`, `AiProposal`, `ManualLine` | `ManualLine`/`QuantityAdjustment` ✅ **implémentés (étape 2)** ; `SourceDocument`, `PlanSheet`, `AiProposal` : contrats à l'étape 5 ; `Location` : non implémenté | partiel |

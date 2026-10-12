@@ -12,6 +12,7 @@ import { engineSourceHash, writeBundleDir } from './adapters/fs.js';
 import { renderMarkdown, fmtMoney } from './adapters/render-text.js';
 import { emitDocument, runEstimate } from './core/project/pipeline.js';
 import { formatDocNumber } from './core/docs/document.js';
+import { writeBtpx } from './adapters/btpx.js';
 import { createBundle, verifyBundle } from './core/project/bundle.js';
 import { resolveChain } from './core/trace/chain.js';
 import { explainLine, explainPrice, explainRequirement } from './core/trace/explain.js';
@@ -45,7 +46,7 @@ for (const m of markets) {
   const bom = run.quantitySet.requirements.flatMap((r) => ['', ...explainRequirement(run, r.item)]);
   put(join(dir, 'POURQUOI.md'), `# Explications déterministes (${m.pack})\n\n> ${dqe.content.syntheticBanner}\n${why.join('\n')}\n\n## Articles à commander\n${bom.join('\n')}\n`);
   put(join(dir, 'chaine-de-tracabilite.json'), JSON.stringify(dqe.content.sections.flatMap((s) => s.lines).map((l) => resolveChain(run, dqe, l.lineId)), null, 2));
-  const bundle = createBundle(run); writeBundleDir(join(dir, 'projet.btpx'), bundle);
+  const bundle = createBundle(run); writeBundleDir(join(dir, 'projet.btpx.d'), bundle); writeFileSync(join(dir, 'projet.btpx'), writeBtpx(run, bundle, { name: `Maison (${run.pack.dataClass})` }));
   const v = verifyBundle(bundle);
   const money = (x: string): string => fmtMoney(x, run.pack.currency.minorUnits, run.pack.currency.code);
   rows.push(`| ${m.pack} | ${run.pack.currency.code} | \`${run.takeoff.contentHash.slice(0, 19)}…\` | ${money(run.estimate.total)} | ${dqe.content.number}, ${quote.content.number} ; bundle ${v.ok ? 'vérifié' : 'ÉCHEC'} |`);
