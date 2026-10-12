@@ -34,6 +34,7 @@ export function PlanEditor({ session, api }: { session: Session; api: EditorApi 
   const prev = useMemo(() => (draft ? preview(session, draft.ops, 0) : null), [draft, session]);
   useEffect(() => { setDraft(null); setAnchor(null); }, [session.state]);          // un changement validé (ou annulé) invalide tout brouillon en cours
   useEffect(() => { if (sel && !hitExists(level, sel)) setSel(null); }, [level, sel]);
+  useEffect(() => { setEdit({}); }, [sel?.id, session.state]);                  // les champs de la sélection repartent des valeurs du modèle
 
   const propose = (label: string, build: () => Operation[]): void => {
     try { const ops = build(); if (!ops.length) { setMsg('Aucun changement à proposer.'); return; } setDraft({ label, ops }); setMsg(null); } catch (e) { setDraft(null); setMsg((e as Error).message); }

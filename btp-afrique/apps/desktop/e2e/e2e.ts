@@ -176,6 +176,8 @@ try {
   await page.getByTestId('ed-op-w').fill('9.00'); await page.getByTestId('ed-op-apply').click();
   check('ouverture plus large que son mur : brouillon REFUSÉ par la validation, bouton Valider désactivé', /largeur supérieure/.test(await txt(page, 'ed-draft-errors')) && (await page.getByTestId('ed-draft-validate').isDisabled()), await txt(page, 'ed-draft-errors').catch(() => '(pas d\'erreur)'));
   await page.getByTestId('ed-draft-cancel').click(); check('annuler le brouillon : rien n\'est appliqué', (await page.getByTestId('ed-draft').count()) === 0);
+  const wAgain = at(2.5, 3.3); await page.mouse.click(wAgain.x, wAgain.y); await page.mouse.click(op!.x + op!.width / 2, op!.y + op!.height / 2);
+  check('changer de sélection réinitialise les champs depuis le modèle (pas de valeur rejetée résiduelle)', (await page.getByTestId('ed-op-w').inputValue()) === '0.90', await page.getByTestId('ed-op-w').inputValue());
 
   await page.getByTestId('ed-tool-room').click(); await page.getByTestId('ed-room-name').fill('Annexe'); await clickAt(5.5, 0); await clickAt(6.8, 1.8);
   check('outil Pièce : 2 clics → brouillon (4 points, 4 murs, 1 pièce)', /Créer la pièce « Annexe »/.test(await txt(page, 'ed-draft-ops')) && (await page.locator('[data-testid="ed-draft-ops"] li').count()) === 9, String(await page.locator('[data-testid="ed-draft-ops"] li').count()));
